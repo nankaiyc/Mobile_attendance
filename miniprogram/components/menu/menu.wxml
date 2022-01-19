@@ -1,0 +1,15 @@
+<!--components/menu/menu.wxml-->
+<view bindtap="pop_left">{{curIndex}}</view>
+<!-- 阴影 -->
+
+<view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>
+
+<!-- 左侧栏目 -->
+<view bindtap="close_overlay" class="left_container  {{show?'yd_left_content':'yd_close_overlay'}}">
+  <view wx:for="{{itemArray}}" wx:key="index">
+    <view bindtap="jump" data-index="{{index}}" class="menu-item">
+      {{index}}: {{item.name}}
+    </view>
+  </view>
+</view>
+
