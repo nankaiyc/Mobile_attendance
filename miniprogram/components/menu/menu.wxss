@@ -1,0 +1,49 @@
+/* components/menu/menu.wxss */
+.yd_overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.yd_show_overlay {
+  width: 100%;
+  transition-property: width;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.yd_close_overlay {
+  width: 0;
+  transition-property: width;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.left_container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background: gainsboro;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.yd_left_content {
+  width: 80%;
+  transition-property: width;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.menu-item {
+  background: blueviolet;
+  margin: 20rpx;
+  padding: 20rpx;
+  display: flex;
+  flex-direction:row;
+  justify-content: center;
+}

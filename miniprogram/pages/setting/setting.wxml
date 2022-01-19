@@ -1,0 +1,3 @@
+<!--pages/setting/setting.wxml-->
+<menu curIndex='5' />
+<text>pages/setting/setting.wxml</text>
