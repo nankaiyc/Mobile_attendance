@@ -5,7 +5,8 @@
     "pages/member/member",
     "pages/person/person",
     "pages/setting/setting",
-    "components/menu/menu"
+    "components/menu/menu",
+    "components/rightmenu/rightmenu"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
