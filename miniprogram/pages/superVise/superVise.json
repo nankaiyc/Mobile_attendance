@@ -3,4 +3,5 @@
     "topbar": "../../components/topbar/topbar",
     "menu": "../../components/menu/menu",
     "rightmenu": "../../components/rightmenu/rightmenu"
+  }
 }
