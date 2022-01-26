@@ -46,11 +46,11 @@
 }
 
 .menu-item {
-  margin-top: 10rpx;
-  margin-bottom: 0rpx;
-  margin: 15rpx;
-  padding: 10rpx;
+  padding-left: 13px;
   display: flex;
   flex-direction:row;
   justify-content: left;
+  font-size: 14px;
+  font-weight: 500;
 }
+
