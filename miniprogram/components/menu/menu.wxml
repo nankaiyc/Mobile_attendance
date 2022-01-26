@@ -1,5 +1,5 @@
 <!--components/menu/menu.wxml-->
-<view bindtap="pop_left">{{curIndex}}</view>
+<view bindtap="pop_left">cur: {{curIndex}}</view>
 <!-- 阴影 -->
 
 <view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>

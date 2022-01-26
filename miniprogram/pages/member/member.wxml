@@ -1,3 +1,3 @@
 <!--pages/member/member.wxml-->
-<menu curIndex='2' />
+<topbar curIndex='2' />
 <text>pages/member/member.wxml</text>
