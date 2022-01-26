@@ -1,0 +1,19 @@
+<!--components/rightmenu/rightmenu.wxml-->
+<view class="right_menu" bindtap="pop_right">yc</view>
+
+<view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>
+
+<view bindtap="close_overlay" class="right_container  {{show?'yd_right_content':'yd_close_overlay'}}" style='height: {{40*content.length}}px;'>
+  <button wx:for="{{content}}" wx:key="index" class="menu-item" style="height:40px">
+    <view wx:if="{{content.length == 4}}">
+      <view wx:if="{{item.index == 0}}">
+        {{item.name}} ○
+      </view>
+      <view wx:elif="{{item.index == 1}}">
+        {{item.name}} ○
+      </view>
+      <view wx:else>{{item.name}}</view>
+      </view>
+     <view wx:else>{{item.name}}</view>
+  </button>
+</view>

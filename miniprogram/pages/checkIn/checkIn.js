@@ -5,7 +5,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    content: [
+      {
+        index : 0,
+        name : "WiFi考勤" 
+      },
+      {
+        index : 1,
+        name : "GPS考勤" 
+      },
+      {
+        index : 2,
+        name : "可考勤地点" 
+      },
+      {
+        index : 3,
+        name : "考勤提醒闹钟" 
+      },
+    ]
   },
 
   /**

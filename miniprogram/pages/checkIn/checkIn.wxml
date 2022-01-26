@@ -1,3 +1,4 @@
 <!--pages/checkIn/checkIn.wxml-->
 <topbar curIndex='0' />
 <view>pages/checkIn/checkIn.wxml</view>
+<rightmenu content = "{{content}}"></rightmenu>

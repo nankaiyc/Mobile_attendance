@@ -1,5 +1,7 @@
 {
   "usingComponents": {
-    "topbar": "../../components/topbar/topbar"
+    "topbar": "../../components/topbar/topbar",
+    "menu": "../../components/menu/menu",
+    "rightmenu": "../../components/rightmenu/rightmenu"
   }
 }

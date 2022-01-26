@@ -1,15 +1,15 @@
-/* components/menu/menu.wxss */
-.left_menu {
+/* components/rightmenu/rightmenu.wxss */
+.right_menu {
   position: fixed;
-  left: 5px;
+  right: 5px;
+  top: 1px;
 }
 
 .yd_overlay {
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -27,28 +27,30 @@
   transition-timing-function: ease;
 }
 
-.left_container {
+.right_container {
   position: fixed;
   top: 0;
   bottom: 0;
-  height: 100%;
-  background: gainsboro;
+  right: 0;
+  background: white;
   z-index: 999;
   overflow: hidden;
+  border: 1px grey solid;
 }
 
-.yd_left_content {
-  width: 80%;
+.yd_right_content {
+  width: 40%;
   transition-property: width;
   transition-duration: 200ms;
   transition-timing-function: ease;
 }
 
 .menu-item {
-  background: blueviolet;
-  margin: 20rpx;
-  padding: 20rpx;
+  padding-left: 13px;
   display: flex;
   flex-direction:row;
-  justify-content: center;
+  justify-content: left;
+  font-size: 14px;
+  font-weight: 500;
 }
+
