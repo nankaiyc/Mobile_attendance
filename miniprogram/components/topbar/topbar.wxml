@@ -1,0 +1,12 @@
+<!--components/topbar/topbar.wxml-->
+<view class="topAera">
+  <view class="leftMenu">
+    <menu curIndex='{{curIndex}}'/>
+  </view>
+  <view class="centerTitle">
+    {{itemArray[curIndex]}}
+  </view>
+  <view class="rightMenu">
+    <text>menu</text>
+  </view>
+</view>

@@ -1,0 +1,18 @@
+/* components/topbar/topbar.wxss */
+.topAera {
+  /* background: #4BBFE6; */
+  background: blueviolet;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftMenu, .rightMenu{
+  background: gray;
+  margin: 10rpx;
+}
+
+.centerTitle {
+  color: white;
+}

@@ -6,6 +6,7 @@
     "pages/person/person",
     "pages/setting/setting",
     "components/menu/menu",
+    "components/topbar/topbar",
     "components/rightmenu/rightmenu"
   ],
   "window": {
