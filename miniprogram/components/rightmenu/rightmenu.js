@@ -10,9 +10,13 @@ Component({
       type: Array,
       value: [1,2,3],
     },
-    Width: {
-      type: Number,
-      value: 40,
+    chosen_GPS: {
+      type: Boolean,
+      value: false,
+    },
+    chosen_WiFi: {
+      type: Boolean,
+      value: true,
     },
   },
   /**
@@ -33,8 +37,18 @@ Component({
         show: true
       })
     },
-
-
+    button_choose_WiFi() {
+      this.setData({
+        chosen_GPS: false,
+        chosen_WiFi:true,
+      })
+    },
+    button_choose_GPS() {
+      this.setData({
+        chosen_GPS: true,
+        chosen_WiFi:false,
+      })
+    },
 
     
   }
