@@ -1,3 +1,38 @@
 <!--pages/searchCheck/searchCheck.wxml-->
 <topbar curIndex='6'  content='{{content}}'/>
-<text>pages/searchCheck/searchCheck.wxml</text>
+<form class="form" bindsubmit="submit">
+  <view class="name">
+    <view class="name-name">姓名：</view>
+    <view class="name-input">
+      <input name="name"/>
+    </view>
+  </view>
+
+  <view class="department">
+    <view class="department-name">选择部门：</view>
+    <view class="department-picker">
+      <picker bindchange="bindDepartmentPickerChange" name="department" value="{{departmentIndex}}" range="{{departmentArray}}">
+        <view>
+          {{departmentArray[departmentIndex]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="date">
+    <view class="date-name">日期：自</view>
+    <view class="date-picker">
+      <picker mode="date" name="dateStart" bindchange="bindDateStartPickerChange">
+        {{dateStart}}
+      </picker>
+    </view>
+    <view class="date-name">至</view>
+    <view class="date-picker">
+      <picker mode="date" name="dateEnd" bindchange="bindDateEndPickerChange">
+        {{dateEnd}}
+      </picker>
+    </view>
+  </view>
+
+  <button class="submit" style="width: 95%" form-type="submit">搜索</button>
+</form>
