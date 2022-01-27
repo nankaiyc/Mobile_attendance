@@ -40,8 +40,7 @@ Component({
         name: "设置",
         url: "../../pages/setting/setting"
       },
-    ],
-    curLongPressed: -1
+    ]
   },
 
   methods: {
@@ -69,24 +68,6 @@ Component({
         url: this.data.itemArray[index].url,
       })
     }
-  },
-  touchStart(e) {
-    var index = e.currentTarget.dataset.index;
-    if (index == parseInt(this.properties.curIndex) || index == 3) {
-      return
-    }
-    this.setData({
-      curLongPressed: index
-    })
-  },
-  touchEnd(e) {
-    var index = e.currentTarget.dataset.index;
-    if (index == parseInt(this.properties.curIndex) || index == 3) {
-      return
-    }
-    this.setData({
-      curLongPressed: -1
-    })
   },
 },
 

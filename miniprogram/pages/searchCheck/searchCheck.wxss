@@ -1,1 +1,44 @@
 /* pages/searchCheck/searchCheck.wxss */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  display: flex;
+  flex-direction: row;
+  margin: 20rpx 10rpx;
+}
+
+.name-input {
+  border-bottom: 1px solid #4BBFE6;
+}
+
+.department {
+  display: flex;
+  flex-direction: row;
+  margin: 20rpx 10rpx;
+}
+
+.department-picker {
+  font-weight: bolder;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  margin: 20rpx 10rpx;
+}
+
+.date-picker {
+  margin: auto 10rpx;
+  font-weight: bolder;
+}
+
+.submit {
+  background: #4BBFE6;
+  color: white;
+  width: 95%;
+  font-weight: 500;
+  margin: 20rpx;
+}
