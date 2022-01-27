@@ -54,3 +54,14 @@
   font-weight: 500;
 }
 
+.menu-item-index{
+  display: flex;
+}
+
+.icon-small1{
+  margin-left:34px;
+}
+
+.icon-small2{
+  margin-left:35px;
+}
