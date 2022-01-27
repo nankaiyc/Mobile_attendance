@@ -1,4 +1,5 @@
 {
   "usingComponents": {
-    "topbar": "../../components/topbar/topbar"}
+    "topbar": "../../components/topbar/topbar"
+  }
 }

@@ -1,12 +1,19 @@
 <!--components/topbar/topbar.wxml-->
 <view class="topAera">
-  <view class="leftMenu">
-    <menu curIndex='{{curIndex}}'/>
+  <view class="leftAera">
+    <view class="leftMenu" wx:if="{{curIndex < 3}}">
+      <menu curIndex='{{curIndex}}'/>
+    </view>
+    <view class="centerTitle">
+      {{itemArray[curIndex]}}
+    </view>
   </view>
-  <view class="centerTitle">
-    {{itemArray[curIndex]}}
-  </view>
-  <view class="rightMenu">
-    <text>menu</text>
+  <view class="rightAera">
+    <view class="searchIcon" wx:if="{{curIndex < 3 && curIndex > 0}}">
+      <searchicon curIndex='{{curIndex}}'/>
+    </view>
+    <view class="rightMenu" wx:if="{{curIndex < 2}}">
+      <rightmenu content='{{content}}'/>
+    </view>
   </view>
 </view>

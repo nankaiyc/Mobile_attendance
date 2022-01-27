@@ -1,9 +1,9 @@
 /* components/rightmenu/rightmenu.wxss */
-.right_menu {
+/* .right_menu {
   position: fixed;
   right: 5px;
   top: 1px;
-}
+} */
 
 .yd_overlay {
   position: fixed;
