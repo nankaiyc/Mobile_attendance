@@ -7,8 +7,9 @@
 <!-- 左侧栏目 -->
 <view bindtap="close_overlay" class="left_container  {{show?'yd_left_content':'yd_close_overlay'}}">
   <view wx:for="{{itemArray}}" wx:key="index">
-    <view bindtap="jump" data-index="{{index}}" class="menu-item">
-      {{index}}: {{item.name}}
+    <view bindtouchstart="touchStart" bindtouchend="touchEnd" bindtap="jump" data-index="{{index}}" class="menu-item {{index == curIndex?'cur-item':''}} {{curLongPressed == index?'long_pressed':''}}">
+      <view class="line" wx:if="{{index == 3}}"/>
+      <view wx:else>{{index}}: {{item.name}}</view>
     </view>
   </view>
 </view>
