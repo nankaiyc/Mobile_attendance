@@ -1,0 +1,3 @@
+<!--pages/searchMember/searchMember.wxml-->
+<topbar curIndex='7'  content='{{content}}'/>
+<text>pages/searchMember/searchMember.wxml</text>

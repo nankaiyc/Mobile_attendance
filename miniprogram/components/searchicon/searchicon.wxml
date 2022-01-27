@@ -1,0 +1,4 @@
+<!--components/searchicon/searchicon.wxml-->
+<view bindtap="jump">
+  <text>search</text>
+</view>

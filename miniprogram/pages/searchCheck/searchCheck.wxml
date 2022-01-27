@@ -1,0 +1,3 @@
+<!--pages/searchCheck/searchCheck.wxml-->
+<topbar curIndex='6'  content='{{content}}'/>
+<text>pages/searchCheck/searchCheck.wxml</text>
