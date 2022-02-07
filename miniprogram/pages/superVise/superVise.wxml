@@ -1,4 +1,3 @@
 <!--pages/superVise/superVise.wxml-->
-<menu curIndex='1' />
+<topbar curIndex='1' content='{{content}}'/>
 <text>pages/superVise/superVise.wxml</text>
-<rightmenu content = "{{content}}"></rightmenu>

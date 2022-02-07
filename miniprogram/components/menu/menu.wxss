@@ -1,8 +1,8 @@
 /* components/menu/menu.wxss */
-.left_menu {
+/* .left_menu {
   position: fixed;
   left: 5px;
-}
+} */
 
 .yd_overlay {
   position: fixed;
@@ -32,7 +32,7 @@
   top: 0;
   bottom: 0;
   height: 100%;
-  background: gainsboro;
+  background: white;
   z-index: 999;
   overflow: hidden;
 }
@@ -45,10 +45,25 @@
 }
 
 .menu-item {
-  background: blueviolet;
-  margin: 20rpx;
+  background: white;
   padding: 20rpx;
   display: flex;
   flex-direction:row;
   justify-content: center;
+  color: black;
+}
+
+.line {
+  width: 100%;
+  height: 2rpx;
+  background: #AAA;
+}
+
+.cur-item {
+  background: gray;
+  color: white;
+}
+
+.long_pressed {
+  background: blue;
 }

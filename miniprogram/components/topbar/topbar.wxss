@@ -1,0 +1,27 @@
+/* components/topbar/topbar.wxss */
+.topAera {
+  background: #4BBFE6;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.leftAera {
+  margin: 10rpx;
+  display: flex;
+}
+
+.centerTitle {
+  margin-left: 20rpx;
+}
+
+.rightAera {
+  margin: 10rpx;
+  display: flex;
+}
+
+.searchIcon {
+  margin-right: 20rpx;
+}

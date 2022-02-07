@@ -1,3 +1,3 @@
 <!--pages/setting/setting.wxml-->
-<menu curIndex='5' />
+<topbar curIndex='5' content='{{content}}'/>
 <text>pages/setting/setting.wxml</text>

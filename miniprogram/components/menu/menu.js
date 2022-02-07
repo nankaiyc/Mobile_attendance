@@ -55,14 +55,20 @@ Component({
     })
   },
   jump(e) {
-    var index = e.target.dataset.index;
+    var index = e.currentTarget.dataset.index;
     if (index == parseInt(this.properties.curIndex) || index == 3) {
       return
     }
-    wx.redirectTo({
-      url: this.data.itemArray[index].url,
-    })
-  }
+    if (index < 3) {
+      wx.redirectTo({
+        url: this.data.itemArray[index].url,
+      })
+    } else {
+      wx.navigateTo({
+        url: this.data.itemArray[index].url,
+      })
+    }
+  },
 },
 
   /**
