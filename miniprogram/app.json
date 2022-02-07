@@ -7,6 +7,8 @@
     "pages/setting/setting",
     "pages/searchMember/searchMember",
     "pages/searchCheck/searchCheck",
+    "pages/attendanceAddress/attendanceAddress",
+    "pages/attendanceAddressSet/attendanceAddressSet",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
