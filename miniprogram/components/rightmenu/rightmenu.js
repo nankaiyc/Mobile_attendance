@@ -37,6 +37,7 @@ Component({
         show: true
       })
     },
+
     button_choose(e) {
       // console.log(e.currentTarget.dataset.index)
       var chosen = e.currentTarget.dataset.index
@@ -54,11 +55,21 @@ Component({
         })
         this.triggerEvent("methodchange",chosen)
       }
+      else if(chosen == 2){
+        wx.navigateTo({
+          url: '../../pages/attendanceAddress/attendanceAddress',
+        })
+      }
       else{
-        console.log(chosen)
+        console.log("考勤提醒闹钟")
       }
     },
 
+    button_choose2(){
+      wx.navigateTo({
+        url: '../../pages/attendanceAddressSet/attendanceAddressSet',
+      })
+    },
 
 
   }

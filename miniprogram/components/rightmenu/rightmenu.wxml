@@ -14,6 +14,6 @@
       </view>
       <view wx:else bindtap="button_choose" data-index="{{index}}">{{item.name}}</view> 
       </view>
-    <view wx:else >{{item.name}}</view>
+    <view wx:else bindtap="button_choose2">{{item.name}}</view>
   </button>
 </view>

@@ -1,5 +1,6 @@
 <!--pages/checkIn/checkIn.wxml-->
 
 <topbar curIndex='0' content='{{content}}' bindmethodchange="handlemethodchange"/>
-<view>{{Attendance_method}}</view>
-
+<view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+{{interface1? Attendance_method : record }}
+</view>
