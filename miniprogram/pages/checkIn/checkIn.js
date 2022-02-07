@@ -1,4 +1,10 @@
 // pages/checkIn/checkIn.js
+
+//获取应用实例
+const app = getApp();
+var startX, endX;
+var moveFlag = true;// 判断执行滑动事件
+
 Page({
 
   /**
@@ -23,7 +29,9 @@ Page({
         name : "考勤提醒闹钟" 
       },
     ],
-    Attendance_method:"WiFi考勤"
+    Attendance_method:"WiFi考勤",
+    record:"历史记录",
+    interface1:true,
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -40,4 +48,43 @@ Page({
     }
   },
 
+  touchStart: function (e) {
+    startX = e.touches[0].pageX; // 获取触摸时的原点
+    moveFlag = true;
+  },
+  // 触摸移动事件
+  touchMove: function (e) {
+    endX = e.touches[0].pageX; // 获取触摸时的原点
+    if (moveFlag) {
+      if (endX - startX > 50) {
+        console.log("move right");
+        this.move2right();
+        moveFlag = false;
+      }
+      if (startX - endX > 50) {
+        console.log("move left");
+        this.move2left();
+        moveFlag = false;
+      }
+    }
+
+  },
+  // 触摸结束事件
+  touchEnd: function (e) {
+    moveFlag = true; // 回复滑动事件
+  },
+
+  move2left() {
+    var that = this;
+    that.setData({
+      interface1:false,
+    });
+  },
+
+  move2right() {
+    var that = this;
+    that.setData({
+      interface1:true,
+    });
+  },
 })
