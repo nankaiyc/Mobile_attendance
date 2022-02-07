@@ -63,6 +63,7 @@ Component({
       wx.redirectTo({
         url: this.data.itemArray[index].url,
       })
+      this.close_overlay();
     } else {
       wx.navigateTo({
         url: this.data.itemArray[index].url,
