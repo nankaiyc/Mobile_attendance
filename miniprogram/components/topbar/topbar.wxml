@@ -9,11 +9,14 @@
     </view>
   </view>
   <view class="rightAera">
-    <view class="searchIcon" wx:if="{{curIndex < 3 && curIndex > 0}}">
+    <view class="searchIcon" wx:if="{{(curIndex < 3 && curIndex > 0) || curIndex == 9}}">
       <searchicon curIndex='{{curIndex}}'/>
     </view>
     <view class="rightMenu" wx:if="{{curIndex < 2}}">
       <rightmenu content='{{content}}' bindmethodchange="handlemethodchange"/>
+    </view>
+    <view class="check" wx:if="{{curIndex == 9}}">
+      <text>√</text>
     </view>
   </view>
 </view>
