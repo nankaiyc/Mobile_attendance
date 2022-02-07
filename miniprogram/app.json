@@ -5,6 +5,11 @@
     "pages/member/member",
     "pages/person/person",
     "pages/setting/setting",
+<<<<<<< Updated upstream
+=======
+    "pages/searchMember/searchMember",
+    "pages/searchCheck/searchCheck",
+>>>>>>> Stashed changes
     "components/menu/menu",
     "components/rightmenu/rightmenu"
   ],

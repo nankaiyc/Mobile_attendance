@@ -6,15 +6,14 @@
 <view bindtap="close_overlay" class="right_container  {{show?'yd_right_content':'yd_close_overlay'}}" style='height: {{40*content.length}}px;'>
   <button wx:for="{{content}}" wx:key="index" class="menu-item" style="height:40px">
     <view wx:if="{{content.length == 4}}">
-      <view wx:if="{{item.index == 0}}" class="menu-item-index" bindtap="button_choose_WiFi">
+      <view wx:if="{{item.index == 0}}" class="menu-item-index" bindtap="button_choose" data-index="{{index}}">
         {{item.name}} <icon type="{{chosen_WiFi?'success':'circle'}}" size="23" class="icon-small1"></icon>
       </view> 
-      <view wx:elif="{{item.index == 1}}" class="menu-item-index" bindtap="button_choose_GPS">
+      <view wx:elif="{{item.index == 1}}" class="menu-item-index" bindtap="button_choose" data-index="{{index}}">
         {{item.name}} <icon type="{{chosen_GPS?'success':'circle'}}" size="23" class="icon-small2"></icon>
-        <!-- <icon class="icon-small" type="success" size="23"></icon> -->
       </view>
-      <view wx:else>{{item.name}}</view>
+      <view wx:else bindtap="button_choose" data-index="{{index}}">{{item.name}}</view> 
       </view>
-     <view wx:else>{{item.name}}</view>
+    <view wx:else >{{item.name}}</view>
   </button>
 </view>
