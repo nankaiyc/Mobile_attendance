@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/searchCheck/searchCheck",
     "pages/checkIn/checkIn",
     "pages/superVise/superVise",
     "pages/member/member",
     "pages/person/person",
     "pages/setting/setting",
     "pages/searchMember/searchMember",
+    "pages/searchCheck/searchCheck",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",

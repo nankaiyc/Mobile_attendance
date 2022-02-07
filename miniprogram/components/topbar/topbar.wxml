@@ -13,7 +13,7 @@
       <searchicon curIndex='{{curIndex}}'/>
     </view>
     <view class="rightMenu" wx:if="{{curIndex < 2}}">
-      <rightmenu content='{{content}}'/>
+      <rightmenu content='{{content}}' bindmethodchange="handlemethodchange"/>
     </view>
   </view>
 </view>

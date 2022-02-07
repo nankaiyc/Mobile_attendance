@@ -1,3 +1,5 @@
 <!--pages/checkIn/checkIn.wxml-->
-<topbar curIndex='0' content='{{content}}'/>
-<view>pages/checkIn/checkIn.wxml</view>
+
+<topbar curIndex='0' content='{{content}}' bindmethodchange="handlemethodchange"/>
+<view>{{Attendance_method}}</view>
+

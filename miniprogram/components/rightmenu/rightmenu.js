@@ -8,7 +8,7 @@ Component({
     },
     content: {
       type: Array,
-      value: [1,2,3],
+      value: [],
     },
     chosen_GPS: {
       type: Boolean,
@@ -37,20 +37,30 @@ Component({
         show: true
       })
     },
-    button_choose_WiFi() {
-      this.setData({
-        chosen_GPS: false,
-        chosen_WiFi:true,
-      })
-    },
-    button_choose_GPS() {
-      this.setData({
-        chosen_GPS: true,
-        chosen_WiFi:false,
-      })
+    button_choose(e) {
+      // console.log(e.currentTarget.dataset.index)
+      var chosen = e.currentTarget.dataset.index
+      if(chosen == 0){
+        this.setData({
+          chosen_GPS: false,
+          chosen_WiFi:true,
+        })
+        this.triggerEvent("methodchange",chosen)
+      }
+      else if(chosen == 1){
+        this.setData({
+          chosen_GPS: true,
+          chosen_WiFi:false,
+        })
+        this.triggerEvent("methodchange",chosen)
+      }
+      else{
+        console.log(chosen)
+      }
     },
 
-    
+
+
   }
 
 })
