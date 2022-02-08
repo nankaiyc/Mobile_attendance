@@ -10,7 +10,8 @@
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
-    "components/searchicon/searchicon"
+    "components/searchicon/searchicon",
+    "components/Tabs/Tabs"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

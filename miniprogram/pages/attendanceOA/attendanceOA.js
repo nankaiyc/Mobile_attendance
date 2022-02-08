@@ -1,4 +1,4 @@
-// pages/superVise/superVise.js
+// pages/attendanceOA/attendanceOA.js
 Page({
 
   /**
@@ -8,23 +8,41 @@ Page({
     content: [
       {
         index : 0,
-        name : "设置监管范围"
-      }
+        name : "批量处理" 
+      },
+      {
+        index : 1,
+        name : "搜索" 
+      },
+      {
+        index : 2,
+        name : "起草" 
+      },
     ],
     tabs:[
       {
         id:0,
-        name:"每日出勤",
+        name:"代办",
         isActive:true
       },
       {
         id:1,
-        name:"及时报告",
+        name:"已办",
         isActive:false
       },
       {
         id:2,
-        name:"考勤统计",
+        name:"历史",
+        isActive:false
+      },
+      {
+        id:3,
+        name:"草稿",
+        isActive:false
+      },
+      {
+        id:4,
+        name:"转办",
         isActive:false
       },
     ]
@@ -38,4 +56,5 @@ Page({
       tabs
     })
   }
+  
 })
