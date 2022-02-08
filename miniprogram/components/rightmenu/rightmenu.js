@@ -27,11 +27,12 @@ Component({
   },
 
   methods:{
-     close_overlay() {
+    close_overlay() {
       this.setData({
         show: false
       })
     },
+
     pop_right() {
       this.setData({
         show: true
@@ -70,8 +71,6 @@ Component({
         url: '../../pages/attendanceAddressSet/attendanceAddressSet',
       })
     },
-
-
   }
 
 })

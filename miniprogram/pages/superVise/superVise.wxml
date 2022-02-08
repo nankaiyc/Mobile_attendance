@@ -1,3 +1,16 @@
 <!--pages/superVise/superVise.wxml-->
 <topbar curIndex='1' content='{{content}}'/>
-<text>pages/superVise/superVise.wxml</text>
+<Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
+  <block wx:if="{{tabs[0].isActive}}">
+    <view>2022-02-09 周三</view>
+    <view>本日无考勤数据</view>
+  </block>
+
+  <block wx:elif="{{tabs[1].isActive}}">
+    <view>暂无报告</view>
+  </block>
+
+  <block wx:else>
+    <view>考勤月：2022-02</view>
+  </block>
+</Tabs>
