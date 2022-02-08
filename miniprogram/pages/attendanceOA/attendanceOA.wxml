@@ -1,5 +1,6 @@
 <!--pages/attendanceOA/attendanceOA.wxml-->
 <topbar curIndex='10' content='{{content}}'/>
+
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
   <block wx:if="{{tabs[0].isActive}}">
     <view>没有更多数据了</view>
@@ -21,3 +22,4 @@
     <view>无符合条件的数据</view>
   </block>
 </Tabs>
+
