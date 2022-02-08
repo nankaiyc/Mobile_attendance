@@ -2,24 +2,24 @@
 <topbar curIndex='10' content='{{content}}'/>
 
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
-  <block wx:if="{{tabs[0].isActive}}">
+  <view wx:if="{{tabs[0].isActive}}">
     <view>没有更多数据了</view>
-  </block>
+  </view>
 
-  <block wx:elif="{{tabs[1].isActive}}">
+  <view wx:elif="{{tabs[1].isActive}}">
     <view>没有更多数据了</view>
-  </block>
+  </view>
 
-  <block wx:elif="{{tabs[2].isActive}}">
+  <view wx:elif="{{tabs[2].isActive}}">
     <view>没有更多数据了</view>
-  </block>
+  </view>
 
-  <block wx:elif="{{tabs[3].isActive}}">
+  <view wx:elif="{{tabs[3].isActive}}">
     <view>没有更多数据了</view>
-  </block>
+  </view>
 
-  <block wx:else>
-    <view>无符合条件的数据</view>
-  </block>
+  <view wx:else>
+    <view class="content5">无符合条件的数据</view>
+  </view>
 </Tabs>
 
