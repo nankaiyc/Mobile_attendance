@@ -1,0 +1,3 @@
+<!--pages/attendanceOA/attendanceOA.wxml-->
+<topbar curIndex='10' content='{{content}}'/>
+<text>pages/attendanceOA/attendanceOA.wxml</text>

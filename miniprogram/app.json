@@ -9,6 +9,7 @@
     "pages/searchCheck/searchCheck",
     "pages/attendanceAddress/attendanceAddress",
     "pages/attendanceAddressSet/attendanceAddressSet",
+    "pages/attendanceOA/attendanceOA",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",

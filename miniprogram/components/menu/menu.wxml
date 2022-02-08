@@ -7,8 +7,8 @@
 <!-- 左侧栏目 -->
 <view class="left_container  {{show?'yd_left_content':'yd_close_overlay'}}">
   <view wx:for="{{itemArray}}" wx:key="index">
-    <view bindtap="jump" data-index="{{index}}" class="menu-item {{index == curIndex?'cur-item':''}}" hover-class="{{index == 3?'':'long_pressed'}}">
-      <view class="line" wx:if="{{index == 3}}"/>
+    <view bindtap="jump" data-index="{{index}}" class="menu-item {{index == curIndex?'cur-item':''}}" hover-class="{{index == 4?'':'long_pressed'}}">
+      <view class="line" wx:if="{{index == 4}}"/>
       <view wx:else>{{index}}: {{item.name}}</view>
     </view>
   </view>

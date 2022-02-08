@@ -30,3 +30,7 @@
   margin-left: 10rpx;
   margin-right: 10rpx;
 }
+
+.bell {
+  margin-right: 20rpx;
+}
