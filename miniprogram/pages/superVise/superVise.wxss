@@ -1,1 +1,21 @@
 /* pages/superVise/superVise.wxss */
+.content1-1 content3-1{
+  font-size: 15px;
+}
+.content1-2{
+  margin-top: 40px;
+}
+.content2-1{
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content2-2{
+  margin-top: 15px;
+  font-size: 10px;
+}
+.content2-3{
+  margin-top: 1px;
+  font-size: 10px;
+}

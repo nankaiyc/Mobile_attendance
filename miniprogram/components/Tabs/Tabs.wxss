@@ -23,6 +23,8 @@
   border-bottom: 5rpx solid red;
 }
 
-/* .tabs_content{
-
-} */
+.tabs_content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
