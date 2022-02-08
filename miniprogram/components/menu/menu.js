@@ -25,6 +25,10 @@ Component({
         url: "../../pages/superVise/superVise"
       },
       {
+        name: "考勤OA",
+        url: "../../pages/attendanceOA/attendanceOA"
+      },
+      {
         name: "成员",
         url: "../../pages/member/member"
       },
@@ -56,10 +60,10 @@ Component({
   },
   jump(e) {
     var index = e.currentTarget.dataset.index;
-    if (index == parseInt(this.properties.curIndex) || index == 3) {
+    if (index == parseInt(this.properties.curIndex) || index == 4) {
       return
     }
-    if (index < 3) {
+    if (index < 4) {
       wx.redirectTo({
         url: this.data.itemArray[index].url,
       })
