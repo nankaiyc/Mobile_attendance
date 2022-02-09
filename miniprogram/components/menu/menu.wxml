@@ -1,5 +1,7 @@
 <!--components/menu/menu.wxml-->
-<view class="left_menu" bindtap="pop_left">{{curIndex}}</view>
+<view class="left_menu" bindtap="pop_left">
+  <image src="../../resource/ic_menu.png" mode="scaleToFill" class="left_menu_img"/>
+</view>
 <!-- 阴影 -->
 
 <view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>
@@ -9,7 +11,10 @@
   <view wx:for="{{itemArray}}" wx:key="index">
     <view bindtap="jump" data-index="{{index}}" class="menu-item {{index == curIndex?'cur-item':''}}" hover-class="{{index == 4?'':'long_pressed'}}">
       <view class="line" wx:if="{{index == 4}}"/>
-      <view wx:else>{{index}}: {{item.name}}</view>
+      <view wx:else class="menu-item-content">
+        <image src="{{item.icon}}" mode="scaleToFill" class="menu-item-img"/>
+        <text>{{item.name}}</text>
+      </view>
     </view>
   </view>
 </view>

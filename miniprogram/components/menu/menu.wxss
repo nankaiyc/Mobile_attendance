@@ -46,7 +46,7 @@
 
 .menu-item {
   background: white;
-  padding: 20rpx;
+  padding: 40rpx;
   display: flex;
   flex-direction:row;
   justify-content: center;
@@ -66,4 +66,23 @@
 
 .long_pressed {
   background: blue;
+}
+
+.left_menu_img {
+  width: 55rpx;
+  height: 55rpx;
+}
+
+.menu-item-img {
+  width: 55rpx;
+  height: 55rpx;
+  margin-right: 40rpx;
+}
+
+.menu-item-content {
+  display: flex;
+  flex-direction:row;
+  justify-content: stretch;
+  align-items: center;
+  width: 100%;
 }
