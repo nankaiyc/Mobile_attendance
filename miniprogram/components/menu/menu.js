@@ -18,19 +18,23 @@ Component({
     itemArray: [
       {
         name: "考勤打卡",
-        url: "../../pages/checkIn/checkIn"
+        url: "../../pages/checkIn/checkIn",
+        icon: "../../resource/menu_kq.png"
       },
       {
         name: "考勤监管",
-        url: "../../pages/superVise/superVise"
+        url: "../../pages/superVise/superVise",
+        icon: "../../resource/menu_jg.png"
       },
       {
         name: "考勤OA",
-        url: "../../pages/attendanceOA/attendanceOA"
+        url: "../../pages/attendanceOA/attendanceOA",
+        icon: "../../resource/menu_oa.png"
       },
       {
         name: "成员",
-        url: "../../pages/member/member"
+        url: "../../pages/member/member",
+        icon: "../../resource/menu_cy.png"
       },
       {
         name: "split",
@@ -38,11 +42,13 @@ Component({
       },
       {
         name: "我的",
-        url: "../../pages/person/person"
+        url: "../../pages/person/person",
+        icon: "../../resource/menu_me.png"
       },
       {
         name: "设置",
-        url: "../../pages/setting/setting"
+        url: "../../pages/setting/setting",
+        icon: "../../resource/menu_setting.png"
       },
     ]
   },
