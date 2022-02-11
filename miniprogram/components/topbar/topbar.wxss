@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   color: white;
+  padding: 10rpx 0;
 }
 
 .leftAera {
