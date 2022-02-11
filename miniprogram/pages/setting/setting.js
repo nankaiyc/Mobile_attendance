@@ -5,9 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    switch1Checked: false,
+    indexList: ['考勤打卡', '考勤监管', '考勤OA', '成员'],
+    indexValue: 0
   },
 
+  switch1Change(e) {
+    this.setData({
+      switch1Checked: !this.data.switch1Checked
+    })
+  },
+
+  pickerChange(e) {
+    this.setData({
+      indexValue: e.detail.value
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -4,7 +4,7 @@
     <view class="leftMenu" wx:if="{{curIndex < 3 || curIndex == 10}}">
       <menu curIndex='{{curIndex}}'/>
     </view>
-    <view class="centerTitle">
+    <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':''}}">
       {{itemArray[curIndex]}}
     </view>
   </view>
