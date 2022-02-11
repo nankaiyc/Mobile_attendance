@@ -87,4 +87,23 @@ Page({
       interface1:true,
     });
   },
+
+  getPhoneNumber (e) {
+    console.log(e)
+    this.getAccess()
+  },
+
+  getAccess() {
+    wx.request({
+      url: 'https://api.weixin.qq.com/cgi-bin/token',
+      data: {
+        'grant_type': 'client_credential',
+        'appid': 'wx11db962f0c4cffe2',
+        'secret': '54157cb4b6842656e5276092fc93325c'
+      },
+      success: (e) => {
+        console.log(e)
+      }
+    })
+  }
 })
