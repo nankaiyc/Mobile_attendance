@@ -1,4 +1,6 @@
+
 /* pages/setting/setting.wxss */
+
 .content {
   margin-top: 20rpx;
   border-top: 1px solid gray;
@@ -10,6 +12,8 @@
   align-items: center;
   border-bottom: 1px solid gray;
   padding: 30rpx;
+  height:20px
+
 }
 
 .first_left {
@@ -48,3 +52,6 @@
 .arrow {
   height: 40rpx;
 }
+
+}
+
