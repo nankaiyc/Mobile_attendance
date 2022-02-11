@@ -4,3 +4,5 @@
 <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
 {{interface1? Attendance_method : record }}
 </view>
+
+<!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">getPhoneNumber</button> -->

@@ -1,3 +1,36 @@
 <!--pages/setting/setting.wxml-->
 <topbar curIndex='5' content='{{content}}'/>
-<text>pages/setting/setting.wxml</text>
+<view class="content">
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">自动保存场景照到相册</view>
+      <view class="small_text">开启后，场景照片将自动保存至图库Checkin目录</view>
+    </view>
+    <view class="first_right">
+      <switch checked="{{switch1Checked}}" bindchange="switch1Change"/>
+    </view>
+  </view>
+  
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">设置默认首页</view>
+    </view>
+    <view class="second_right">
+      <view class="cur_index">
+        <picker mode="selector" range="{{indexList}}" value="{{indexValue}}" bindchange="pickerChange">
+          {{indexList[indexValue]}}
+        </picker>
+      </view>
+      <image src="../../resource/arrow_right.png" mode="heightFix" class="arrow"/>
+    </view>
+  </view>
+
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">关于我们</view>
+    </view>
+    <view class="first_right">
+      <image src="../../resource/arrow_right.png" mode="heightFix" class="arrow"/>
+    </view>
+  </view>
+</view>

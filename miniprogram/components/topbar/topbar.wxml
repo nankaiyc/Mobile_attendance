@@ -4,7 +4,7 @@
     <view class="leftMenu" wx:if="{{curIndex < 3 || curIndex == 10}}">
       <menu curIndex='{{curIndex}}'/>
     </view>
-    <view class="centerTitle">
+    <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':''}}">
       {{itemArray[curIndex]}}
     </view>
   </view>
@@ -13,13 +13,13 @@
       <searchicon curIndex='{{curIndex}}'/>
     </view>
     <view class="bell" wx:if="{{curIndex == 10}}">
-      <text>bell</text>
+      <image src="../../resource/icon_notification.png" mode="scaleToFill" class="left_menu_img"/>
     </view>
     <view class="rightMenu" wx:if="{{curIndex < 2 || curIndex == 10}}">
       <rightmenu content='{{content}}' bindmethodchange="handlemethodchange"/>
     </view>
     <view class="check" wx:if="{{curIndex == 9}}">
-      <text>√</text>
+      <image src="../../resource/ic_done.png" mode="scaleToFill" class="left_menu_img"/>
     </view>
   </view>
 </view>

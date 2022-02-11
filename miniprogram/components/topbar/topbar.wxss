@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   color: white;
+  padding: 10rpx 0;
 }
 
 .leftAera {
@@ -22,6 +23,10 @@
   display: flex;
 }
 
+.rightMenu {
+  margin-top: 5rpx;
+}
+
 .searchIcon {
   margin-right: 20rpx;
 }
@@ -33,4 +38,9 @@
 
 .bell {
   margin-right: 20rpx;
+}
+
+.left_menu_img {
+  width: 65rpx;
+  height: 65rpx;
 }

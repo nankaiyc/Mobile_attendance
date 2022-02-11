@@ -1,1 +1,6 @@
 /* components/searchicon/searchicon.wxss */
+
+.left_menu_img {
+  width: 65rpx;
+  height: 65rpx;
+}

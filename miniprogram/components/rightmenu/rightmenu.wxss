@@ -65,3 +65,8 @@
 .icon-small2{
   margin-left:35px;
 }
+
+.right_menu_img {
+  width: 55rpx;
+  height: 55rpx;
+}
