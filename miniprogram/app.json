@@ -4,6 +4,7 @@
     "pages/superVise/superVise",
     "pages/member/member",
     "pages/person/person",
+    "pages/personInfo/personInfo",
     "pages/setting/setting",
     "pages/searchMember/searchMember",
     "pages/searchCheck/searchCheck",

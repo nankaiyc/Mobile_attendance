@@ -1,0 +1,46 @@
+<!--pages/personInfo/personInfo.wxml-->
+<topbar curIndex='11' content='{{content}}'/>
+<view class="content">
+  <view class="item">
+    <view class="first_left">
+      <image src="../../resource/default_user_icon.png" mode="heightFix" class="default_user_icon"/>
+    </view>
+    <view class="second_left">
+      <view class="bold_text">{{name}}</view>
+      <view class="thin_text">开发测试</view>
+    </view>
+  </view>
+
+  <view class="item">
+    <view class="first_left">
+      <view class="blue_text">考勤号</view>
+      <view class="info_text">{{id}}</view>
+    </view>
+  </view>
+
+  <view class="item">
+    <view class="first_left">
+      <view class="blue_text">入职时间</view>
+      <view class="info_text">{{entry_data}}</view>
+    </view>
+  </view>
+
+  <view class="item phone">
+    <view class="first_left">
+      <view class="blue_text">电话</view>
+      <view class="info_text">{{phone}}</view>
+    </view>
+    <view class="first_right">
+      <image src="../../resource/contact_sms.png" mode="heightFix" class="contact_icon"/>
+      <image src="../../resource/contact_phone.png" mode="heightFix" class="contact_icon"
+      bindtap="launchPhoneCall" data-tel="{{phone}}"/>
+    </view>
+  </view>
+
+  <view class="item">
+    <view class="first_left">
+      <view class="blue_text">邮箱</view>
+      <view class="info_text"></view>
+    </view>
+  </view>
+</view>

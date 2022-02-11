@@ -1,1 +1,30 @@
 /* pages/person/person.wxss */
+.content {
+  margin-top: 30rpx;
+  border-top: 1px solid gray;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  padding: 30rpx;
+  height:20px
+}
+
+.first_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.normal_text {
+  font-size: 35rpx;
+  font-weight: 500;
+}
+
+.arrow {
+  height: 40rpx;
+}

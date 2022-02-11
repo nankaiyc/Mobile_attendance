@@ -1,1 +1,55 @@
+<<<<<<< Updated upstream
 /* pages/setting/setting.wxss */
+=======
+/* pages/setting/setting.wxss */
+.content {
+  margin-top: 20rpx;
+  border-top: 1px solid gray;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  padding: 30rpx;
+  height:20px
+}
+
+.first_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.normal_text {
+  font-size: 35rpx;
+  font-weight: 500;
+}
+
+.small_text {
+  font-size: 25rpx;
+  margin-top: 10rpx;
+  font-weight: 300;
+  color: grey;
+}
+
+.second_right {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.cur_index {
+  font-size: 35rpx;
+  font-weight: 500;
+  color: darkgrey;
+  margin-right: 10rpx;
+}
+
+.arrow {
+  height: 40rpx;
+}
+>>>>>>> Stashed changes
