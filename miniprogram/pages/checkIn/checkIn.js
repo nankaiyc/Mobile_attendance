@@ -4,7 +4,7 @@
 const app = getApp();
 var startX, endX;
 var moveFlag = true;// 判断执行滑动事件
-
+var util = require('../../utils/util.js');
 Page({
 
   /**
@@ -29,9 +29,14 @@ Page({
         name : "考勤提醒闹钟" 
       },
     ],
-    Attendance_method:"WiFi考勤",
+    Attendance_method:"GPS考勤",
     record:"历史记录",
     interface1:true,
+    name:"寅畅",
+    apartment:"平台演示1",
+    timer: null,
+    currentDate: "",
+    imgUrl:"",
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -73,14 +78,12 @@ Page({
   touchEnd: function (e) {
     moveFlag = true; // 回复滑动事件
   },
-
   move2left() {
     var that = this;
     that.setData({
       interface1:false,
     });
   },
-
   move2right() {
     var that = this;
     that.setData({
@@ -92,7 +95,6 @@ Page({
     console.log(e)
     this.getAccess()
   },
-
   getAccess() {
     wx.request({
       url: 'https://api.weixin.qq.com/cgi-bin/token',
@@ -100,10 +102,46 @@ Page({
         'grant_type': 'client_credential',
         'appid': 'wx11db962f0c4cffe2',
         'secret': '54157cb4b6842656e5276092fc93325c'
-      },
+      }, 
       success: (e) => {
         console.log(e)
       }
     })
-  }
+  },
+
+  setCurrentDate() {
+    const that = this
+    //setInterval是根据设置的时间来回调的，比如每秒回调一次
+    let _timer = setInterval(() => {
+      var TIME = util.formatTime(new Date());
+      that.setData({
+        currentDate: TIME 
+      })
+    }, 1000)
+    that.setData({
+      timer: _timer
+    })
+  },
+
+  setPhotoInfo(){
+    var that = this;
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      camera: 'back',
+      success(res) {
+        console.log(res.tempFiles[0].tempFilePath),
+        that.setData({
+          imgUrl:res.tempFiles[0].tempFilePath,
+        })
+      }
+    })
+  },
+
+
+  onLoad: function () {
+    this.setCurrentDate()
+  },
+    
 })

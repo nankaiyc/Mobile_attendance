@@ -1,14 +1,14 @@
 /* pages/person/person.wxss */
 .content {
   margin-top: 30rpx;
-  border-top: 1px solid gray;
+  border-top: 1px solid gainsboro;
 }
 .item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid gainsboro;
   padding: 30rpx;
   height:20px
 }
