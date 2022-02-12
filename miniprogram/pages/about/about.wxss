@@ -1,0 +1,47 @@
+/* pages/about/about.wxss */
+.top_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80rpx;
+  border-bottom: 1px solid gainsboro;
+}
+
+.logo {
+  height: 130rpx;
+}
+
+.app_name {
+  font-size: 35rpx;
+  font-weight: 500;
+  color: darkgray;
+  margin-top: 10rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid gainsboro;
+  padding: 30rpx;
+  height: 40rpx;
+  background: white;
+}
+
+.first_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.normal_text {
+  font-size: 35rpx;
+  font-weight: 500;
+}
+
+.arrow {
+  height: 40rpx;
+}

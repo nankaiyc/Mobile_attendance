@@ -1,0 +1,29 @@
+/* pages/appStart/appStart.wxss */
+
+.background_image {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.inside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 180rpx;
+  margin-top: 200rpx;
+}
+
+.title {
+  height: 45rpx;
+  margin-top: 50rpx;
+}
+
+.cloud {
+  margin-top: 30rpx;
+}

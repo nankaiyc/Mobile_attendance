@@ -25,7 +25,7 @@
     </view>
   </view>
 
-  <view class="item">
+  <view class="item" bindtap="toAbout">
     <view class="first_left">
       <view class="normal_text">关于我们</view>
     </view>

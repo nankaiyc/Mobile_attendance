@@ -1,41 +1,18 @@
-// pages/setting/setting.js
-const app = getApp()
+// pages/about/about.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    switch1Checked: false,
-    indexList: ['考勤打卡', '考勤监管', '考勤OA', '成员'],
-    indexValue: 0
+    itemArray: ['产品介绍', '联系方式', '免责条款']
   },
 
-  switch1Change(e) {
-    this.setData({
-      switch1Checked: !this.data.switch1Checked
-    })
-  },
-
-  pickerChange(e) {
-    this.setData({
-      indexValue: e.detail.value
-    })
-    wx.setStorageSync('firstPageIndex', this.data.indexValue)
-  },
-
-  toAbout() {
-    wx.navigateTo({
-      url: '../about/about',
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      indexValue: app.globalData.firstPage
-    })
+
   },
 
   /**
