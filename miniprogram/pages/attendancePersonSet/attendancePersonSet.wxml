@@ -1,0 +1,3 @@
+<!--pages/attendancePersonSet/attendancePersonSet.wxml-->
+<topbar curIndex='9' content='{{content}}'/>
+<memberInfo isModifiable='1'/>

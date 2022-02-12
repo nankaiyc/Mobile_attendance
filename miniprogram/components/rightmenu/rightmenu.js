@@ -68,7 +68,7 @@ Component({
 
     button_choose2(){
       wx.navigateTo({
-        url: '../../pages/attendanceAddressSet/attendanceAddressSet',
+        url: '../../pages/attendancePersonSet/attendancePersonSet',
       })
     },
   }

@@ -1,0 +1,19 @@
+<!--pages/about/about.wxml-->
+<topbar curIndex='12' content='{{content}}'/>
+<view class="content">
+  <view class="top_area">
+    <image src="../../resource/app_logo.png" mode="heightFix" class="logo"/>
+    <view class="app_name">移动考勤</view>
+  </view>
+  
+  <view wx:for="{{itemArray}}" wx:key="index">
+    <view class="item">
+      <view class="first_left">
+        <view class="normal_text">{{item}}</view>
+      </view>
+      <view class="first_right">
+        <image src="../../resource/arrow_right.png" mode="heightFix" class="arrow"/>
+      </view>
+    </view>
+  </view>
+</view>

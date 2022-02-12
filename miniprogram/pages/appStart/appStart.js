@@ -1,18 +1,31 @@
-// pages/attendanceAddressSet/attendanceAddressSet.js
+// pages/appStart/appStart.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    screenHeight: 0,
+    screenWidth: 0,
+    firstPage: 0,
+    indexPages: ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth,
+      firstPage: app.globalData.firstPage
+    })
+    var launch = setTimeout(() => {
+      wx.redirectTo({
+        url: this.data.indexPages[this.data.firstPage],
+      })
+    }, 1000)
   },
 
   /**
