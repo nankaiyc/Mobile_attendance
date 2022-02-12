@@ -12,11 +12,11 @@ Component({
     },
     chosen_GPS: {
       type: Boolean,
-      value: false,
+      value: true,
     },
     chosen_WiFi: {
       type: Boolean,
-      value: true,
+      value: false,
     },
   },
   /**

@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid gainsboro;
   padding: 20rpx;
   height:100rpx
 }

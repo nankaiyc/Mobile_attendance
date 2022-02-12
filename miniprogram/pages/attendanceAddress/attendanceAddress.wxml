@@ -1,3 +1,29 @@
 <!--pages/attendanceAddress/attendanceAddress.wxml-->
 <topbar curIndex='8' content='{{content}}'/>
-<text>pages/attendanceAddress/attendanceAddress.wxml</text>
+<Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange"></Tabs>
+
+<view wx:if="{{tabs[0].isActive}}" class="content">
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">移动集团部</view>
+    </view>
+  </view>
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">wifi云考勤</view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{tabs[1].isActive}}" class="content">
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">鑫茂天财酒店</view>
+    </view>
+  </view>
+  <view class="item">
+    <view class="first_left">
+      <view class="normal_text">解放村</view>
+    </view>
+  </view>
+</view>

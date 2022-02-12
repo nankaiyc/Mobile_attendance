@@ -8,7 +8,49 @@ page {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Attendance_method{
   color: #4BBFE6;
   font-size: 30px;
+  margin-top: 40rpx;
+}
+
+.UserInfo{
+  display: flex;
+  flex-direction: row;
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  margin-top: 160rpx;
+}
+.head{
+  height: 150rpx;
+  margin-top: 150rpx;
+  margin-right: 30rpx;
+  border-radius: 50%;
+  overflow:hidden;
+}
+.name{
+  font-size: 50rpx;
+  font-weight: 600;
+}
+.apartment{
+  font-size: 35rpx;
+  font-weight: 400;
+  margin-top: 5rpx;
+}
+
+.current_time{
+  margin-top: 150rpx;
+  font-size: 90rpx;
+  font-weight: 500;
+}
+
+.checkin_button{
+  height: 150rpx;
+  margin-top: 150rpx;
 }
