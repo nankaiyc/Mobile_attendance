@@ -1,51 +1,23 @@
-// pages/searchMember/searchMember.js
-const app = getApp()
+// pages/messageList/messageList.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    screenHeight: 0,
-    screenWidth: 0,
-    itemArray: [
+    content: [
       {
-        'name': '张三' 
-      },
-      {
-        'name': '李三'
+        index : 0,
+        name : "全部标记为已读" 
       }
     ],
-    showItems: []
-  },
-
-  bindInputChange(e) {
-    const nameInput = e.detail.value.trim()
-    let newShowItems = []
-    if (nameInput != '') {
-      for (var index in this.data.itemArray) {
-        if (this.data.itemArray[index].name.search(nameInput) > -1) {
-          newShowItems.push(index)
-        }
-      }
-    }
-    this.setData({
-      showItems: newShowItems
-    })
-  },
-
-  itemTapped(e) {
-    const index = e.currentTarget.dataset.index
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      screenHeight: app.globalData.screenHeight,
-      screenWidth: app.globalData.screenWidth
-    })
+
   },
 
   /**

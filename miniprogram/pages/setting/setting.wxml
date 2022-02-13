@@ -1,5 +1,5 @@
 <!--pages/setting/setting.wxml-->
-<topbar curIndex='5' content='{{content}}'/>
+<topbar curIndex='5'/>
 <view class="content">
   <view class="item">
     <view class="first_left">

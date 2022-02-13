@@ -15,7 +15,7 @@
     <view class="bell" wx:if="{{curIndex == 10}}">
       <image src="../../resource/icon_notification.png" mode="scaleToFill" class="left_menu_img"/>
     </view>
-    <view class="rightMenu" wx:if="{{curIndex < 2 || curIndex == 10}}">
+    <view class="rightMenu" wx:if="{{curIndex < 2 || curIndex == 10 || curIndex == 13}}">
       <rightmenu content='{{content}}' bindmethodchange="handlemethodchange"/>
     </view>
     <view class="check" wx:if="{{curIndex == 9}}">

@@ -1,5 +1,5 @@
 <!--pages/person/person.wxml-->
-<topbar curIndex='4' content='{{content}}'/>
+<topbar curIndex='4'/>
 <view class="content">
   <view class="item" bindtap="JumpToInfo">
     <view class="first_left">

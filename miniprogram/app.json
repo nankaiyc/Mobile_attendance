@@ -13,6 +13,7 @@
     "pages/attendancePersonSet/attendancePersonSet",
     "pages/attendanceOA/attendanceOA",
     "pages/about/about",
+    "pages/messageList/messageList",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
