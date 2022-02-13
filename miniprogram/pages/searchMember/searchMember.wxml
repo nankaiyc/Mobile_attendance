@@ -1,3 +1,14 @@
 <!--pages/searchMember/searchMember.wxml-->
-<topbar curIndex='7'  content='{{content}}'/>
-<text>pages/searchMember/searchMember.wxml</text>
+<topbar curIndex='7'/>
+<view class="content">
+  <view class="name_input" style="width: {{screenWidth - 20}}px;">
+    <input focus="true" placeholder="请输入员工姓名" bindinput="bindInputChange"/>
+  </view>
+  
+  <view wx:for="{{showItems}}" wx:key="index">
+    <view class="item" bindtap="itemTapped" data-index="{{index}}" style="width: {{screenWidth}}px;">
+      <image src="../../resource/default_user_icon.png" mode="widthFix" class="item_img"/>
+      <view class="normal_text">{{itemArray[item].name}}</view>
+    </view>
+  </view>
+</view>

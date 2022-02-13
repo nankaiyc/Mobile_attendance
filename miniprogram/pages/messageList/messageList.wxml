@@ -1,0 +1,2 @@
+<!--pages/messageList/messageList.wxml-->
+<topbar curIndex='13' content='{{content}}'/>

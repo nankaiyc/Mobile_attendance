@@ -25,7 +25,7 @@ Page({
       wx.redirectTo({
         url: this.data.indexPages[this.data.firstPage],
       })
-    }, 1000)
+    }, 500)
   },
 
   /**

@@ -8,7 +8,7 @@
   </view>
 
   <view class="selector_area" wx:if="{{isModifiable == '1'}}">
-    <view class="selector_text" bindtap="selectAll">全选</view>
+    <view class="selector_text" bindtap="selectAll">全{{allSelected?'不':''}}选</view>
     <view class="selector_text">已选择{{selectedNum}}人</view>
   </view>
 

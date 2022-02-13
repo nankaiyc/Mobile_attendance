@@ -44,7 +44,8 @@ Component({
     firstShowItems: [],
     curShowItems: [],
     selectedNum: 0,
-    navigationArray: [-1]
+    navigationArray: [-1],
+    allSelected: false
   },
 
   methods: {
@@ -87,7 +88,10 @@ Component({
 
     selectorTapped: function (e) {
       const touchedIndex = this.data.curShowItems[e.currentTarget.dataset.index]
+      this.updateAll(touchedIndex)
+    },
 
+    updateAll: function (touchedIndex) {
       if (this.data.itemArray[touchedIndex].selectStatus == 2) {
         return
       } else {
@@ -156,16 +160,12 @@ Component({
     },
 
     selectAll: function () {
-      let newItemArray = this.data.itemArray
-      for (var item in newItemArray) {
-        if (newItemArray[item].selectStatus == 0) {
-          newItemArray[item].selectStatus = 1
-        }
+      for (var item in this.data.curShowItems) {
+        this.updateAll(this.data.curShowItems[item])
       }
       this.setData({
-        itemArray: newItemArray
+        allSelected: !this.data.allSelected
       })
-      this.updateSelectedNum()
     }
   },
 
@@ -180,7 +180,7 @@ Component({
         count.push(0)
       }
       for (var item in this.data.itemArray) {
-        if (this.data.itemArray[item].selectStatus > 0) {
+        if (this.data.itemArray[item].selectStatus > 0 && this.data.itemArray[item].type == 0) {
           newSelectedNum += 1
         }
         if (newChildrenNum[item] == 0) {

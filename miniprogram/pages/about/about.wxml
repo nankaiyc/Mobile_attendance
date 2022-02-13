@@ -1,5 +1,5 @@
 <!--pages/about/about.wxml-->
-<topbar curIndex='12' content='{{content}}'/>
+<topbar curIndex='12'/>
 <view class="content">
   <view class="top_area">
     <image src="../../resource/app_logo.png" mode="heightFix" class="logo"/>

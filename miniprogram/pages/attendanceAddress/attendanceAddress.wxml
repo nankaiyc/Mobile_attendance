@@ -1,5 +1,5 @@
 <!--pages/attendanceAddress/attendanceAddress.wxml-->
-<topbar curIndex='8' content='{{content}}'/>
+<topbar curIndex='8'/>
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange"></Tabs>
 
 <view wx:if="{{tabs[0].isActive}}" class="content">
