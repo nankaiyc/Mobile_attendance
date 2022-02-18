@@ -1,0 +1,65 @@
+/* pages/checkInResult/checkInResult.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Attendance {
+  color: #4BBFE6;
+  font-size: 65rpx;
+  margin-top: 40rpx;
+}
+
+.AttendanceResult{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.judge_icon{
+  height: 70rpx;
+  margin-right: 10rpx;
+}
+.normal_text{
+  font-size: 70rpx;
+  font-weight: 500;
+  margin-left: 10rpx;
+}
+
+.message{
+  margin-top: 50rpx;
+  text-indent:2em;
+  margin-left:40rpx;
+  margin-right:50rpx;
+  font-size: 40rpx;
+}
+
+.button{
+  position: absolute;
+  background-color: #4BBFE6;
+  color: white;
+  font-size: 28rpx;
+  border-radius: 0;  
+  right: 50rpx;
+}
+.button.define{
+  margin-top: 70rpx;
+}
+.err_say{
+  margin-top: 20rpx;
+}
+.retry{
+  margin-top: 20rpx;
+}
+.unfixed{
+  position: absolute;
+  background-color: #4BBFE6;
+  color: white;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+  border-radius: 0;  
+  left: 50rpx;
+}

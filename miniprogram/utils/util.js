@@ -6,12 +6,18 @@ const formatTime = date => {
 
   return ` ${[hour, minute, second].map(formatNumber).join(':')}`
 }
-
+const formatDate = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return year + "年" + month + "月" + day + "日"
+}
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : `0${n}`
 }
 
 module.exports = {
-  formatTime
+  formatTime,
+  formatDate
 }

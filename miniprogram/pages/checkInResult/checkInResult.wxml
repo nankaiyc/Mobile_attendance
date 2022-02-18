@@ -1,0 +1,20 @@
+<!--pages/checkInResult/checkInResult.wxml-->
+<view class="container">
+  <view class="Attendance" bindtap="changeResult">考勤打卡</view>
+
+  <view class="AttendanceResult">
+    <image src="{{isSuccess?'../../resource/icon_ok.png':'../../resource/icon_error2.png'}}" mode="heightFix" class="judge_icon"/>
+    <view class="normal_text">{{isSuccess?'考勤成功！':'考勤失败！'}}</view>
+  </view>
+
+  <view wx:if="{{isSuccess}}">
+    <view class="message">{{message}}</view>
+    <button class="button define" style="width: 90px;height: 36px;">确定</button>
+  </view>
+  <view wx:else>
+    <image src="{{'../../resource/checkin_err_say.png'}}" mode="heightFix" class="err_say"/>
+    <button class="unfixed" style="width: 140px;height: 36px;">非固定地点签到</button>
+    <button class="button retry" style="width: 90px;height: 36px;">重试</button>
+  </view>
+</view>
+

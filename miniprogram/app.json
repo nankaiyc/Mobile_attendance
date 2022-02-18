@@ -2,6 +2,7 @@
   "pages": [
     "pages/appStart/appStart",
     "pages/checkIn/checkIn",
+    "pages/checkInResult/checkInResult",
     "pages/superVise/superVise",
     "pages/member/member",
     "pages/person/person",
