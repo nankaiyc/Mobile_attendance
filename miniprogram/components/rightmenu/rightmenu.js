@@ -62,13 +62,6 @@ Component({
       else if(chosen == "考勤提醒闹钟"){
         this.triggerEvent("methodchange",chosen)
       }
-
-<<<<<<< Updated upstream
-    button_choose2(){
-      wx.navigateTo({
-        url: '../../pages/attendanceAddressSet/attendanceAddressSet',
-      })
-=======
       else if(chosen == "设置监管范围"){
         this.triggerEvent("methodchange",chosen)
       }
@@ -76,7 +69,6 @@ Component({
         this.triggerEvent("methodchange",chosen)
         console.log("全部标记为已读")
       }
->>>>>>> Stashed changes
     },
 
   }
