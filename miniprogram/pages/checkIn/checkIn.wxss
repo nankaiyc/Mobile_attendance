@@ -1,13 +1,12 @@
 /* pages/checkIn/checkIn.wxss */
 page {
-  background-color: #fbf9fe;
-  height: 100%;
+  height: 100%; 
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
   justify-content: flex-start;
   align-items: center;
 }
@@ -25,10 +24,11 @@ page {
 .info{
   display: flex;
   flex-direction: column;
-  margin-top: 160rpx;
+  margin-top: 165rpx;
 }
 .head{
-  height: 150rpx;
+  height: 180rpx;
+  width: 180rpx;
   margin-top: 150rpx;
   margin-right: 30rpx;
   border-radius: 50%;

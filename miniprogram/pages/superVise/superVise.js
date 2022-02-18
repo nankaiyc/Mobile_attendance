@@ -37,5 +37,14 @@ Page({
     this.setData({
       tabs
     })
-  }
+  },
+
+  handlemethodchange(e){
+    var chosen = e.detail
+    if(chosen == "设置监管范围"){
+      wx.navigateTo({
+        url: '../../pages/attendancePersonSet/attendancePersonSet',
+      })
+    }
+  },
 })
