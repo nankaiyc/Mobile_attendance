@@ -25,10 +25,12 @@ Page({
     var TIME = util.formatTime(new Date());
     var PLACE = this.data.place
     this.setData({
-      message : "您与" + DATE + TIME + "在" + PLACE + "打卡成功。"
+      message : "您与" + DATE + TIME + "在" + PLACE + "打卡成功。",
+      isSuccess:options.status == "success"?true:false
     })
     // console.log(this.data.message)
     // console.log(DATE)
+    // console.log(this.data.isSuccess)
   },
 
   /**
