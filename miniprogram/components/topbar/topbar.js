@@ -23,6 +23,11 @@ Component({
       var chosen = e.detail
       this.triggerEvent("methodchange",chosen)
     },
+    toMsgList() {
+      wx.navigateTo({
+        url: '../../pages/messageList/messageList',
+      })
+    }
   },
 
 })
