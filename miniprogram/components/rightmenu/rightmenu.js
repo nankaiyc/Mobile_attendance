@@ -69,7 +69,6 @@ Component({
         this.triggerEvent("methodchange",chosen)
         console.log("全部标记为已读")
       }
-
     },
 
   }
