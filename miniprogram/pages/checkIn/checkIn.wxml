@@ -1,15 +1,14 @@
 <!--pages/checkIn/checkIn.wxml-->
 
 <topbar curIndex='0' content='{{content}}' bindmethodchange="handlemethodchange"/>
-<view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+<view class="container" bindtouchstart="touchStartALL" bindtouchmove="touchMoveALL" bindtouchend="touchEndALL">
 
   <view class="Attendance_method">
   {{interface1? Attendance_method : record }}
   </view>
 
   <view wx:if="{{interface1==true}}" class="UserInfo">
-    <image wx:if="{{imgUrl!=null}}" src="../../resource/default_user_icon.png" mode="heightFix" class="head" bindtap="setPhotoInfo"/>
-    <image wx:else src="{{imgUrl}}" mode="heightFix" class="head" bindtap="setPhotoInfo"/>
+    <image src="{{imgurl}}" mode="scaleToFill" class="head" bindtap="setPhotoInfo"/>
     <view class="info">
       <view class="name">{{name}}</view>
       <view class="apartment">{{apartment}}</view>
@@ -18,7 +17,8 @@
    
   <view wx:if="{{interface1==true}}" class="current_time">{{currentDate}}</view>
 
-  <image wx:if="{{interface1==true}}" src="../../resource/checkin_button1.png" mode="heightFix" class="checkin_button"/>
+  <image wx:if="{{interface1==true}}" src="{{checkin_button}}" mode="heightFix" class="checkin_button"
+  bindtouchstart="touchStartButton" bindtouchmove="touchMoveButton" bindtouchend="touchEndButton"/>
 
 </view>
 

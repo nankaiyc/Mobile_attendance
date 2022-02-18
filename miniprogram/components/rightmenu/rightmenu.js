@@ -42,35 +42,43 @@ Component({
     button_choose(e) {
       // console.log(e.currentTarget.dataset.index)
       var chosen = e.currentTarget.dataset.index
-      if(chosen == 0){
+      if(chosen == "WiFi考勤"){
         this.setData({
           chosen_GPS: false,
           chosen_WiFi:true,
         })
         this.triggerEvent("methodchange",chosen)
       }
-      else if(chosen == 1){
+      else if(chosen == "GPS考勤"){
         this.setData({
           chosen_GPS: true,
           chosen_WiFi:false,
         })
         this.triggerEvent("methodchange",chosen)
       }
-      else if(chosen == 2){
-        wx.navigateTo({
-          url: '../../pages/attendanceAddress/attendanceAddress',
-        })
+      else if(chosen == "可考勤地点"){
+        this.triggerEvent("methodchange",chosen)
       }
-      else{
-        console.log("考勤提醒闹钟")
+      else if(chosen == "考勤提醒闹钟"){
+        this.triggerEvent("methodchange",chosen)
       }
-    },
 
+<<<<<<< Updated upstream
     button_choose2(){
       wx.navigateTo({
         url: '../../pages/attendancePersonSet/attendancePersonSet',
       })
+=======
+      else if(chosen == "设置监管范围"){
+        this.triggerEvent("methodchange",chosen)
+      }
+      else if(chosen == "全部标记为已读"){
+        this.triggerEvent("methodchange",chosen)
+        console.log("全部标记为已读")
+      }
+>>>>>>> Stashed changes
     },
+
   }
 
 })

@@ -1,5 +1,5 @@
 <!--pages/superVise/superVise.wxml-->
-<topbar curIndex='1' content='{{content}}'/>
+<topbar curIndex='1' content='{{content}}' bindmethodchange="handlemethodchange"/>
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
   <view wx:if="{{tabs[0].isActive}}">
     <view class="content1-1">2022-02-09 周三</view>
