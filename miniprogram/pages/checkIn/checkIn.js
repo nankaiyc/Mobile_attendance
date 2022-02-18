@@ -176,11 +176,11 @@ Page({
 
   touchEndButton(e){
     if(this.data.checkin_button == "../../resource/checkin_button1.png"){
-      console.log("不进入界面")
+      this.checkin_Failure();
       this.button_unselected();
     }
     else{
-      console.log("进入界面")
+      this.checkin_Success();
       this.button_unselected();
     }
     moveFlag = true; // 回复滑动事件
@@ -192,12 +192,22 @@ Page({
       checkin_button: "../../resource/checkin_button1.png"
     });
   },
-
   button_selected(){
     var that = this;
     that.setData({
       checkin_button: "../../resource/checkin_button2.png"
     });
+  },
+
+  checkin_Success(){
+    wx.navigateTo({
+      url: '../../pages/checkInResult/checkInResult?status=success',
+    })
+  },
+  checkin_Failure(){
+    wx.navigateTo({
+      url: '../../pages/checkInResult/checkInResult?status=failure',
+    })
   },
 
   onLoad: function () {
