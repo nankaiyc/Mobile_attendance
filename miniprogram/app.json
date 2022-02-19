@@ -15,6 +15,7 @@
     "pages/attendanceOA/attendanceOA",
     "pages/about/about",
     "pages/messageList/messageList",
+    "pages/camera/camera",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
