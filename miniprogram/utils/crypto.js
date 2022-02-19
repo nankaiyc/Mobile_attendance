@@ -1,6 +1,7 @@
 
 const CryptoJS = require('crypto-js')
 
+CryptoJS.algo.AES.keySize = 32
 function AesDecrypt(word, keyIn) {
   let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
   let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
@@ -14,6 +15,7 @@ function AesDecrypt(word, keyIn) {
 }
 
 function AesEncrypt(word, keyIn) {
+  console.log(CryptoJS.algo.AES)
   let srcs = CryptoJS.enc.Utf8.parse(word);
   const key = CryptoJS.enc.Utf8.parse(keyIn)
   let encrypted = CryptoJS.AES.encrypt(srcs, key, {
@@ -37,7 +39,7 @@ function Base64Decode(val) {
 
 function Md5(val) {
   let words = CryptoJS.enc.Base64.parse(val);
-  return CryptoJS.MD5('adwadw2').toString()
+  return CryptoJS.MD5(val).toString()
 }
 
 module.exports = {

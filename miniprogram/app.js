@@ -1,5 +1,6 @@
 //app.js
 const CryptoJS = require('./utils/crypto.js')
+const MD5 = require('./utils/md5.js')
 App({
   onLaunch: function () {
     this.globalData = {}
@@ -27,7 +28,7 @@ App({
     msg = JSON.stringify(msg)
     console.log('msg', msg)
     let key = 'FE7A45426AFF5D14E52897E134F5CC33'
-    console.log('key', key)
+    console.log('key', key, key.length)
     const aes_msg = CryptoJS.AesEncrypt(msg, key)
     console.log('aes 加密', aes_msg)
     const base64_aes_msg = CryptoJS.Base64Encode(aes_msg)
@@ -43,5 +44,6 @@ App({
     console.log('aes 解密', msg_d)
 
     console.log(CryptoJS.Md5(key))
+    console.log(MD5.hexMD5(key))
   }
 })
