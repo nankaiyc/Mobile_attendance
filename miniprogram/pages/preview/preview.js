@@ -1,53 +1,37 @@
-// pages/camera/camera.js
+// pages/preview/preview.js
 const app = getApp()
+const util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    isfront:true,
-    frontsrc:"",
-    backsrc:""
+    screenHeight: 0,
+    screenWidth: 0,
+    personName: '王文鹏',
+    locationName: '仁里集镇',
+    dateTime: '',
+    backgroundImg: '../../resource/background_image.png',
+    personImg: '../../resource/person_image.jpeg'
   },
 
-  takePhoto() {
-    this.ctx.takePhoto({
-      quality: 'high',
-      success: (res) => {
-        if(this.data.isfront){
-          this.setData({
-            frontsrc: res.tempImagePath,
-            isfront:!this.data.isfront
-          })
-          // console.log(this.data.isfront)
-          // console.log(this.data.frontsrc)
-        }
-        else{
-          this.setData({
-            backsrc: res.tempImagePath,
-          })
-          wx.navigateTo({
-            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc
-          })     
-        }
-      }
-    })
-
-  },
-  error(e) {
-    console.log(e.detail)
+  bindInputChange(e) {
+    const nameInput = e.detail.value.trim()
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.ctx = wx.createCameraContext();
+    var TIME = util.formatDateLine(new Date()) + util.formatTime(new Date());
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      firstPage: app.globalData.firstPage
+      dateTime: TIME,
+      personImg:options.frontsrc,
+      backgroundImg:options.backsrc,
     })
+
   },
 
   /**
