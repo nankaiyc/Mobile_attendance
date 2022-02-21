@@ -1,1 +1,21 @@
 /* pages/camera/camera.wxss */
+.preview-tips {
+  margin: 20rpx 0;  
+}
+.line{
+  border-bottom: 1px solid gainsboro;
+  width:80%;
+  height:2rpx;
+  background:white;
+  
+  }
+.btn-area{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.take_photo{
+  margin-top: 10rpx;
+  height: 100rpx;
+}

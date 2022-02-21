@@ -1,2 +1,13 @@
 <!--pages/camera/camera.wxml-->
 <topbar curIndex='15'/>
+<view class="page-body">
+  <view class="page-body-wrapper">
+    <!-- <view class="line"></view> -->
+    <camera device-position="{{isfront?'front':'back'}}" flash="off" binderror="error" style="width: 100%; height: 580px;"></camera>
+    <view class="btn-area">
+      <image src="{{'../../resource/take_photo.png'}}" mode="heightFix" class="take_photo" bindtap="takePhoto"/>
+    </view>
+    <!-- <view class="preview-tips">预览</view>
+    <image wx:if="{{src}}" mode="widthFix" src="{{src}}"></image> -->
+  </view>
+</view>

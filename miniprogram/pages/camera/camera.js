@@ -5,14 +5,43 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    isfront:true,
+    frontsrc:"",
+    backsrc:""
   },
 
+  takePhoto() {
+    this.ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        if(this.data.isfront){
+          this.setData({
+            frontsrc: res.tempImagePath,
+            isfront:!this.data.isfront
+          })
+          console.log(this.data.isfront)
+          console.log(this.data.frontsrc)
+        }
+        else{
+          this.setData({
+            backsrc: res.tempImagePath,
+            isfront:!this.data.isfront
+          })
+          console.log(this.data.isfront)
+          console.log(this.data.backsrc)
+        }
+      }
+    })
+
+  },
+  error(e) {
+    console.log(e.detail)
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.ctx = wx.createCameraContext()
   },
 
   /**
