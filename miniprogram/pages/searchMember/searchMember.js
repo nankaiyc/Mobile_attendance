@@ -1,18 +1,51 @@
 // pages/searchMember/searchMember.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    screenHeight: 0,
+    screenWidth: 0,
+    itemArray: [
+      {
+        'name': '张三' 
+      },
+      {
+        'name': '李三'
+      }
+    ],
+    showItems: []
+  },
 
+  bindInputChange(e) {
+    const nameInput = e.detail.value.trim()
+    let newShowItems = []
+    if (nameInput != '') {
+      for (var index in this.data.itemArray) {
+        if (this.data.itemArray[index].name.search(nameInput) > -1) {
+          newShowItems.push(index)
+        }
+      }
+    }
+    this.setData({
+      showItems: newShowItems
+    })
+  },
+
+  itemTapped(e) {
+    const index = e.currentTarget.dataset.index
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth
+    })
   },
 
   /**

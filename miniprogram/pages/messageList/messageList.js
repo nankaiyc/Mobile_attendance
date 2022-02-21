@@ -1,11 +1,16 @@
-// pages/attendanceAddressSet/attendanceAddressSet.js
+// pages/messageList/messageList.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    content: [
+      {
+        index : 0,
+        name : "全部标记为已读" 
+      }
+    ],
   },
 
   /**

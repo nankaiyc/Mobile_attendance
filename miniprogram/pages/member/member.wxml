@@ -1,3 +1,3 @@
 <!--pages/member/member.wxml-->
-<topbar curIndex='2' content='{{content}}'/>
-<text>pages/member/member.wxml</text>
+<topbar curIndex='2'/>
+<memberInfo isModifiable='0'/>

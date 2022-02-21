@@ -1,3 +1,0 @@
-<!--pages/attendanceAddressSet/attendanceAddressSet.wxml-->
-<topbar curIndex='9' content='{{content}}'/>
-<text>pages/attendanceAddressSet/attendanceAddressSet.wxml</text>

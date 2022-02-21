@@ -1,4 +1,5 @@
 <!--pages/checkInResult/checkInResult.wxml-->
+<topbar curIndex='14'/>
 <view class="container">
   <view class="Attendance" bindtap="changeResult">考勤打卡</view>
 

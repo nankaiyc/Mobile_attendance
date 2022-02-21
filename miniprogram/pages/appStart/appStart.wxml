@@ -1,0 +1,9 @@
+<!--pages/appStart/appStart.wxml-->
+<view class="content" style="height: {{screenHeight}}px;">
+  <image src="../../resource/startup_background.png" mode="scaleToFill" class="background_image"/>
+  <view class="inside">
+    <image src="../../resource/startup_logo.png" mode="heightFix" class="logo"/>
+    <image src="../../resource/startup_title.png" mode="heightFix" class="title"/>
+    <image src="../../resource/startup_cloud.png" mode="widthFix" class="cloud" style="width: {{screenWidth}}px;"/>
+  </view>
+</view>

@@ -1,5 +1,5 @@
 <!--pages/searchCheck/searchCheck.wxml-->
-<topbar curIndex='6'  content='{{content}}'/>
+<topbar curIndex='6'/>
 <form class="form" bindsubmit="submit">
   <view class="name">
     <view class="name-name">姓名：</view>

@@ -1,4 +1,5 @@
 // pages/setting/setting.js
+const app = getApp()
 Page({
 
   /**
@@ -20,12 +21,21 @@ Page({
     this.setData({
       indexValue: e.detail.value
     })
+    wx.setStorageSync('firstPageIndex', this.data.indexValue)
+  },
+
+  toAbout() {
+    wx.navigateTo({
+      url: '../about/about',
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      indexValue: app.globalData.firstPage
+    })
   },
 
   /**

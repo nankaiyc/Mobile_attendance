@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/appStart/appStart",
     "pages/checkIn/checkIn",
     "pages/checkInResult/checkInResult",
     "pages/superVise/superVise",
@@ -10,13 +11,17 @@
     "pages/searchMember/searchMember",
     "pages/searchCheck/searchCheck",
     "pages/attendanceAddress/attendanceAddress",
-    "pages/attendanceAddressSet/attendanceAddressSet",
+    "pages/attendancePersonSet/attendancePersonSet",
     "pages/attendanceOA/attendanceOA",
+    "pages/about/about",
+    "pages/messageList/messageList",
+    "pages/camera/camera",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
     "components/searchicon/searchicon",
-    "components/Tabs/Tabs"
+    "components/Tabs/Tabs",
+    "components/memberInfo/memberInfo"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

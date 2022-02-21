@@ -1,0 +1,30 @@
+<!--components/memberInfo/memberInfo.wxml-->
+<view class="content">
+  <view class="navigation_area">
+  <view wx:for="{{navigationArray}}" wx:key="index" class="navigation_item">
+    <view wx:if="{{index != 0}}">-</view>
+    <view class="navigation_text" bindtap="navigationTapped" data-index="{{index}}">{{item==-1?'全部':itemArray[item].name}} </view>
+  </view>
+  </view>
+
+  <view class="selector_area" wx:if="{{isModifiable == '1'}}">
+    <view class="selector_text" bindtap="selectAll">全{{allSelected?'不':''}}选</view>
+    <view class="selector_text">已选择{{selectedNum}}人</view>
+  </view>
+
+  <view wx:for="{{curShowItems}}" wx:key="index">
+    <view class="item" bindtap="itemTapped" data-index="{{index}}">
+      <view class="first_left">
+        <image src="{{itemArray[item].selectStatus==0?'../../resource/selected_none.png':itemArray[item].selectStatus==1?'../../resource/selected_all.png':'../../resource/selected_disabled.png'}}" mode="widthFix" class="select_img" catchtap="selectorTapped" data-index="{{index}}" wx:if="{{isModifiable == '1'}}"/>
+        <image src="{{itemArray[item].type==0?'../../resource/default_user_icon.png':itemArray[item].type==1?'../../resource/member_depart.png':'../../resource/member_group.png'}}" mode="widthFix" class="item_img"/>
+        <view class="normal_text">{{itemArray[item].name}}</view>
+      </view>
+      <view class="second_right" wx:if="{{itemArray[item].type!=0}}">
+        <view class="number">
+          {{childrenNum[item]==0?'(空)':childrenNum[item] + '人'}}
+        </view>
+        <image src="../../resource/arrow_right.png" mode="heightFix" class="arrow"/>
+      </view>
+    </view>
+  </view>
+</view>

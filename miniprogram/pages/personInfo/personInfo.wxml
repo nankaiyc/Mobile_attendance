@@ -1,5 +1,5 @@
 <!--pages/personInfo/personInfo.wxml-->
-<topbar curIndex='11' content='{{content}}'/>
+<topbar curIndex='11'/>
 <view class="content">
   <view class="item">
     <view class="first_left">

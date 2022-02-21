@@ -1,1 +1,33 @@
 /* pages/searchMember/searchMember.wxss */
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.name_input {
+  border-bottom: 2px solid #4BBFE6;
+  margin-top: 20rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid gainsboro;
+  padding: 30rpx;
+  height: 40rpx;
+}
+
+.normal_text {
+  font-size: 35rpx;
+  font-weight: 500;
+}
+
+.item_img {
+  width: 70rpx;
+  margin: 20rpx;
+  margin-left: 50rpx;
+}
