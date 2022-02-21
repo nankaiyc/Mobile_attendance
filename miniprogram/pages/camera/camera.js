@@ -20,16 +20,16 @@ Page({
             frontsrc: res.tempImagePath,
             isfront:!this.data.isfront
           })
-          console.log(this.data.isfront)
-          console.log(this.data.frontsrc)
+          // console.log(this.data.isfront)
+          // console.log(this.data.frontsrc)
         }
         else{
           this.setData({
             backsrc: res.tempImagePath,
-            isfront:!this.data.isfront
           })
-          console.log(this.data.isfront)
-          console.log(this.data.backsrc)
+          wx.navigateTo({
+            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc
+          })     
         }
       }
     })

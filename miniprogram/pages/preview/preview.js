@@ -27,7 +27,9 @@ Page({
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      dateTime: TIME
+      dateTime: TIME,
+      personImg:options.frontsrc,
+      backgroundImg:options.backsrc,
     })
 
   },
