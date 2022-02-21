@@ -1,28 +1,27 @@
 
 const CryptoJS = require('crypto-js')
 
-CryptoJS.algo.AES.keySize = 32
+// CryptoJS.algo.AES.keySize = 8
 function AesDecrypt(word, keyIn) {
-  let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
-  let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
+  // let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
+  // let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
   const key = CryptoJS.enc.Utf8.parse(keyIn)
-  let decrypt = CryptoJS.AES.decrypt(srcs, key, {
+  let decrypt = CryptoJS.AES.decrypt(word, key, {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7
   });
-  let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
-  return decryptedStr.toString();
+  return decrypt.toString(CryptoJS.enc.Utf8);
 }
 
 function AesEncrypt(word, keyIn) {
-  console.log(CryptoJS.algo.AES)
-  let srcs = CryptoJS.enc.Utf8.parse(word);
+  // let srcs = CryptoJS.enc.Utf8.parse(word);
   const key = CryptoJS.enc.Utf8.parse(keyIn)
-  let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+  console.log(key)
+  let encrypted = CryptoJS.AES.encrypt(word, key, {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7
   });
-  return encrypted.ciphertext.toString();
+  return encrypted.toString();
 }
 
 
