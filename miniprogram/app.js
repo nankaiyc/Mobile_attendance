@@ -21,14 +21,14 @@ App({
   crypto_example() {
     
     let msg = {
-      'CLID': '08E4049FF24E4DD8C0E345398ACFB9EE',
-      '_s': '08E4049FF24E4DD8C0E345398ACFB9EE1398902400',
+      // 'CLID': '08E4049FF24E4DD8C0E345398ACFB9EE',
+      // '_s': '08E4049FF24E4DD8C0E345398ACFB9EE1398902400',
       'OS': 'iOS'
     }
     msg = JSON.stringify(msg)
     console.log('msg', msg)
-    let key = 'FE7A45426AFF5D14E52897E134F5CC33'
-    console.log('key', key, key.length)
+    let key = 'E7A45426AFF5D14E52897E134F5CC33'
+    // console.log('key', key, key.length)
     const aes_msg = CryptoJS.AesEncrypt(msg, key)
     console.log('aes 加密', aes_msg)
     const base64_aes_msg = CryptoJS.Base64Encode(aes_msg)
@@ -43,7 +43,7 @@ App({
     const msg_d = CryptoJS.AesDecrypt(aes_msg_d, key)
     console.log('aes 解密', msg_d)
 
-    console.log(CryptoJS.Md5(key))
-    console.log(MD5.hexMD5(key))
+    // console.log(CryptoJS.Md5(key))
+    // console.log(MD5.hexMD5(key))
   }
 })
