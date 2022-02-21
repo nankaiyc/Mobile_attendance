@@ -1,4 +1,5 @@
 // pages/camera/camera.js
+const app = getApp()
 Page({
 
   /**
@@ -41,7 +42,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.ctx = wx.createCameraContext()
+    this.ctx = wx.createCameraContext();
+    this.setData({
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth,
+      firstPage: app.globalData.firstPage
+    })
   },
 
   /**

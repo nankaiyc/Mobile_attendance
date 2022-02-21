@@ -2,13 +2,26 @@
 .preview-tips {
   margin: 20rpx 0;  
 }
-.line{
-  border-bottom: 1px solid gainsboro;
-  width:80%;
-  height:2rpx;
-  background:white;
-  
+.camera{
+  position: fixed;
+  z-index: -1;
+}
+.border{
+  display: flex;
+  flex-direction: column-reverse;
+  border: 1px solid gainsboro;
+  width:70%;
+  margin-left: 15%;
+  height: 60%;
+  margin-top: 30%;
   }
+.text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gainsboro;
+}
+
 .btn-area{
   display: flex;
   flex-direction: row;
@@ -16,6 +29,7 @@
   justify-content: center;
 }
 .take_photo{
-  margin-top: 10rpx;
-  height: 100rpx;
+  position: fixed;
+  bottom: 0;
+  height: 120rpx;
 }
