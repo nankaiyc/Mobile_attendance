@@ -180,7 +180,7 @@ Page({
       this.button_unselected();
     }
     else{
-      this.checkin_Success();
+      this.take_photo();
       this.button_unselected();
     }
     moveFlag = true; // 回复滑动事件
@@ -197,6 +197,12 @@ Page({
     that.setData({
       checkin_button: "../../resource/checkin_button2.png"
     });
+  },
+
+  take_photo(){
+    wx.navigateTo({
+      url: '../../pages/camera/camera',
+    })
   },
 
   checkin_Success(){
