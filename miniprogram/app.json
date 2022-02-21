@@ -16,6 +16,7 @@
     "pages/about/about",
     "pages/messageList/messageList",
     "pages/camera/camera",
+    "pages/preview/preview",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",

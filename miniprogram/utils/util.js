@@ -12,6 +12,12 @@ const formatDate = date => {
   const day = date.getDate()
   return year + "年" + month + "月" + day + "日"
 }
+const formatDateLine = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return year + "-" + month + "-" + day
+}
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : `0${n}`
@@ -19,5 +25,6 @@ const formatNumber = n => {
 
 module.exports = {
   formatTime,
-  formatDate
+  formatDate,
+  formatDateLine
 }
