@@ -1,0 +1,35 @@
+<!--pages/preview/preview.wxml-->
+<topbar curIndex='17'/>
+<view class="content">
+  <view class="images">
+    <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.5}}px;"/>
+    <view class="person_img_box" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.125}}px;">
+      <image src="{{personImg}}" mode="scaleToFill" class="person_img"/>
+    </view>
+  </view>
+
+  <view class="under" style="margin-top: {{screenHeight * 0.375}}px;">
+    <view class="hint">{{personName + ' ' + dateTime + ' ' + locationName}}</view>
+    <view class="ps">
+      <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
+      <view class="ps_input_box" style="width: {{screenWidth * 0.85}}px;">
+        <input placeholder="备注内容" bindinput="bindInputChange"/>
+      </view>
+    </view>
+  </view>
+  
+  <view class="bottom" style="width: {{screenWidth}}px;">
+    <view class="item">
+      <image src="../../resource/ic_action_undo.png" mode="widthFix" class="item_img"/>
+      <view class="item_text">重拍</view>
+    </view>
+    <view class="item">
+      <image src="../../resource/ic_action_share.png" mode="widthFix" class="item_img"/>
+      <view class="item_text">分享</view>
+    </view>
+    <view class="item">
+      <image src="../../resource/ic_action_accept.png" mode="widthFix" class="item_img"/>
+      <view class="item_text">完成</view>
+    </view>
+  </view>
+</view>
