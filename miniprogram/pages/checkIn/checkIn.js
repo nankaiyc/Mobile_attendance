@@ -222,7 +222,6 @@ Page({
     this.setData({
       imgurl: photo ? photo : "../../resource/default_user_icon.png"
     })
-    console.log(app.globalData)
   },
     
 })
