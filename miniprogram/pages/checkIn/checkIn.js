@@ -222,9 +222,7 @@ Page({
     this.setData({
       imgurl: photo ? photo : "../../resource/default_user_icon.png"
     })
-    var utilMd5 = require('../../utils/md5.js');  
-    // var gg = utilMd5.hexMD5(this.data.Attendance_method); 
-    // console.log(gg)
+    console.log(app.globalData)
   },
     
 })
