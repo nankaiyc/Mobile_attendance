@@ -11,7 +11,8 @@ Page({
     phone:18390217712,
   },
   launchPhoneCall(e){
-    var tel = e.currentTarget.dataset.tel;
+    var tel = e.currentTarget.dataset.tel.toString();
+    console.log(typeof(tel))
     wx.makePhoneCall({
       phoneNumber: tel,
       success: function () {
