@@ -1,6 +1,6 @@
 //app.js
 const CryptoJS = require('./utils/crypto.js')
-const MD5 = require('./utils/md5.js')
+const Util = require('./utils/util')
 App({
   onLaunch: function () {
     this.globalData = {}
@@ -15,9 +15,10 @@ App({
         that.globalData.OSVersion = res.version
         that.globalData.MANU = res.brand
         that.globalData.MODEL = res.model
-    }})
+      }
+    })
     let index = wx.getStorageSync('firstPageIndex');
-    this.globalData.firstPage = index?index:0;
+    this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
     var clid = wx.getStorageSync('unionId')
@@ -26,11 +27,16 @@ App({
     } else {
       this.globalData.clid = clid
     }
-    
+
+    // let dateTime = Util.formatDateLine(new Date()) + Util.formatTime(new Date())
+    // const mac = '00:00:00:00:00:00'
+    // const pid = '6Z0XY7CB0435O'
+    // const item = dateTime + '\t' + mac + '\t' + pid
+    // this.postRecord(1, item)
   },
 
-  login () {
-    let that = this;
+  login() {
+    const that = this;
     wx.login({
       timeout: 3000,
       success: (e) => {
@@ -53,7 +59,43 @@ App({
     })
   },
 
+  getInfo() {
+    const that = this
+    var clid = this.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'OS': this.globalData.system,
+      'OSVersion': this.globalData.version,
+      'MANU': this.globalData.brand,
+      'MODEL': this.globalData.model
+    }
+
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.request({
+      url: that.globalData.baseUrl,
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        'CMD': 'GETINFO',
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get info')
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+      }
+    })
+  },
+
   register() {
+    const that = this
     var clid = this.globalData.clid
 
     var timestamp = Date.parse(new Date());
@@ -61,7 +103,7 @@ App({
     var code = 'zkcw3i'
 
     var _p = {
-      '_s': clid  + timestamp,
+      '_s': clid + timestamp,
       'CLID': clid,
       'CODE': code,
       'OS': this.globalData.system,
@@ -70,11 +112,10 @@ App({
       'MODEL': this.globalData.model,
       'APPID': 'RY00000002'
     }
-    
+
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
 
-    const that = this
     wx.request({
       url: that.globalData.baseUrl,
       method: 'GET',
@@ -83,6 +124,40 @@ App({
         'CMD': 'CLAK',
         '_p': _p_base64,
         '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success')
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+      }
+    })
+  },
+
+  postRecord(Count, items) {
+    const that = this
+    var clid = this.globalData.clid
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'COUNT': Count,
+      'DATATYPE': 'Att',
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.request({
+      url: that.globalData.baseUrl, // + '?CLID=' + clid + '&CMD=CDATA&_p=' + _p_base64 + '&_en=app2'
+      method: 'POST',
+      data: {
+        'CLID': clid,
+        'CMD': 'CDATA',
+        '_p': _p_base64,
+        '_en': 'app2',
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
       },
       success: (e) => {
         console.log('success')
