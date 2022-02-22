@@ -15,9 +15,79 @@ App({
     let index = wx.getStorageSync('firstPageIndex');
     this.globalData.firstPage = index?index:0;
 
+    // this.register()
+    // this.login()
     // this.crypto_example()
   },
 
+  register() {
+    var clid = wx.getStorageSync('unionId')
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+    var code = 'zkcw3i'
+    wx.getSystemInfo({
+      success (res) {
+        var _p = {
+          '_s': clid  + timestamp,
+          'CLID': clid,
+          'CODE': code,
+          'OS': res.system,
+          'OSVersion': res.version,
+          'MANU': res.brand,
+          'MODEL': res.model,
+          'APPID': 'RY00000002'
+        }
+        
+        _p = JSON.stringify(_p)
+        var _p_base64 = CryptoJS.Base64Encode(_p)
+
+        wx.request({
+          url: 'https://www.kaoqintong.net/api2/app/api',
+          method: 'GET',
+          data: {
+            'CLID': clid,
+            'CMD': 'CLAK',
+            '_p': _p_base64
+          },
+          success: (e) => {
+            console.log('success')
+            console.log(e)
+          },
+          fail: (e) => {
+            console.log('fail')
+            console.log(e)
+          }
+        })
+      }
+    })
+  },
+
+  login () {
+    wx.login({
+      timeout: 3000,
+      success: (e) => {
+        console.log(e)
+        wx.request({
+          url: 'https://www.kaoqintong.net/api2/wx/user/login',
+          data: {
+            'code': e.code
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+          success: (e) => {
+            wx.setStorageSync('unionId', e.data[0])
+            wx.setStorageSync('sessionKey', e.data[1])
+            
+          },
+          fail: (e) => {
+            console.log('fail' + e)
+          }
+        })
+      }
+    })
+  },
   crypto_example() {
     
     let msg = {
