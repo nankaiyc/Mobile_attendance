@@ -21,6 +21,9 @@ Page({
       screenWidth: app.globalData.screenWidth,
       firstPage: app.globalData.firstPage
     })
+    wx.showLoading({
+      title: '数据同步中···',
+    })
     var interval = setInterval(() => {
       if (app.globalData.clid) {
         app.getInfo()
