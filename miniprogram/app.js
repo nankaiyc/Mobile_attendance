@@ -96,7 +96,7 @@ App({
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.GPSplace = res.GPS
-          // console.log(GPSplace)
+  //         console.log(res.GPS)
           // console.log(res.GPS[1].name)
         }
       })

@@ -38,6 +38,9 @@ Page({
     currentDate: "",
     imgurl:"",
     checkin_button:"../../resource/checkin_button1.png",
+    GPSplace:[],
+    locallatitude:0,
+    locallongitude:0,
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -200,9 +203,27 @@ Page({
   },
 
   take_photo(){
-    wx.navigateTo({
-      url: '../../pages/camera/camera',
-    })
+    var that = this;
+    var CheckinPalces = that.data.GPSplace
+    var flag = 1
+    for (var i in CheckinPalces) {      
+      if(flag == 1){
+        const checkin_latitude = CheckinPalces[i].location.lat
+        const checkin_longitude = CheckinPalces[i].location.lng
+        const radius = CheckinPalces[i].radius / 1000
+        const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
+        console.log(radius)
+        if(dis <= radius*30){
+          flag = 0
+          wx.navigateTo({
+            url: '../../pages/camera/camera',
+          })
+        }        
+      }      
+    }
+    if(flag == 1){
+      this.checkin_Failure()
+    }
   },
 
   checkin_Success(){
@@ -216,14 +237,36 @@ Page({
     })
   },
 
+
   onLoad: function () {
+    var that = this;
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
-    
-    this.setData({
+    wx.getLocation({
+      type: 'wgs84',
+      isHighAccuracy:true,
+      highAccuracyExpireTime:6000,
+      success (res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const accuracy = res.accuracy
+        // wx.openLocation({
+        //   latitude: res.latitude,
+        //   longitude: res.longitude,
+        //   scale: 28
+        // })
+        // console.log(latitude, longitude,accuracy)
+        that.setData({
+          locallatitude:latitude,
+          locallongitude:longitude,      
+        })
+      }
+     })  
+    that.setData({
       imgurl: photo ? photo : "../../resource/default_user_icon.png",
       name: app.globalData.username,
       apartment:app.globalData.apartment,
+      GPSplace:app.globalData.GPSplace,  
     })
   },
     

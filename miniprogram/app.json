@@ -31,6 +31,11 @@
     "navigationBarTitleText": "移动考勤",
     "navigationBarTextStyle": "white"
   },
+  "permission":{
+    "scope.userLocation":{
+      "desc":"请点击确定"
+    }
+  },
   "sitemapLocation": "sitemap.json",
   "style": "v2"
 }
