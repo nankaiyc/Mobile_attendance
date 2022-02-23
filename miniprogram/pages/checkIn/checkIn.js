@@ -225,9 +225,6 @@ Page({
       name: app.globalData.username,
       apartment:app.globalData.apartment,
     })
-    var utilMd5 = require('../../utils/md5.js');  
-    // var gg = utilMd5.hexMD5(this.data.Attendance_method); 
-    // console.log(gg)
   },
     
 })
