@@ -1,4 +1,5 @@
 // pages/attendanceAddress/attendanceAddress.js
+const app = getApp();
 Page({
 
   /**
@@ -16,7 +17,8 @@ Page({
         name:"GPS",
         isActive:true
       },
-    ]
+    ],
+    GPSplace:[]
   },
 
   handleItemChange(e){
@@ -26,5 +28,11 @@ Page({
     this.setData({
       tabs
     })
-  }
+  },
+
+  onLoad: function () {
+    this.setData({
+      GPSplace: app.globalData.GPSplace,
+    })
+  },
 })

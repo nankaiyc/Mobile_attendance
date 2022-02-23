@@ -32,8 +32,8 @@ Page({
     Attendance_method:"GPS考勤",
     record:"历史记录",
     interface1:true,
-    name:"寅畅",
-    apartment:"平台演示1",
+    name:"",
+    apartment:"",
     timer: null,
     currentDate: "",
     imgurl:"",
@@ -217,10 +217,13 @@ Page({
   },
 
   onLoad: function () {
-    this.setCurrentDate()
+    this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
+    
     this.setData({
-      imgurl: photo ? photo : "../../resource/default_user_icon.png"
+      imgurl: photo ? photo : "../../resource/default_user_icon.png",
+      name: app.globalData.username,
+      apartment:app.globalData.apartment,
     })
   },
     

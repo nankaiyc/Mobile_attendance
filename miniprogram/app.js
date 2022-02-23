@@ -21,13 +21,14 @@ App({
     this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
+    // this.crypto_example()
+
     var clid = wx.getStorageSync('unionId')
     if (!clid) {
       this.login()
     } else {
       this.globalData.clid = clid
     }
-
   },
 
   login() {
@@ -54,40 +55,46 @@ App({
     })
   },
 
-  getInfo() {
-    const that = this
-    var clid = this.globalData.clid
 
-    var timestamp = Date.parse(new Date());
-    timestamp = timestamp / 1000;
-
-    var _p = {
-      '_s': clid + timestamp,
-      'OS': this.globalData.system,
-      'OSVersion': this.globalData.version,
-      'MANU': this.globalData.brand,
-      'MODEL': this.globalData.model
-    }
-
-    _p = JSON.stringify(_p)
-    var _p_base64 = CryptoJS.Base64Encode(_p)
-
-    wx.request({
-      url: that.globalData.baseUrl,
-      method: 'GET',
-      data: {
-        'CLID': clid,
-        'CMD': 'GETINFO',
-        '_p': _p_base64,
-        '_en': 'app2'
-      },
-      success: (e) => {
-        console.log('success get info')
-        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
-      }
-    })
-  },
+  getInfo() {
+      const that = this
+      var clid = this.globalData.clid
+  
+      var timestamp = Date.parse(new Date());
+      timestamp = timestamp / 1000;
+  
+      var _p = {
+        '_s': clid + timestamp,
+        'OS': this.globalData.system,
+        'OSVersion': this.globalData.version,
+        'MANU': this.globalData.brand,
+        'MODEL': this.globalData.model
+      }
+  
+      _p = JSON.stringify(_p)
+      var _p_base64 = CryptoJS.Base64Encode(_p)
+  
+      wx.request({
+        url: that.globalData.baseUrl,
+        method: 'GET',
+        data: {
+          'CLID': clid,
+          'CMD': 'GETINFO',
+          '_p': _p_base64,
+          '_en': 'app2'
+        },
+      success: (e) => {
+          console.log('success get info')
+          var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+          that.globalData.username = res.STAFFINFO.Name
+          that.globalData.apartment = res.STAFFINFO.Company
+          that.globalData.GPSplace = res.GPS
+          // console.log(GPSplace)
+          // console.log(res.GPS[1].name)
+        }
+      })
+    },
+    
 
   register() {
     const that = this
@@ -127,7 +134,7 @@ App({
       }
     })
   },
-
+  
   postRecord(Count, items, fileF, fileB) {
     const that = this
     var clid = this.globalData.clid
