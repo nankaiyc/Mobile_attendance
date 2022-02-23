@@ -17,6 +17,12 @@ Page({
       isSuccess:!this.data.isSuccess
     })
   },
+  
+  onSuccess () {
+    wx.redirectTo({
+      url: '../checkIn/checkIn',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -25,7 +31,7 @@ Page({
     var TIME = util.formatTime(new Date());
     var PLACE = this.data.place
     this.setData({
-      message : "您与" + DATE + TIME + "在" + PLACE + "打卡成功。",
+      message : "您于" + DATE + TIME + "在" + PLACE + "打卡成功。",
       isSuccess:options.status == "success"?true:false
     })
     // console.log(this.data.message)

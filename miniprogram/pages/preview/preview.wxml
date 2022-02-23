@@ -18,7 +18,7 @@
     </view>
   </view>
   
-  <view class="bottom" style="width: {{screenWidth}}px;">
+  <view class="bottom" style="width: {{screenWidth}}px;" bindtap="redo">
     <view class="item">
       <image src="../../resource/ic_action_undo.png" mode="widthFix" class="item_img"/>
       <view class="item_text">重拍</view>
@@ -27,7 +27,7 @@
       <image src="../../resource/ic_action_share.png" mode="widthFix" class="item_img"/>
       <view class="item_text">分享</view>
     </view>
-    <view class="item">
+    <view class="item" bindtap="complete">
       <image src="../../resource/ic_action_accept.png" mode="widthFix" class="item_img"/>
       <view class="item_text">完成</view>
     </view>
