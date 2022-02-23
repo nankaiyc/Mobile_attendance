@@ -28,11 +28,6 @@ App({
       this.globalData.clid = clid
     }
 
-    // let dateTime = Util.formatDateLine(new Date()) + Util.formatTime(new Date())
-    // const mac = '00:00:00:00:00:00'
-    // const pid = '6Z0XY7CB0435O'
-    // const item = dateTime + '\t' + mac + '\t' + pid
-    // this.postRecord(1, item)
   },
 
   login() {
@@ -133,7 +128,7 @@ App({
     })
   },
 
-  postRecord(Count, items) {
+  postRecord(Count, items, fileF, fileB) {
     const that = this
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
@@ -148,22 +143,46 @@ App({
     var _p_base64 = CryptoJS.Base64Encode(_p)
 
     wx.request({
-      url: that.globalData.baseUrl, // + '?CLID=' + clid + '&CMD=CDATA&_p=' + _p_base64 + '&_en=app2'
+      url: that.globalData.baseUrl + '?CLID=' + clid + '&CMD=CDATA&_p=' + _p_base64 + '&_en=app2',
       method: 'POST',
-      data: {
-        'CLID': clid,
-        'CMD': 'CDATA',
-        '_p': _p_base64,
-        '_en': 'app2',
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
+      data: CryptoJS.Base64Encode(items),
       success: (e) => {
         console.log('success')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
+        if (res.RESULT == 0) {
+          that.postPhoto(fileF)
+          that.postPhoto(fileB)
+          setTimeout(() => {
+            wx.navigateTo({
+              url: '../checkInResult/checkInResult?status=success',
+            })
+          }, 1000)
+        }
       }
     })
   },
+
+  postPhoto(filePath) {
+    console.log(filePath)
+    var clid = this.globalData.clid
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'COUNT': 1
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.uploadFile({
+      filePath: filePath,
+      name: 'photos',
+      url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
+      success: (e) => {
+        console.log(CryptoJS.Base64Decode(e.data))
+      }
+    })
+  }
 })

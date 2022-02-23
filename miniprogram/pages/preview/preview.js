@@ -19,6 +19,28 @@ Page({
   bindInputChange(e) {
     const nameInput = e.detail.value.trim()
   },
+
+  redo () {
+    wx.redirectTo({
+      url: '../checkIn/checkIn',
+    })
+  },
+
+  complete() {
+    const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+    const mac = '00:00:00:00:00:00'
+    const pid = '6Z0XY7CB0435O'
+    const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
+    let dateTimeP = dateTime.replace(/-/g, '')
+    dateTimeP = dateTimeP.replace(/:/g, '')
+    dateTimeP = dateTimeP.replace(/ /g, '')
+    const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
+    const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
+    const fs = wx.getFileSystemManager()
+    fs.renameSync(this.data.personImg, fileF)
+    fs.renameSync(this.data.backgroundImg, fileB)
+    app.postRecord(1, item, fileF, fileB)
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -46,7 +46,6 @@ Page({
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      firstPage: app.globalData.firstPage
     })
   },
 
@@ -75,7 +74,10 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    app.globalData.flagOfQuitCamera = true
+    wx.reLaunch({
+      url: '../transfer/transfer',
+    })
   },
 
   /**

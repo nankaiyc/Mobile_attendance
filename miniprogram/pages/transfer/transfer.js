@@ -1,4 +1,4 @@
-// pages/appStart/appStart.js
+// pages/transfer/transfer.js
 const app = getApp()
 Page({
 
@@ -6,9 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    screenHeight: 0,
-    screenWidth: 0,
-    firstPage: 0,
     indexPages: ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
   },
 
@@ -16,22 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      screenHeight: app.globalData.screenHeight,
-      screenWidth: app.globalData.screenWidth,
-      firstPage: app.globalData.firstPage
-    })
-    var interval = setInterval(() => {
-      if (app.globalData.clid) {
-        app.getInfo()
-        clearInterval(interval)
-        setTimeout(() => {
-          wx.redirectTo({
-            url: this.data.indexPages[this.data.firstPage],
-          })
-        }, 1000)
-      }
-    }, 500)
+
   },
 
   /**
@@ -45,7 +27,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (app.globalData.flagOfQuitCamera) {
+      app.globalData.flagOfQuitCamera = false
+      wx.navigateTo({
+        url: '../checkInResult/checkInResult?status=fail',
+      })
+    } else {
+      wx.redirectTo({
+        url: this.data.indexPages[app.globalData.firstPage],
+      })
+    }
   },
 
   /**
