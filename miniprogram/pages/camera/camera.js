@@ -44,7 +44,7 @@ Page({
   onLoad: function (options) {
     this.ctx = wx.createCameraContext();
     this.setData({
-      screenHeight: app.globalData.screenHeight,
+      screenHeight: screenHeight,
       screenWidth: app.globalData.screenWidth,
       firstPage: app.globalData.firstPage
     })

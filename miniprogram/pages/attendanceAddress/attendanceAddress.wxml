@@ -16,14 +16,14 @@
 </view>
 
 <view wx:if="{{tabs[1].isActive}}" class="content">
-  <view class="item">
-    <view class="first_left">
-      <view class="normal_text">鑫茂天财酒店</view>
+  <view class="item" wx:for="{{GPSplace}}" wx:key="index">
+    <view class="first_left" >
+      <view class="normal_text">{{item.name}}</view>
     </view>
   </view>
-  <view class="item">
+  <!-- <view class="item">
     <view class="first_left">
       <view class="normal_text">解放村</view>
     </view>
-  </view>
+  </view> -->
 </view>
