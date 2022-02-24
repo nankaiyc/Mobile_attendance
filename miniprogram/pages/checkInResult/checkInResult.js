@@ -1,6 +1,6 @@
 // pages/checkInResult/checkInResult.js
 var util = require('../../utils/util.js');
-
+const app =getApp()
 Page({
 
   /**
@@ -28,6 +28,20 @@ Page({
   onFail () {
     wx.redirectTo({
       url: '../checkIn/checkIn?directlyCheck=true',
+    })
+  },
+
+  nonPositioned () {
+    console.log(app.globalData.locallatitude, app.globalData.locallongitude)
+    wx.chooseLocation({
+      latitude: app.globalData.locallatitude,
+      longitude: app.globalData.locallongitude,
+      success: (e) => {
+        console.log(e.name, e.latitude, e.longitude)
+        wx.navigateTo({
+          url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude,
+        })
+      }
     })
   },
   /**

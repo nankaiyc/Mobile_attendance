@@ -167,7 +167,6 @@ App({
   },
 
   postPhoto(filePath) {
-    console.log(filePath)
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
