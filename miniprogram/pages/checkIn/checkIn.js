@@ -206,6 +206,8 @@ Page({
           locallatitude:latitude,
           locallongitude:longitude,      
         })
+        app.globalData.locallatitude = latitude
+        app.globalData.locallongitude = longitude
         wx.hideLoading({
           title: '正在获取位置···',
         })
@@ -260,7 +262,6 @@ Page({
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
     })
-    console.log(app.globalData)
     if (options.directlyCheck == 'true') {
       this.take_photo()
       // var interval = setInterval(() => {

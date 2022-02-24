@@ -10,7 +10,10 @@ Page({
     frontsrc:"",
     backsrc:"",
     positioned: '',
-    index: ''
+    index: '',
+    LocationName: '',
+    latitude: '',
+    longitude: ''
   },
 
   takePhoto() {
@@ -29,9 +32,15 @@ Page({
           this.setData({
             backsrc: res.tempImagePath,
           })
-          wx.navigateTo({
-            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&index=' + this.data.index
-          })     
+          if (this.data.positioned == 'true') {
+            wx.navigateTo({
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&index=' + this.data.index
+            })  
+          } else {
+            wx.navigateTo({
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
+            })  
+          }
         }
       }
     })
@@ -49,7 +58,10 @@ Page({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
       positioned: options.positioned,
-      index: options.index
+      index: options.index,
+      LocationName: options.LocationName,
+      latitude: options.latitude,
+      longitude: options.longitude
     })
   },
 

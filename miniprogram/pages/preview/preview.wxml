@@ -3,12 +3,19 @@
 <view class="content">
   <view class="images">
     <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.5}}px;"/>
-    <view class="person_img_box" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.125}}px;">
-      <image src="{{personImg}}" mode="scaleToFill" class="person_img"/>
+    <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.5}}px;">
+      <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.125}}px;">
+        <image src="{{personImg}}" mode="scaleToFill" class="person_img"/>
+      </view>
+      <view class="ps_overflow">{{psContent}}</view>
     </view>
   </view>
 
-  <view class="under" style="margin-top: {{screenHeight * 0.375}}px;">
+  <!-- <image src="{{backgroundImg}}" bindload="getImgB" hidden/>
+  <image src="{{personImg}}" bindload="getImgP" hidden/>
+  <canvas type="2d" id="canvas" style="width: {{300}}px; height: {{300}}px;"></canvas> -->
+
+  <view class="under">
     <view class="hint">{{personName + ' ' + dateTime + ' ' + locationName}}</view>
     <view class="ps">
       <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
