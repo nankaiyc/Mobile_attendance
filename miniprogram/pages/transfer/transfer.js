@@ -30,7 +30,7 @@ Page({
     if (app.globalData.flagOfQuitCamera) {
       app.globalData.flagOfQuitCamera = false
       wx.navigateTo({
-        url: '../checkInResult/checkInResult?status=fail',
+        url: '../checkInResult/checkInResult?status=fail&isQuit=true',
       })
     } else {
       wx.redirectTo({

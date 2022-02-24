@@ -9,11 +9,13 @@ Page({
   data: {
     screenHeight: 0,
     screenWidth: 0,
-    personName: '王文鹏',
-    locationName: '仁里集镇',
+    personName: 'User',
+    locationName: 'Location',
     dateTime: '',
     backgroundImg: '../../resource/background_image.png',
-    personImg: '../../resource/person_image.jpeg'
+    personImg: '../../resource/person_image.jpeg',
+    positioned: '',
+    index: ''
   },
 
   bindInputChange(e) {
@@ -22,14 +24,14 @@ Page({
 
   redo () {
     wx.redirectTo({
-      url: '../checkIn/checkIn',
+      url: '../checkIn/checkIn?directlyCheck=true',
     })
   },
 
   complete() {
     const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
     const mac = '00:00:00:00:00:00'
-    const pid = '6Z0XY7CB0435O'
+    const pid = app.globalData.GPSplace[this.data.index].pid
     const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
@@ -39,7 +41,7 @@ Page({
     const fs = wx.getFileSystemManager()
     fs.renameSync(this.data.personImg, fileF)
     fs.renameSync(this.data.backgroundImg, fileB)
-    app.postRecord(1, item, fileF, fileB)
+    app.postRecord(1, item, fileF, fileB, this.data.locationName)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -52,6 +54,10 @@ Page({
       dateTime: TIME,
       personImg:options.frontsrc,
       backgroundImg:options.backsrc,
+      personName: app.globalData.username,
+      positioned: options.positioned,
+      index: options.index,
+      locationName: app.globalData.GPSplace[parseInt(options.index)].name
     })
 
   },
@@ -60,7 +66,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**

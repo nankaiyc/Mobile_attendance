@@ -8,7 +8,9 @@ Page({
   data: {
     isfront:true,
     frontsrc:"",
-    backsrc:""
+    backsrc:"",
+    positioned: '',
+    index: ''
   },
 
   takePhoto() {
@@ -28,7 +30,7 @@ Page({
             backsrc: res.tempImagePath,
           })
           wx.navigateTo({
-            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc
+            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&index=' + this.data.index
           })     
         }
       }
@@ -46,6 +48,8 @@ Page({
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
+      positioned: options.positioned,
+      index: options.index
     })
   },
 

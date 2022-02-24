@@ -18,8 +18,8 @@
     </view>
   </view>
   
-  <view class="bottom" style="width: {{screenWidth}}px;" bindtap="redo">
-    <view class="item">
+  <view class="bottom" style="width: {{screenWidth}}px;">
+    <view class="item" bindtap="redo">
       <image src="../../resource/ic_action_undo.png" mode="widthFix" class="item_img"/>
       <view class="item_text">重拍</view>
     </view>
