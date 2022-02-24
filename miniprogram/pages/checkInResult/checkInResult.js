@@ -8,8 +8,9 @@ Page({
    */
   data: {
     isSuccess:true,
-    place:"解放村",
+    place:"PLACE",
     message:"",
+    isQuit: ''
   },
 
   changeResult(){
@@ -23,16 +24,23 @@ Page({
       url: '../checkIn/checkIn',
     })
   },
+
+  onFail () {
+    wx.redirectTo({
+      url: '../checkIn/checkIn?directlyCheck=true',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var DATE = util.formatDate(new Date());
     var TIME = util.formatTime(new Date());
-    var PLACE = this.data.place
+    var PLACE = options.locationName
     this.setData({
       message : "您于" + DATE + TIME + "在" + PLACE + "打卡成功。",
-      isSuccess:options.status == "success"?true:false
+      isSuccess:options.status == "success"?true:false,
+      isQuit: options.isQuit=='true'?true:false
     })
     // console.log(this.data.message)
     // console.log(DATE)

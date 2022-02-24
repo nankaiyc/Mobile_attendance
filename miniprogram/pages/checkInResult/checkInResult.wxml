@@ -14,8 +14,8 @@
   </view>
   <view wx:else>
     <image src="{{'../../resource/checkin_err_say.png'}}" mode="heightFix" class="err_say"/>
-    <button class="unfixed" style="width: 140px;height: 36px;" bindtap="onSuccess">非固定地点签到</button>
-    <button class="button retry" style="width: 90px;height: 36px;" bindtap="onSuccess">重试</button>
+    <button class="unfixed" style="width: 140px;height: 36px;" wx:if="{{!isQuit}}">非固定地点签到</button>
+    <button class="button retry" style="width: 90px;height: 36px;" bindtap="onFail">重试</button>
   </view>
 </view>
 

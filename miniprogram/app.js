@@ -21,8 +21,6 @@ App({
     this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
-    // this.crypto_example()
-
     var clid = wx.getStorageSync('unionId')
     if (!clid) {
       this.login()
@@ -89,8 +87,6 @@ App({
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.GPSplace = res.GPS
-  //         console.log(res.GPS)
-          // console.log(res.GPS[1].name)
         }
       })
     },
@@ -135,7 +131,7 @@ App({
     })
   },
   
-  postRecord(Count, items, fileF, fileB) {
+  postRecord(Count, items, fileF, fileB, locationName) {
     const that = this
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
@@ -162,7 +158,7 @@ App({
           that.postPhoto(fileB)
           setTimeout(() => {
             wx.navigateTo({
-              url: '../checkInResult/checkInResult?status=success',
+              url: '../checkInResult/checkInResult?status=success&locationName=' + locationName,
             })
           }, 1000)
         }
