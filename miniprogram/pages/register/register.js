@@ -19,20 +19,7 @@ Page({
   },
 
   Code_Vetify(){
-    var that = this
     app.register(this.data.Identify_Code)
-    var interval = setInterval(() => {
-      if (app.globalData.RegisterResult) {
-        that.setData({
-          IsSuccess: app.globalData.RegisterResult,
-        })
-        clearInterval(interval)
-      }
-    }, 500)
-    wx.navigateTo({
-      url: '../../pages/registerResult/registerResult?IsSuccess='+ this.data.IsSuccess
-    })    
-    
   },
 
   /**
