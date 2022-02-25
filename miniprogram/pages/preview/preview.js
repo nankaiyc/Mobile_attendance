@@ -19,14 +19,18 @@ Page({
     latitude: '',
     longitude: '',
     canvas: '',
-    psContent: ''
+    psContent: '',
+    imgBH: '',
+    imgBW: '',
+    imgPH: '',
+    imgPW: ''
   },
 
   bindInputChange(e) {
     this.setData({
       psContent: e.detail.value
     })
-    // this.drawText(e.detail.value)
+    this.drawText()
   },
 
   redo () {
@@ -45,8 +49,8 @@ Page({
     })
   },
 
-  completeUp() {
-    const finalImg = this.data.backgroundImg
+  completeUp(finalImg) {
+    // const finalImg = this.data.backgroundImg
     const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
     const mac = '00:00:00:00:00:00'
     let pid;
@@ -86,7 +90,9 @@ Page({
       const imgB = canvas.createImage()
       imgB.src = this.data.backgroundImg
       imgB.onload = function () {
-        ctx.drawImage(imgB, 0, 0, width, height * 0.5)
+        const realRto = that.data.imgBW / that.data.imgBH
+        const canRto = width / height
+        ctx.drawImage(imgB, 0, 0, width * 0.8, width * 0.8 * realRto * canRto)
         that.drawImgP(res)
       }
       
@@ -105,20 +111,25 @@ Page({
     imgP.onload = function () {
       const heightP = height * 0.25
       const widthP = width * 0.25
+      const realRto = that.data.imgPW / that.data.imgPH
+      const canRto = width / height
       // ctx.clearRect(0, 0, widthP+ 6, heightP + 6)
-      ctx.drawImage(imgP, 3, 3, widthP, heightP * 0.5)
+      ctx.drawImage(imgP, 3, 3, widthP * 0.8, widthP * 0.8 * realRto * canRto)
     }
   },
 
-  drawText(psContent) {
+  drawText() {
+    const psContent = this.data.psContent.split('').join(' ')
     const canvas = this.data.canvas
     const ctx = canvas.getContext('2d')
-    ctx.font = '20px sans-serif'
-    const fontpx = parseInt(ctx.font.substring(0, ctx.font.indexOf('px')))
+    const fontpx = 8
+    ctx.font = 'common-ligatures small-caps ' + fontpx + 'px sans-serif'
+    const realRtoB = this.data.imgBW / this.data.imgBH
+    const realRtoP = this.data.imgPW / this.data.imgPH
     const height = fontpx * 2
-    const width = fontpx * psContent.length + 10
+    const width = fontpx * psContent.length / 1.2 + 10
     const rx = 10
-    const ry = 450
+    const ry = this.data.screenHeight * 0.6 * realRtoB * realRtoP / 1.5 + 20
 
     const fx = rx + 5
     const fy = ry + fontpx * 1.5
@@ -129,6 +140,21 @@ Page({
     ctx.fillText(psContent, fx, fy)
   },
 
+  getImgP(e) {
+    this.setData({
+      imgPH: e.detail.height,
+      imgPW: e.detail.width
+    })
+    console.log('P', e.detail.height, e.detail.width)
+  },
+
+  getImgB(e) {
+    this.setData({
+      imgBH: e.detail.height,
+      imgBW: e.detail.width
+    })
+    console.log('B', e.detail.height, e.detail.width)
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -147,8 +173,13 @@ Page({
       latitude: options.latitude,
       longitude: options.longitude
     })
-
-    // this.drawImg()
+    const that = this
+    var interval = setInterval(() => {
+      if (that.data.imgBH && that.data.imgPH) {
+        clearInterval(interval)
+        that.drawImg()
+      }
+    }, 500)
   },
 
   /**
