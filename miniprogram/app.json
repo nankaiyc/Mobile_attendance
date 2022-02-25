@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/appStart/appStart",
+    "pages/register/register",
+    "pages/registerResult/registerResult",
     "pages/checkIn/checkIn",
     "pages/checkInResult/checkInResult",
     "pages/superVise/superVise",

@@ -13,9 +13,23 @@
     <button class="button define" style="width: 90px;height: 36px;" bindtap="onSuccess">确定</button>
   </view>
   <view wx:else>
+    <view class="area">
+      <view wx:if="{{isQuit}}" class="textarea_Quit">
+        <view>您已取消拍照</view>
+        <view>无法进行考勤</view>
+      </view> 
+      <view wx:else class="textarea_UnQuit">
+        <view>您好像不在预设的</view>
+        <view>考勤区域内，若您确定已在</view>
+        <view>预设的考勤点，请点击"重试"</view>
+        <view>或点击"非固定地点签到"</view>
+        <view>上报所在位置</view>
+      </view>  
+    </view>
     <image src="{{'../../resource/checkin_err_say.png'}}" mode="heightFix" class="err_say"/>
-    <button class="unfixed" style="width: 140px;height: 36px;" wx:if="{{!isQuit}}" bindtap="nonPositioned">非固定地点签到</button>
+    <button class="unfixed" style="width: 160px;height: 36px;" wx:if="{{!isQuit}}" bindtap="nonPositioned">非固定地点签到</button>
     <button class="button retry" style="width: 90px;height: 36px;" bindtap="onFail">重试</button>
+
   </view>
 </view>
 

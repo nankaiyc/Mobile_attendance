@@ -1,0 +1,22 @@
+<!--pages/register/register.wxml-->
+<topbar curIndex='18'/>
+<view class="container">
+  <view class="Welcome">欢迎使用</view>
+
+  <view class="BoldTextArea">
+    <view>欢迎您首次使用移动考勤手机签到系统，</view> 
+    <view>请输入手机收到的激活码，完成验证。</view>
+  </view>
+
+  <view class="InputArea">
+    <view class="BoldText">
+    激活码：<input maxlength="6" class="InputBox" bindinput = "GetCode"/>
+    </view>    
+  </view>
+
+  <view class="ButtonArea">
+  <button class="define" style="width: 90px;height: 36px" bindtap="Code_Vetify">确定</button>
+  </view>
+
+</view>
+
