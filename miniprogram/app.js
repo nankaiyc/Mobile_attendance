@@ -103,13 +103,12 @@ App({
     },
     
 
-  register() {
+  register(code) {
     const that = this
     var clid = this.globalData.clid
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
-    var code = 'zkcw3i'
 
     var _p = {
       '_s': clid + timestamp,
@@ -138,6 +137,7 @@ App({
         console.log('success')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
+        that.globalData.RegisterResult = res.RESULT
       }
     })
   },

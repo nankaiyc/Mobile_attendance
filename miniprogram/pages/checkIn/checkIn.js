@@ -212,8 +212,13 @@ Page({
         const checkin_longitude = CheckinPalces[i].location.lng
         const radius = CheckinPalces[i].radius / 1000
         const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
+<<<<<<< Updated upstream
         console.log(radius)
         if(dis <= radius*30){
+=======
+        console.log(radius, dis)
+        if(dis <= radius*5){
+>>>>>>> Stashed changes
           flag = 0
           wx.navigateTo({
             url: '../../pages/camera/camera',

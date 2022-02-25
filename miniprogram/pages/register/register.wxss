@@ -1,0 +1,48 @@
+/* pages/register/register.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Welcome{
+  color: #4BBFE6;
+  font-size: 30px;
+  margin-top: 40rpx;
+  font-weight: 700;
+}
+
+.BoldTextArea{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 250rpx;
+  font-size: 35rpx;
+  font-weight: 600;
+}
+
+.InputArea{
+  margin-top: 50rpx;
+}
+.BoldText{
+  display: flex;
+  font-size: 35rpx;
+  font-weight: 600;
+}
+.InputBox{
+  border: 2rpx solid #4BBFE6;
+}
+
+.ButtonArea{
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 200rpx;
+  margin-left: 350rpx;
+}
+.define{
+  background-color: #4BBFE6;
+  color: white;
+  font-size: 28rpx;
+}

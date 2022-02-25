@@ -1,0 +1,18 @@
+<!--pages/registerResult/registerResult.wxml-->
+<topbar curIndex='18'/>
+<view class="container">
+  <view class="Welcome">欢迎使用</view>
+
+  <view class="RegisterResult">
+    <image src="{{IsSuccess?'../../resource/icon_ok.png':'../../resource/icon_error2.png'}}" mode="heightFix" class="judge_icon"/>
+    <view class="normal_text" bindtap="itemchange">{{IsSuccess?'注册成功！':'注册失败！'}}</view>
+  </view>
+
+  <view class="err_say" wx:if="{{!IsSuccess}}">
+    注册码错误或已失效，请重新输入。
+  </view>
+  
+  <view class="ButtonArea">
+    <button class="define" style="width: 90px;height: 36px" bindtap="Result_Vetify">确定</button>
+  </view>
+</view>
