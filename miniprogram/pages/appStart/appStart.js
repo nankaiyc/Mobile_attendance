@@ -28,14 +28,9 @@ Page({
       if (app.globalData.clid) {
         app.getInfo()
         clearInterval(interval)
-        setTimeout(() => {
-          wx.redirectTo({
-            url: this.data.indexPages[this.data.firstPage],
-          })
-          wx.hideLoading({
-            title: '数据同步中···',
-          })
-        }, 1000)
+        wx.hideLoading({
+          title: '数据同步中···',
+        })
       }
     }, 500)
   },

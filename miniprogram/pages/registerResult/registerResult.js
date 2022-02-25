@@ -15,7 +15,7 @@ Page({
   },
 
   Result_Vetify(){
-  wx.redirectTo({
+  wx.reLaunch({
     url: '../../pages/appStart/appStart'
   })  
 },

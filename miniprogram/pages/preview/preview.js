@@ -18,11 +18,15 @@ Page({
     index: '',
     latitude: '',
     longitude: '',
-    canvas: ''
+    canvas: '',
+    psContent: ''
   },
 
   bindInputChange(e) {
-    this.drawText(e.detail.value)
+    this.setData({
+      psContent: e.detail.value
+    })
+    // this.drawText(e.detail.value)
   },
 
   redo () {
