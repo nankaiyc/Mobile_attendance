@@ -8,7 +8,12 @@ Page({
   data: {
     isfront:true,
     frontsrc:"",
-    backsrc:""
+    backsrc:"",
+    positioned: '',
+    index: '',
+    LocationName: '',
+    latitude: '',
+    longitude: ''
   },
 
   takePhoto() {
@@ -27,9 +32,15 @@ Page({
           this.setData({
             backsrc: res.tempImagePath,
           })
-          wx.navigateTo({
-            url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc
-          })     
+          if (this.data.positioned == 'true') {
+            wx.navigateTo({
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&index=' + this.data.index
+            })  
+          } else {
+            wx.navigateTo({
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
+            })  
+          }
         }
       }
     })
@@ -46,7 +57,11 @@ Page({
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      firstPage: app.globalData.firstPage
+      positioned: options.positioned,
+      index: options.index,
+      LocationName: options.LocationName,
+      latitude: options.latitude,
+      longitude: options.longitude
     })
   },
 
@@ -75,7 +90,10 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    app.globalData.flagOfQuitCamera = true
+    wx.reLaunch({
+      url: '../transfer/transfer',
+    })
   },
 
   /**

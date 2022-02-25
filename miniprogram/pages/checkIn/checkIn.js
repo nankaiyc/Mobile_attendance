@@ -106,24 +106,6 @@ Page({
     });
   },
 
-  getPhoneNumber (e) {
-    console.log(e)
-    this.getAccess()
-  },
-  getAccess() {
-    wx.request({
-      url: 'https://api.weixin.qq.com/cgi-bin/token',
-      data: {
-        'grant_type': 'client_credential',
-        'appid': 'wx11db962f0c4cffe2',
-        'secret': '54157cb4b6842656e5276092fc93325c'
-      }, 
-      success: (e) => {
-        console.log(e)
-      }
-    })
-  },
-
   setCurrentDate() {
     const that = this
     //setInterval是根据设置的时间来回调的，比如每秒回调一次
@@ -201,8 +183,40 @@ Page({
       checkin_button: "../../resource/checkin_button2.png"
     });
   },
+  take_photo() {
+    var that = this;
+    wx.showLoading({
+      title: '正在获取位置···',
+    })
+    wx.getLocation({
+      type: 'wgs84',
+      isHighAccuracy:true,
+      highAccuracyExpireTime:6000,
+      success (res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const accuracy = res.accuracy
+        // wx.openLocation({
+        //   latitude: res.latitude,
+        //   longitude: res.longitude,
+        //   scale: 28
+        // })
+        // console.log(latitude, longitude,accuracy)
+        that.setData({
+          locallatitude:latitude,
+          locallongitude:longitude,      
+        })
+        app.globalData.locallatitude = latitude
+        app.globalData.locallongitude = longitude
+        wx.hideLoading({
+          title: '正在获取位置···',
+        })
+        that.take_photo_j()
+      }
+     })  
+  },
 
-  take_photo(){
+  take_photo_j(){
     var that = this;
     var CheckinPalces = that.data.GPSplace
     var flag = 1
@@ -212,16 +226,11 @@ Page({
         const checkin_longitude = CheckinPalces[i].location.lng
         const radius = CheckinPalces[i].radius / 1000
         const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
-<<<<<<< Updated upstream
-        console.log(radius)
-        if(dis <= radius*30){
-=======
         console.log(radius, dis)
-        if(dis <= radius*5){
->>>>>>> Stashed changes
+        if(dis <= radius*40){
           flag = 0
           wx.navigateTo({
-            url: '../../pages/camera/camera',
+            url: '../../pages/camera/camera?positioned=true&index=' + i,
           })
         }        
       }      
@@ -243,36 +252,25 @@ Page({
   },
 
 
-  onLoad: function () {
+  onLoad: function (options) {
     var that = this;
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
-    wx.getLocation({
-      type: 'wgs84',
-      isHighAccuracy:true,
-      highAccuracyExpireTime:6000,
-      success (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        const accuracy = res.accuracy
-        // wx.openLocation({
-        //   latitude: res.latitude,
-        //   longitude: res.longitude,
-        //   scale: 28
-        // })
-        // console.log(latitude, longitude,accuracy)
-        that.setData({
-          locallatitude:latitude,
-          locallongitude:longitude,      
-        })
-      }
-     })  
     that.setData({
       imgurl: photo ? photo : "../../resource/default_user_icon.png",
       name: app.globalData.username,
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
     })
+    if (options.directlyCheck == 'true') {
+      this.take_photo()
+      // var interval = setInterval(() => {
+      //   if (this.data.locallatitude != 0) {
+      //     clearInterval(interval)
+      //     that.take_photo()
+      //   }
+      // }, 500)
+    }
   },
     
 })

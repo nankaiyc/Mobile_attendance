@@ -19,6 +19,7 @@
     "pages/messageList/messageList",
     "pages/camera/camera",
     "pages/preview/preview",
+    "pages/transfer/transfer",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
