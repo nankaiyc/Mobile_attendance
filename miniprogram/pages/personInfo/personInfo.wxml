@@ -7,7 +7,7 @@
     </view>
     <view class="second_left">
       <view class="bold_text">{{name}}</view>
-      <view class="thin_text">开发测试</view>
+      <view class="thin_text">{{company}}</view>
     </view>
   </view>
 

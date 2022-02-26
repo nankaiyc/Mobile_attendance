@@ -34,11 +34,13 @@ Page({
     interface1:true,
     name:"",
     apartment:"",
+    id:0,
     timer: null,
     currentDate: "",
     imgurl:"",
     checkin_button:"../../resource/checkin_button1.png",
     GPSplace:[],
+    photomode:0,
     locallatitude:0,
     locallongitude:0,
   },
@@ -161,11 +163,11 @@ Page({
 
   touchEndButton(e){
     if(this.data.checkin_button == "../../resource/checkin_button1.png"){
-      this.checkin_Failure();
+      // this.checkin_Failure();
       this.button_unselected();
     }
     else{
-      this.take_photo();
+      this.get_location();
       this.button_unselected();
     }
     moveFlag = true; // 回复滑动事件
@@ -183,7 +185,8 @@ Page({
       checkin_button: "../../resource/checkin_button2.png"
     });
   },
-  take_photo() {
+
+  get_location() {
     var that = this;
     wx.showLoading({
       title: '正在获取位置···',
@@ -211,12 +214,11 @@ Page({
         wx.hideLoading({
           title: '正在获取位置···',
         })
-        that.take_photo_j()
+        that.take_photo()
       }
      })  
   },
-
-  take_photo_j(){
+  take_photo(){
     var that = this;
     var CheckinPalces = that.data.GPSplace
     var flag = 1
@@ -229,9 +231,29 @@ Page({
         console.log(radius, dis)
         if(dis <= radius*40){
           flag = 0
-          wx.navigateTo({
-            url: '../../pages/camera/camera?positioned=true&index=' + i,
-          })
+          if(this.data.photomode == 0){
+            wx.navigateTo({
+              url: '../../pages/checkInResult/checkInResult?status=success&locationName=' + CheckinPalces[i].name,
+            })
+          }
+          else if(this.data.photomode == 1){
+            wx.navigateTo({
+              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+            })
+          }
+          else if(this.data.photomode == 2){
+            wx.navigateTo({
+              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+            })
+          }
+          else if(this.data.photomode == 3){
+            wx.navigateTo({
+              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+            })
+          }
+          else{
+            console.log("请选择拍照模式")
+          }
         }        
       }      
     }
@@ -261,9 +283,12 @@ Page({
       name: app.globalData.username,
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
+      id:app.globalData.AttNo,
+      photomode:3
+      // photomode:app.globalData.photomode
     })
     if (options.directlyCheck == 'true') {
-      this.take_photo()
+      this.get_location()
       // var interval = setInterval(() => {
       //   if (this.data.locallatitude != 0) {
       //     clearInterval(interval)

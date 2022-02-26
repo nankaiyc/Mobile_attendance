@@ -53,44 +53,58 @@ App({
     })
   },
 
+  getInfo() {
+    const that = this
+    var clid = this.globalData.clid
 
-  getInfo() {
-      const that = this
-      var clid = this.globalData.clid
-  
-      var timestamp = Date.parse(new Date());
-      timestamp = timestamp / 1000;
-  
-      var _p = {
-        '_s': clid + timestamp,
-        'OS': this.globalData.system,
-        'OSVersion': this.globalData.version,
-        'MANU': this.globalData.brand,
-        'MODEL': this.globalData.model
-      }
-  
-      _p = JSON.stringify(_p)
-      var _p_base64 = CryptoJS.Base64Encode(_p)
-  
-      wx.request({
-        url: that.globalData.baseUrl,
-        method: 'GET',
-        data: {
-          'CLID': clid,
-          'CMD': 'GETINFO',
-          '_p': _p_base64,
-          '_en': 'app2'
-        },
-      success: (e) => {
-          console.log('success get info')
-          var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-          that.globalData.username = res.STAFFINFO.Name
-          that.globalData.apartment = res.STAFFINFO.Company
-          that.globalData.GPSplace = res.GPS
-        }
-      })
-    },
-    
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'OS': this.globalData.system,
+      'OSVersion': this.globalData.version,
+      'MANU': this.globalData.brand,
+      'MODEL': this.globalData.model
+    }
+
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.request({
+      url: that.globalData.baseUrl,
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        'CMD': 'GETINFO',
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get info')
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        
+        const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
+        if (res.RESULT == 0) {
+          that.globalData.username = res.STAFFINFO.Name
+          that.globalData.apartment = res.STAFFINFO.Company
+          that.globalData.AttNo = res.STAFFINFO.AttNo
+          that.globalData.GPSplace = res.GPS
+          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
+          that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
+          that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
+          wx.redirectTo({
+            url: indexPages[this.globalData.firstPage],
+          })
+        } else {
+          wx.redirectTo({
+            url: '../register/register',
+          })
+        }
+      }
+    })
+  },
 
   register(code) {
     const that = this
