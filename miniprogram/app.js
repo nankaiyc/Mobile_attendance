@@ -17,6 +17,12 @@ App({
         that.globalData.MODEL = res.model
       }
     })
+
+    wx.getUserInfo({
+      success: (e) => {
+        that.globalData.avatarUrl = e.userInfo.avatarUrl
+      }
+    })
     let index = wx.getStorageSync('firstPageIndex');
     this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
@@ -27,7 +33,9 @@ App({
     } else {
       this.globalData.clid = clid
     }
-    // this.getMsg('monthlyReports')
+
+    // this.getMsg('staffdepts')
+    // this.getMsg('employees')
   },
 
   login() {
@@ -83,7 +91,6 @@ App({
       success: (e) => {
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
         
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
@@ -138,9 +145,8 @@ App({
         '_en': 'app2'
       },
       success: (e) => {
-        console.log('success')
+        console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
         wx.navigateTo({
           url: '../registerResult/registerResult?IsSuccess='+ res.RESULT
         })

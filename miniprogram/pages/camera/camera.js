@@ -32,7 +32,7 @@ Page({
           })
           if(this.data.photomode == 1){
             wx.navigateTo({
-              url: '../../pages/preview/preview?frontsrc='+ position_status
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + position_status
             })  
           }
           // console.log(this.data.isfront)
@@ -72,7 +72,7 @@ Page({
       LocationName: options.LocationName,
       latitude: options.latitude,
       longitude: options.longitude,
-      photomode:options.photomode,
+      photomode: app.globalData.AppPhoto % 10,
       isfront:options.photomode == 2?false:true,
     })
   },
