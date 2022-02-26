@@ -56,7 +56,6 @@ App({
   getInfo() {
     const that = this
     var clid = this.globalData.clid
-
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
@@ -140,11 +139,18 @@ App({
         console.log('success')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
-        that.globalData.RegisterResult = res.RESULT
+        if (res.RESULT == 0) {
+          that.globalData.username = res.STAFFINFO.Name
+          that.globalData.apartment = res.STAFFINFO.Company
+          that.globalData.GPSplace = res.GPS
+        }
+        wx.navigateTo({
+          url: '../registerResult/registerResult?IsSuccess='+ res.RESULT
+        })
       }
     })
   },
-  
+
   postRecord(Count, items, fileF, fileB, locationName) {
     const that = this
     var clid = this.globalData.clid
