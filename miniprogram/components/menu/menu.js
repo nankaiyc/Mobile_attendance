@@ -1,4 +1,5 @@
 // components/menu/menu.js
+const app = getApp()
 Component({
   properties: {
     // 这里定义了innerText属性，属性值可以在组件使用时指定
@@ -50,7 +51,8 @@ Component({
         url: "../../pages/setting/setting",
         icon: "../../resource/menu_setting.png"
       },
-    ]
+    ],
+    permArray: []
   },
 
   methods: {
@@ -66,7 +68,7 @@ Component({
   },
   jump(e) {
     var index = e.currentTarget.dataset.index;
-    if (index == parseInt(this.properties.curIndex) || index == 4) {
+    if (index == parseInt(this.properties.curIndex) || index == 4 || (index < 3 && this.data.permArray[index] == 0)) {
       return
     }
     if (index < 4) {
@@ -82,6 +84,15 @@ Component({
   },
 },
 
+  lifetimes: {
+    attached: function() {
+      const tmp = app.globalData.PERMS
+      let newPermArray = [tmp.ATT, tmp.MAN, tmp.OA]
+      this.setData({
+        permArray: newPermArray
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
