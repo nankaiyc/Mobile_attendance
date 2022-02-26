@@ -8,6 +8,7 @@ Page({
   data: {
     switch1Checked: false,
     indexList: ['考勤打卡', '考勤监管', '考勤OA', '成员'],
+    curIndexList: [],
     indexValue: 0
   },
 
@@ -21,7 +22,8 @@ Page({
     this.setData({
       indexValue: e.detail.value
     })
-    wx.setStorageSync('firstPageIndex', this.data.indexValue)
+    wx.setStorageSync('firstPageIndex', this.data.indexList.indexOf(this.data.curIndexList[this.data.indexValue]))
+    app.globalData.firstPage = this.data.indexList.indexOf(this.data.curIndexList[this.data.indexValue])
   },
 
   toAbout() {
@@ -33,8 +35,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const tmp = app.globalData.PERMS
+    let newPermArray = [tmp.ATT, tmp.MAN, tmp.OA]
+    let newIndexList = []
+    let count = 0
+    for (var i in newPermArray) {
+      if (newPermArray[i] == 1) {
+        newIndexList.push(this.data.indexList[i])
+        if (i < app.globalData.firstPage) {
+          count += 1
+        }
+      }
+    }
+    newIndexList.push(this.data.indexList[3])
     this.setData({
-      indexValue: app.globalData.firstPage
+      indexValue: count,
+      curIndexList: newIndexList
     })
   },
 

@@ -69,6 +69,21 @@ Page({
     fs.renameSync(this.data.personImg, fileF)
     fs.renameSync(finalImg, fileB)
     app.postRecord(1, item, fileF, fileB, this.data.locationName)
+    // fs.rename({
+    //   oldPath: this.data.personImg,
+    //   newPath: fileF,
+    //   success: (e) => {
+    //     console.log(e)
+    //     fs.rename({
+    //       oldPath: finalImg,
+    //       newPath: fileB,
+    //       success: (e) => {
+    //         console.log(e)
+    //         app.postRecord(1, item, fileF, fileB, this.data.locationName)
+    //       }
+    //     })
+    //   }
+    // })
   },
 
   drawImg() {
