@@ -54,11 +54,9 @@ App({
     })
   },
 
-
   getInfo() {
     const that = this
     var clid = this.globalData.clid
-
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
@@ -91,8 +89,12 @@ App({
         if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
+          that.globalData.AttNo = res.STAFFINFO.AttNo
           that.globalData.GPSplace = res.GPS
           that.globalData.PERMS = res.PERMS
+          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
+          that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
+          that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
           wx.redirectTo({
             url: indexPages[this.globalData.firstPage],
           })
@@ -104,7 +106,6 @@ App({
       }
     })
   },
-
 
   register(code) {
     const that = this

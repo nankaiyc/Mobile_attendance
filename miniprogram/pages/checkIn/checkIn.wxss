@@ -54,3 +54,9 @@ page {
   height: 150rpx;
   margin-top: 150rpx;
 }
+
+.Info{
+  margin-top: 30rpx;
+  font-size: 40rpx;
+  font-weight: 500;
+}

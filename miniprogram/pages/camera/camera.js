@@ -13,10 +13,15 @@ Page({
     index: '',
     LocationName: '',
     latitude: '',
-    longitude: ''
+    longitude: '',
+    photomode:0,
   },
 
   takePhoto() {
+    var position_check = '&positioned=' + this.data.positioned + '&index=' + this.data.index
+    var nonposition_check = '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
+    var position_status = this.data.positioned == 'true'?position_check:nonposition_check
+    console.log(position_status)
     this.ctx.takePhoto({
       quality: 'high',
       success: (res) => {
@@ -25,6 +30,11 @@ Page({
             frontsrc: res.tempImagePath,
             isfront:!this.data.isfront
           })
+          if(this.data.photomode == 1){
+            wx.navigateTo({
+              url: '../../pages/preview/preview?frontsrc='+ position_status
+            })  
+          }
           // console.log(this.data.isfront)
           // console.log(this.data.frontsrc)
         }
@@ -32,13 +42,13 @@ Page({
           this.setData({
             backsrc: res.tempImagePath,
           })
-          if (this.data.positioned == 'true') {
+          if (this.data.photomode == 2) {
             wx.navigateTo({
-              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&index=' + this.data.index
+              url: '../../pages/preview/preview?backsrc=' + this.data.backsrc + position_status,
             })  
-          } else {
+          } else if(this.data.photomode == 3){
             wx.navigateTo({
-              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
+              url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + position_status,
             })  
           }
         }
@@ -61,7 +71,9 @@ Page({
       index: options.index,
       LocationName: options.LocationName,
       latitude: options.latitude,
-      longitude: options.longitude
+      longitude: options.longitude,
+      photomode:options.photomode,
+      isfront:options.photomode == 2?false:true,
     })
   },
 
