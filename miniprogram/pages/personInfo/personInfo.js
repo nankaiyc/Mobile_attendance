@@ -1,12 +1,14 @@
 // pages/personInfo/personInfo.js
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    name:"寅畅",
-    id:66688,
+    name:"",
+    company:"",
+    id:0,
     entry_data:"2022-01-04",
     phone:18390217712,
   },
@@ -22,5 +24,13 @@ Page({
         console.log("拨号失败！")
       }
     })
-  }
+  },
+
+  onLoad: function (options) {
+    this.setData({
+      name: app.globalData.username,
+      company: app.globalData.apartment,
+      id: app.globalData.AttNo,     
+    })
+  },
 })

@@ -7,18 +7,18 @@
   {{interface1? Attendance_method : record }}
   </view>
 
-  <view wx:if="{{interface1==true}}" class="UserInfo">
+  <view wx:if="{{interface1}}" class="UserInfo">
     <image src="{{imgurl}}" mode="scaleToFill" class="head" bindtap="setPhotoInfo"/>
     <view class="info">
       <view class="name">{{name}}</view>
       <view class="apartment">{{apartment}}</view>
     </view>
   </view>
-   
-  <view wx:if="{{interface1==true}}" class="current_time">{{currentDate}}</view>
-
-  <image wx:if="{{interface1==true}}" src="{{checkin_button}}" mode="heightFix" class="checkin_button"
+  <view wx:if="{{interface1}}" class="current_time">{{currentDate}}</view>
+  <image wx:if="{{interface1}}" src="{{checkin_button}}" mode="heightFix" class="checkin_button"
   bindtouchstart="touchStartButton" bindtouchmove="touchMoveButton" bindtouchend="touchEndButton"/>
+
+  <view wx:if="{{!interface1}}" class="Info">{{name}}  ( 考勤号：{{id}} )</view>
 
 </view>
 
