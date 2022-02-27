@@ -168,7 +168,7 @@ Page({
       this.button_unselected();
     }
     else{
-      this.get_location();
+      this.popUp();
       this.button_unselected();
     }
     moveFlag = true; // 回复滑动事件
@@ -185,6 +185,14 @@ Page({
     that.setData({
       checkin_button: "../../resource/checkin_button2.png"
     });
+  },
+
+  popUp() {
+    if (app.globalData.AppPhoto >= 10) {
+      //弹窗，success中get_location
+    } else {
+      this.get_location()
+    }
   },
 
   get_location() {
@@ -230,26 +238,27 @@ Page({
         const radius = CheckinPalces[i].radius / 1000
         const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
         console.log(radius, dis)
-        if(dis <= radius*40){
+        if(dis <= radius*20){
           flag = 0
           if(this.data.photomode == 0){
+            // 待完善
             wx.navigateTo({
               url: '../../pages/checkInResult/checkInResult?status=success&locationName=' + CheckinPalces[i].name,
             })
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+              url: '../../pages/camera/camera?positioned=true&index=' + i 
             })
           }
           else if(this.data.photomode == 2){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+              url: '../../pages/camera/camera?positioned=true&index=' + i
             })
           }
           else if(this.data.photomode == 3){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i + '&photomode=' + this.data.photomode,
+              url: '../../pages/camera/camera?positioned=true&index=' + i
             })
           }
           else{
@@ -280,16 +289,16 @@ Page({
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
     that.setData({
-      imgurl: photo ? photo : "../../resource/default_user_icon.png",
+      imgurl: photo ? photo : app.globalData.avatarUrl,
       name: app.globalData.username,
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
       id:app.globalData.AttNo,
-      photomode:3
-      // photomode:app.globalData.photomode
+      // photomode:2
+      photomode:app.globalData.AppPhoto % 10
     })
     if (options.directlyCheck == 'true') {
-      this.get_location()
+      this.popUp()
       // var interval = setInterval(() => {
       //   if (this.data.locallatitude != 0) {
       //     clearInterval(interval)

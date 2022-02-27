@@ -23,14 +23,17 @@ Page({
     imgBH: '',
     imgBW: '',
     imgPH: '',
-    imgPW: ''
+    imgPW: '',
+    photoMode: ''
   },
 
   bindInputChange(e) {
     this.setData({
       psContent: e.detail.value
     })
-    this.drawText()
+    if (this.data.photoMode == 3) {
+      this.drawText()
+    }
   },
 
   redo () {
@@ -41,12 +44,20 @@ Page({
 
   complete() {
     const that = this
-    wx.canvasToTempFilePath({
-      canvas: that.data.canvas,
-      complete: (e)=> {
-        that.completeUp(e.tempFilePath)
-      }
-    })
+    if (this.data.photoMode == 3) {
+      wx.canvasToTempFilePath({
+        canvas: that.data.canvas,
+        complete: (e)=> {
+          that.completeUp(e.tempFilePath)
+        }
+      })
+    } else if (this.data.photoMode == 2) {
+      that.completeUp(that.data.backgroundImg)
+    } else if (this.data.photoMode == 1) {
+      that.completeUp(that.data.personImg)
+    } else {
+      console.log(this.data.photoMode)
+    }
   },
 
   completeUp(finalImg) {
@@ -63,12 +74,13 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
-    const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
-    const fs = wx.getFileSystemManager()
-    fs.renameSync(this.data.personImg, fileF)
-    fs.renameSync(finalImg, fileB)
-    app.postRecord(1, item, fileF, fileB, this.data.locationName)
+    console.log(finalImg)
+    // const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
+    // const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
+    // const fs = wx.getFileSystemManager()
+    // fs.renameSync(this.data.personImg, fileF)
+    // fs.renameSync(finalImg, fileB)
+    // app.postRecord(1, item, fileF, fileB, this.data.locationName)
   },
 
   drawImg() {
@@ -160,6 +172,7 @@ Page({
    */
   onLoad: function (options) {
     var TIME = util.formatDateLine(new Date()) + util.formatTime(new Date());
+    const tmp = app.globalData.AppPhoto % 10
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
@@ -171,15 +184,23 @@ Page({
       index: options.index,
       locationName: options.LocationName,
       latitude: options.latitude,
-      longitude: options.longitude
+      longitude: options.longitude,
+      photoMode: tmp
     })
-    const that = this
-    var interval = setInterval(() => {
-      if (that.data.imgBH && that.data.imgPH) {
-        clearInterval(interval)
-        that.drawImg()
-      }
-    }, 500)
+    console.log(options)
+    if (tmp == 3) {
+      const that = this
+      var interval = setInterval(() => {
+        if (that.data.imgBH && that.data.imgPH) {
+          clearInterval(interval)
+          that.drawImg()
+        }
+      }, 500)
+    } else if (tmp == 1) {
+      this.setData({
+        backgroundImg: options.frontsrc
+      })
+    }
   },
 
   /**

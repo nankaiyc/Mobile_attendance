@@ -101,3 +101,8 @@
 .menu_logo {
   width: 60%;
 }
+
+.disabled-item {
+  background: gainsboro;
+  color: gray;
+}

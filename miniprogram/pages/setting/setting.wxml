@@ -17,8 +17,8 @@
     </view>
     <view class="second_right">
       <view class="cur_index">
-        <picker mode="selector" range="{{indexList}}" value="{{indexValue}}" bindchange="pickerChange">
-          {{indexList[indexValue]}}
+        <picker mode="selector" range="{{curIndexList}}" value="{{indexValue}}" bindchange="pickerChange">
+          {{curIndexList[indexValue]}}
         </picker>
       </view>
       <image src="../../resource/arrow_right.png" mode="heightFix" class="arrow"/>

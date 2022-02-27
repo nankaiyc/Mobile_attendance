@@ -17,6 +17,12 @@ App({
         that.globalData.MODEL = res.model
       }
     })
+
+    wx.getUserInfo({
+      success: (e) => {
+        that.globalData.avatarUrl = e.userInfo.avatarUrl
+      }
+    })
     let index = wx.getStorageSync('firstPageIndex');
     this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
@@ -27,12 +33,8 @@ App({
     } else {
       this.globalData.clid = clid
     }
-<<<<<<< Updated upstream
-=======
-
-    this.getMsg('punchRecords')
+    // this.getMsg('staffdepts')
     // this.getMsg('employees')
->>>>>>> Stashed changes
   },
 
   login() {
@@ -88,7 +90,6 @@ App({
       success: (e) => {
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
         
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
@@ -96,6 +97,7 @@ App({
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.AttNo = res.STAFFINFO.AttNo
           that.globalData.GPSplace = res.GPS
+          that.globalData.PERMS = res.PERMS
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
@@ -142,14 +144,8 @@ App({
         '_en': 'app2'
       },
       success: (e) => {
-        console.log('success')
+        console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
-        if (res.RESULT == 0) {
-          that.globalData.username = res.STAFFINFO.Name
-          that.globalData.apartment = res.STAFFINFO.Company
-          that.globalData.GPSplace = res.GPS
-        }
         wx.navigateTo({
           url: '../registerResult/registerResult?IsSuccess='+ res.RESULT
         })
@@ -210,6 +206,76 @@ App({
       url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
       success: (e) => {
         console.log(CryptoJS.Base64Decode(e.data))
+      },
+      complete: (e) => {
+        console.log(e)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+      }
+    })
+  },
+
+  getMsg(type) {
+    const that = this
+    var clid = this.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+    
+    var _p = {
+      '_s': clid + timestamp,
+      // 'OS': this.globalData.system,
+      // 'OSVersion': this.globalData.version,
+      // 'MANU': this.globalData.brand,
+      // 'MODEL': this.globalData.model
+    }
+    switch(type) {
+      case 'appPushReports':
+        //nothing
+        break
+      case 'staffdepts':
+        //employees
+        // break
+      case 'employees':
+        //nothing
+        break
+      case 'punchRecords':
+        //{"_s":"xxxxxxxxxxxxxxxx","lastSyncTime":"2016-04-25 00:00:00","maxResult":5,"index":0,"beginDate":"2016-04-25","endDate":"2016-04-25"}
+        // break
+      case 'dailyReports':
+        //punchRecords
+        _p.lastSyncTime = '2022-01-01 00:00:00'
+        _p.maxResult = 5
+        _p.index = 0
+        _p.beginDate = '2022-02-20'
+        _p.endDate = '2020-02-26'
+        break
+      case 'monthlyReports':
+        //除了上面的如果月报，不需要beiginDate和endDate，需要month，如果查询个别员工用staffIds，多个id之间用英文逗号隔开即可
+        _p.lastSyncTime = '2022-01-01 00:00:00'
+        _p.maxResult = 5
+        _p.index = 0
+        _p.month = '2022-02'
+        break
+      default:
+        console.log(type)
+    }
+
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.request({
+      url: that.globalData.baseUrl + '/' + type + '/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + type)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
       }
     })
   }

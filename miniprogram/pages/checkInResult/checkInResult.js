@@ -10,7 +10,8 @@ Page({
     isSuccess:true,
     place:"PLACE",
     message:"",
-    isQuit: ''
+    isQuit: '',
+    photoMode: ''
   },
 
   changeResult(){
@@ -39,7 +40,7 @@ Page({
       success: (e) => {
         console.log(e.name, e.latitude, e.longitude)
         wx.navigateTo({
-          url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude,
+          url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude + '&photomode=' + this.data.photoMode,
         })
       }
     })
@@ -54,8 +55,11 @@ Page({
     this.setData({
       message : "您于" + DATE + TIME + "在" + PLACE + "打卡成功。",
       isSuccess:options.status == "success"?true:false,
-      isQuit: options.isQuit=='true'?true:false
+      isQuit: options.isQuit=='true'?true:false,
+      photoMode: app.globalData.AppPhoto % 10,
+      UploadLoc: app.globalData.UploadLoc
     })
+    
     // console.log(this.data.message)
     // console.log(DATE)
     // console.log(this.data.isSuccess)
