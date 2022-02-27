@@ -1,6 +1,6 @@
 //app.js
 const CryptoJS = require('./utils/crypto.js')
-const Util = require('./utils/util')
+const util = require('./utils/util')
 App({
   onLaunch: function () {
     this.globalData = {}
@@ -27,8 +27,12 @@ App({
       this.login()
     } else {
       this.globalData.clid = clid
+      this.punchRecordsArray = []
+      this.getPunchRecords()
     }
+
     // this.getMsg('staffdepts')
+    // this.getPersonInfo('1651306')
   },
 
   login() {
@@ -49,6 +53,8 @@ App({
             wx.setStorageSync('unionId', e.data[0])
             wx.setStorageSync('sessionKey', e.data[1])
             that.globalData.clid = e.data[0]
+            that.punchRecordsArray = []
+            that.getPunchRecords()
           }
         })
       }
@@ -84,12 +90,14 @@ App({
       success: (e) => {
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
         
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.AttNo = res.STAFFINFO.AttNo
+          that.globalData.StaffID = res.STAFFINFO.StaffID
           that.globalData.GPSplace = res.GPS
           that.globalData.PERMS = res.PERMS
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
@@ -209,6 +217,67 @@ App({
     })
   },
 
+  getPunchRecords() {
+    let punchRecordsArray = wx.getStorageSync('punchRecordsArray')
+    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+    let lastSyncTime = wx.getStorageSync('PunchRecordsLastSyncTime')
+    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
+    var dateTime = new Date()
+    dateTime = dateTime.setDate(dateTime.getDate()-31)
+    dateTime = new Date(dateTime)
+    const beginDate = util.formatDateLine(dateTime)
+    const endDate = util.formatDateLine(new Date())
+    this.punchRecordsArray = punchRecordsArray
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
+  },
+
+  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index) {
+    const that = this
+    var clid = this.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    const maxResult = 5
+    var _p = {
+      '_s': clid + timestamp,
+      'lastSyncTime': lastSyncTime,
+      'maxResult': maxResult,
+      'index': index,
+      'beginDate': beginDate,
+      'endDate': endDate
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: that.globalData.baseUrl + '/punchRecords/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'punchRecords ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        
+        that.punchRecordsArray.push.apply(that.punchRecordsArray, res.AttRecords)
+        if (res.RESULT < maxResult) {
+          const newArray = that.punchRecordsArray
+          wx.setStorageSync('PunchRecordsLastSyncTime', endDate + util.formatTime(new Date()))
+          wx.setStorageSync('punchRecordsArray', JSON.stringify(newArray))
+          wx.hideLoading({})
+        } else {
+          that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        }
+      }
+    })
+  },
+
   getMsg(type) {
     const that = this
     var clid = this.globalData.clid
@@ -268,6 +337,37 @@ App({
       },
       success: (e) => {
         console.log('success get' + type)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+      }
+    })
+  },
+  
+  getPersonInfo(StaffID) {
+    const that = this
+    var clid = this.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+    
+    var _p = {
+      '_s': clid + timestamp,
+      'staffIds': StaffID
+    }
+
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.request({
+      url: that.globalData.baseUrl + '/employees/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get person info ' + StaffID)
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
       }

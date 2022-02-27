@@ -9,8 +9,8 @@ Page({
     name:"",
     company:"",
     id:0,
-    entry_data:"2022-01-04",
-    phone:18390217712,
+    entry_data:"ed",
+    phone:'phone',
   },
   launchPhoneCall(e){
     var tel = e.currentTarget.dataset.tel.toString();
@@ -27,6 +27,7 @@ Page({
   },
 
   onLoad: function (options) {
+    
     this.setData({
       name: app.globalData.username,
       company: app.globalData.apartment,
