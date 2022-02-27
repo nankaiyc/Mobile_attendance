@@ -43,6 +43,7 @@ Page({
     photomode:0,
     locallatitude:0,
     locallongitude:0,
+    HistoryRecord:["2022-02-19 19:14:21于解放村打卡成功。","2022-02-19 19:14:21于南开大学打卡成功。","123","456"]
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -78,13 +79,13 @@ Page({
   touchMoveALL: function (e) {
     endX = e.touches[0].pageX; // 获取触摸时的原点
     if (moveFlag) {
-      if (endX - startX > 50) {
-        console.log("move right");
+      if (endX - startX > 100) {
+        // console.log("move right");
         this.move2right();
         moveFlag = false;
       }
-      if (startX - endX > 50) {
-        console.log("move left");
+      if (startX - endX > 100) {
+        // console.log("move left");
         this.move2left();
         moveFlag = false;
       }

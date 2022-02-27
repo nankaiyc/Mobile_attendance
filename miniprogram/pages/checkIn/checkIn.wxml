@@ -19,6 +19,10 @@
   bindtouchstart="touchStartButton" bindtouchmove="touchMoveButton" bindtouchend="touchEndButton"/>
 
   <view wx:if="{{!interface1}}" class="Info">{{name}}  ( 考勤号：{{id}} )</view>
+  <view wx:if="{{!interface1}}" class="History" wx:for="{{HistoryRecord}}" wx:key="index">
+    <view class="image"><image src="../../resource/icon_ok.png" mode="heightFix" class="judge_icon"/></view>  
+    <view class="text">{{item}}</view>
+  </view>
 
 </view>
 
