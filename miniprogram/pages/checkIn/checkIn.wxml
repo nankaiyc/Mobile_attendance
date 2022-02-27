@@ -18,7 +18,7 @@
   <image wx:if="{{interface1}}" src="{{checkin_button}}" mode="heightFix" class="checkin_button"
   bindtouchstart="touchStartButton" bindtouchmove="touchMoveButton" bindtouchend="touchEndButton"/>
 
-  <view wx:if="{{!interface1}}" class="Info">{{name}}  ( 考勤号：{{id}} )</view>
+  <view wx:if="{{!interface1}}" class="Info">{{name}}  ( 考勤号：{{id}} ) </view>
 
 </view>
 

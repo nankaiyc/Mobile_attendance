@@ -18,11 +18,6 @@ App({
       }
     })
 
-    wx.getUserInfo({
-      success: (e) => {
-        that.globalData.avatarUrl = e.userInfo.avatarUrl
-      }
-    })
     let index = wx.getStorageSync('firstPageIndex');
     this.globalData.firstPage = index ? index : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
@@ -35,7 +30,6 @@ App({
     }
 
     // this.getMsg('staffdepts')
-    // this.getMsg('employees')
   },
 
   login() {
