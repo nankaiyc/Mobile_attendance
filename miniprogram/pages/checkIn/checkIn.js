@@ -5,6 +5,7 @@ const app = getApp();
 var startX,startY,endX,endY;
 var moveFlag = true;// 判断执行滑动事件
 var util = require('../../utils/util.js');
+const CryptoJS = require('../../utils/crypto.js')
 Page({
 
   /**
@@ -188,8 +189,18 @@ Page({
   },
 
   popUp() {
+    const that = this
     if (app.globalData.AppPhoto >= 10) {
-      //弹窗，success中get_location
+      wx.showActionSheet({
+        itemList: ['不拍照', '自拍', '拍场景', '自拍 + 拍场景'],
+        success: (e) => {
+          that.setData({
+            photomode: e.tapIndex
+          })
+          app.globalData.AppPhoto = 10 + e.tapIndex
+          that.get_location()
+        }
+      })
     } else {
       this.get_location()
     }
@@ -238,13 +249,11 @@ Page({
         const radius = CheckinPalces[i].radius / 1000
         const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
         console.log(radius, dis)
-        if(dis <= radius*20){
+        if(dis <= radius*40){
           flag = 0
           if(this.data.photomode == 0){
             // 待完善
-            wx.navigateTo({
-              url: '../../pages/checkInResult/checkInResult?status=success&locationName=' + CheckinPalces[i].name,
-            })
+            console.log('不拍照')
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
@@ -283,29 +292,83 @@ Page({
     })
   },
 
+  getPunchRecords() {
+    let lastSyncTime = wx.getStorageSync('PunchRecordsLastSyncTime')
+    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
+    var dateTime = new Date()
+    dateTime = dateTime.setDate(dateTime.getDate()-31)
+    dateTime = new Date(dateTime)
+    const beginDate = util.formatDateLine(dateTime)
+    const endDate = util.formatDateLine(new Date())
+    this.data.punchRecordsArray = []
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
+    wx.setStorageSync('PunchRecordsLastSyncTime', endDate + util.formatTime(new Date()))
+  },
+
+  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index) {
+    const that = this
+    var clid = app.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'lastSyncTime': lastSyncTime,
+      'maxResult': 5,
+      'index': index,
+      'beginDate': beginDate,
+      'endDate': endDate
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: app.globalData.baseUrl + '/punchRecords/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'punchRecords ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        
+        that.data.punchRecordsArray.push.apply(that.data.punchRecordsArray, res.AttRecords)
+        if (res.RESULT < 5) {
+          const newArray = that.data.punchRecordsArray
+          console.log(newArray)
+          this.setData({
+            punchRecordsArray: newArray
+          })
+          wx.hideLoading({})
+        } else {
+          that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + 1)
+        }
+      }
+    })
+  },
 
   onLoad: function (options) {
     var that = this;
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
     that.setData({
-      imgurl: photo ? photo : app.globalData.avatarUrl,
+      imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
       id:app.globalData.AttNo,
-      // photomode:2
       photomode:app.globalData.AppPhoto % 10
     })
     if (options.directlyCheck == 'true') {
       this.popUp()
-      // var interval = setInterval(() => {
-      //   if (this.data.locallatitude != 0) {
-      //     clearInterval(interval)
-      //     that.take_photo()
-      //   }
-      // }, 500)
     }
+    this.getPunchRecords()
   },
     
 })

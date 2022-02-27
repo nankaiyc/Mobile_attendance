@@ -25,7 +25,3 @@
   </view>
 
 </view>
-
-
-
-<!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">getPhoneNumber</button> -->

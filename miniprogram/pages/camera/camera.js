@@ -73,7 +73,7 @@ Page({
       latitude: options.latitude,
       longitude: options.longitude,
       photomode: app.globalData.AppPhoto % 10,
-      isfront:options.photomode == 2?false:true,
+      isfront: app.globalData.AppPhoto % 10 == 2?false:true,
     })
   },
 
