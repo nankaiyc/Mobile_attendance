@@ -1,4 +1,5 @@
 // pages/person/person.js
+const app = getApp()
 Page({
 
   /**
@@ -10,7 +11,7 @@ Page({
 
   JumpToInfo(){
     wx.navigateTo({
-      url: '../../pages/personInfo/personInfo',
+      url: '../../pages/personInfo/personInfo?StaffID=' + app.globalData.StaffID,
     })
   }
 })

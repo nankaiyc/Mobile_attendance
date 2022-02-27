@@ -61,7 +61,9 @@ page {
   font-weight: 500;
   margin-bottom: 20rpx;
 }
-
+.history_box{
+  margin-bottom: 50rpx;
+}
 .History{
   display: flex;
   flex-direction: row;
