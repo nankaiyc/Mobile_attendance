@@ -27,6 +27,12 @@ App({
     } else {
       this.globalData.clid = clid
     }
+<<<<<<< Updated upstream
+=======
+
+    this.getMsg('punchRecords')
+    // this.getMsg('employees')
+>>>>>>> Stashed changes
   },
 
   login() {

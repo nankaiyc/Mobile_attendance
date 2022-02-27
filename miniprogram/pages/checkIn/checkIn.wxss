@@ -59,4 +59,35 @@ page {
   margin-top: 30rpx;
   font-size: 40rpx;
   font-weight: 500;
+  margin-bottom: 20rpx;
+}
+
+.History{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* background: white; */
+}
+.image{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.judge_icon{
+  height: 40rpx;
+}
+.text{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  border: 1px solid #4BBFE6;
+  color: #4BBFE6;
+  font-size: 25rpx;
+  padding: 15rpx;
+  width: 600rpx;
+  margin-top: 15rpx;
+  margin-left: 20rpx;
 }
