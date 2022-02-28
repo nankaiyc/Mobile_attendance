@@ -1,5 +1,30 @@
 /* pages/superVise/superVise.wxss */
-.content1-1 content3-1{
+.First_Tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.time_tab,.month_tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 400rpx;
+}
+.direction_icon{
+  height: 60rpx;
+}
+.date_content,.month_content{
+  font-size: 30rpx;
+  font-weight: 400;
+}
+
+.Third_Tab{
+
+}
+
+.content1-1{
   font-size: 15px;
 }
 .content1-2{

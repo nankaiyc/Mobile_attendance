@@ -24,11 +24,24 @@ const formatDateLine = date => {
   const _day = day<10?'0' + day:day
   return _year + "-" + _month + "-" + _day
 }
+const formatMonthLine = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const _year = year<10?'0' + year:year
+  const _month = month<10?'0' + month:month
+  return _year + "-" + _month 
+}
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : `0${n}`
 }
-
+const getWeekByDate = dates => {
+  let show_day = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+  let date = new Date(dates);
+  date.setDate(date.getDate());
+  let day = date.getDay();
+  return show_day[day];
+}
 function getdistance(la1, lo1, la2, lo2) {
   var La1 = la1 * Math.PI / 180.0;
   var La2 = la2 * Math.PI / 180.0;
@@ -45,5 +58,7 @@ module.exports = {
   formatTime,
   formatDate,
   formatDateLine,
-  getdistance
+  formatMonthLine,
+  getdistance,
+  getWeekByDate
 }
