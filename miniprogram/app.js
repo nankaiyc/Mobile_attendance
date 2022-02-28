@@ -20,6 +20,8 @@ App({
 
     let index = wx.getStorageSync('firstPageIndex');
     this.globalData.firstPage = index ? index : 0;
+    let autoSave = wx.getStorageSync('autoSave');
+    this.globalData.autoSave = autoSave ? autoSave : 0;
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
     var clid = wx.getStorageSync('unionId')
@@ -27,11 +29,9 @@ App({
       this.login()
     } else {
       this.globalData.clid = clid
-      this.punchRecordsArray = []
-      this.getPunchRecords()
     }
 
-    // this.getMsg('staffdepts')
+    // this.getMsg('monthlyReports')
     // this.getPersonInfo('1651306')
   },
 
@@ -53,8 +53,6 @@ App({
             wx.setStorageSync('unionId', e.data[0])
             wx.setStorageSync('sessionKey', e.data[1])
             that.globalData.clid = e.data[0]
-            that.punchRecordsArray = []
-            that.getPunchRecords()
           }
         })
       }
@@ -103,9 +101,24 @@ App({
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
-          wx.redirectTo({
-            url: indexPages[this.globalData.firstPage],
-          })
+
+          that.punchRecordsArray = []
+          that.dailyReportsArray = []
+          that.PunchRecordsLastSyncTime = ''
+          that.dailyReportsLastSyncTime = ''
+          that.getPunchRecords()
+          that.getDailyReports()
+
+          const now = util.formatDateLine(new Date())
+          var interval = setInterval(() => {
+            if (that.PunchRecordsLastSyncTime >= now && that.dailyReportsLastSyncTime >= now) {
+              wx.redirectTo({
+                url: indexPages[this.globalData.firstPage],
+              })
+              clearInterval(interval)
+              wx.hideLoading({})
+            }
+          }, 500)
         } else {
           wx.redirectTo({
             url: '../register/register',
@@ -270,7 +283,7 @@ App({
           const newArray = that.punchRecordsArray
           wx.setStorageSync('PunchRecordsLastSyncTime', endDate + util.formatTime(new Date()))
           wx.setStorageSync('punchRecordsArray', JSON.stringify(newArray))
-          wx.hideLoading({})
+          that.PunchRecordsLastSyncTime = endDate
         } else {
           that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
         }
@@ -315,15 +328,16 @@ App({
         break
       case 'monthlyReports':
         //除了上面的如果月报，不需要beiginDate和endDate，需要month，如果查询个别员工用staffIds，多个id之间用英文逗号隔开即可
-        _p.lastSyncTime = '2022-01-01 00:00:00'
+        // _p.lastSyncTime = '2022-01-01 00:00:00'
         _p.maxResult = 5
         _p.index = 0
-        _p.month = '2022-02'
+        _p.month = '2022-01'
         break
       default:
         console.log(type)
     }
 
+    console.log(_p)
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
 
@@ -372,5 +386,66 @@ App({
         console.log(res)
       }
     })
-  }
+  },
+  
+  getDailyReports() {
+    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
+    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
+    let lastSyncTime = wx.getStorageSync('dailyReportsLastSyncTime')
+    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
+    var dateTime = new Date()
+    dateTime = dateTime.setDate(dateTime.getDate()-31)
+    dateTime = new Date(dateTime)
+    const beginDate = util.formatDateLine(dateTime)
+    const endDate = util.formatDateLine(new Date())
+    this.dailyReportsArray = dailyReportsArray
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+    this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, 0)
+  },
+
+  getDailyReportsSinal(lastSyncTime, beginDate, endDate, index) {
+    const that = this
+    var clid = this.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    const maxResult = 5
+    var _p = {
+      '_s': clid + timestamp,
+      'lastSyncTime': lastSyncTime,
+      'maxResult': maxResult,
+      'index': index,
+      'beginDate': beginDate,
+      'endDate': endDate
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: that.globalData.baseUrl + '/dailyReports/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'dailyReports ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        that.dailyReportsArray.push.apply(that.dailyReportsArray, res.DailyReports)
+        if (res.RESULT < maxResult) {
+          const newArray = that.dailyReportsArray
+          wx.setStorageSync('dailyReportsLastSyncTime', endDate + util.formatTime(new Date()))
+          wx.setStorageSync('dailyReportsArray', JSON.stringify(newArray))
+          that.dailyReportsLastSyncTime = endDate
+        } else {
+          that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        }
+      }
+    })
+  },
+
 })

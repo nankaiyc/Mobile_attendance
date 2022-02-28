@@ -21,6 +21,14 @@
       <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon" bindtap="subMonth"/>
       <view class="month_content">考勤月：{{month}}</view>
       <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon" bindtap="addMonth"/>
+
+      <view class="month_body">
+        <view class="month_item">
+          <view class="person_info">
+          
+          </view>
+        </view>
+      </view>
     </view>
-  </view>
+   </view>
 </Tabs>

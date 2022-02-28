@@ -14,8 +14,11 @@ Page({
 
   switch1Change(e) {
     this.setData({
-      switch1Checked: !this.data.switch1Checked
+      switch1Checked: e.detail.value
     })
+    const tmp = e.detail.value?1:0
+    app.globalData.autoSave = tmp
+    wx.setStorageSync('autoSave', tmp)
   },
 
   pickerChange(e) {
@@ -50,7 +53,8 @@ Page({
     newIndexList.push(this.data.indexList[3])
     this.setData({
       indexValue: count,
-      curIndexList: newIndexList
+      curIndexList: newIndexList,
+      switch1Checked: app.globalData.autoSave==1
     })
   },
 

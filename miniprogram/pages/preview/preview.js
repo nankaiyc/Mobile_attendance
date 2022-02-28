@@ -24,7 +24,8 @@ Page({
     imgBW: '',
     imgPH: '',
     imgPW: '',
-    photoMode: ''
+    photoMode: '',
+    canvasImg: ''
   },
 
   bindInputChange(e) {
@@ -42,15 +43,53 @@ Page({
     })
   },
 
+  share() {
+    this.savePhotoAuto(true)
+  },
+
+  savePhotoAuto(isShowModal) {
+    const that = this
+    if (this.data.photoMode == 3) {
+      if (this.data.canvasImg == '') {
+        wx.canvasToTempFilePath({
+          canvas: that.data.canvas,
+          complete: (e)=> {
+            that.setData({
+              canvasImg: e.tempFilePath
+            })
+            that.savePhoto(e.tempFilePath)
+            that.savePhoto(that.data.personImg)
+          }
+        })
+      } else {
+        this.savePhoto(this.data.canvasImg, false)
+        that.savePhoto(that.data.personImg, isShowModal)
+      }
+    } else if (this.data.photoMode == 2) {
+      that.savePhoto(that.data.backgroundImg, isShowModal)
+    } else if (this.data.photoMode == 1) {
+      that.savePhoto(that.data.personImg, isShowModal)
+    } else {
+      console.log(this.data.photoMode)
+    }
+  },
+
   complete() {
     const that = this
     if (this.data.photoMode == 3) {
-      wx.canvasToTempFilePath({
-        canvas: that.data.canvas,
-        complete: (e)=> {
-          that.completeUp(e.tempFilePath)
-        }
-      })
+      if (this.data.canvasImg == '') {
+        wx.canvasToTempFilePath({
+          canvas: that.data.canvas,
+          complete: (e)=> {
+            that.setData({
+              canvas: e.tempFilePath
+            })
+            that.completeUp(e.tempFilePath)
+          }
+        })
+      } else {
+        this.completeUp(this.data.canvasImg)
+      }
     } else if (this.data.photoMode == 2) {
       that.completeUp(that.data.backgroundImg)
     } else if (this.data.photoMode == 1) {
@@ -75,6 +114,9 @@ Page({
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
     console.log(finalImg)
+    if (app.globalData.autoSave == 1) {
+      this.savePhotoAuto(false)
+    }
     // const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
     // const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
     // const fs = wx.getFileSystemManager()
@@ -167,6 +209,32 @@ Page({
     })
     console.log('B', e.detail.height, e.detail.width)
   },
+
+  savePhoto(photoPath, isShowModal) {
+    const that = this
+    wx.saveImageToPhotosAlbum({
+      filePath: photoPath,
+      success: (e) => {
+        if (isShowModal) {
+          wx.showModal({
+            title: '提示',
+            content: '图片已保存至本地，可自行分享'
+          })
+        }
+      },
+      fail: (err) => {
+        if (err.errMsg == "saveImageToPhotosAlbum:fail cancel") {
+          //获取权限
+          // if (settingdata.authSetting["scope.writePhotosAlbum"]) {
+          // console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
+          // }else {
+          // console.log('获取权限失败，给出不给权限就无法正常使用的提示')
+          // }
+          // that.savePhoto(photoPath)
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -187,7 +255,6 @@ Page({
       longitude: options.longitude,
       photoMode: tmp
     })
-    console.log(options)
     if (tmp == 3) {
       const that = this
       var interval = setInterval(() => {
