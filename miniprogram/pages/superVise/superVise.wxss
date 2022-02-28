@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   width: 400rpx;
+  margin-bottom: 20rpx;
 }
 .direction_icon{
   height: 60rpx;
@@ -21,7 +22,10 @@
 }
 
 .Third_Tab{
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center
 }
 
 .content1-1{
@@ -50,11 +54,67 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 30rpx;
 }
 
 .month_item {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 30rpx 40rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.person_info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 200rpx;
+}
+
+.month_person_img {
+  width: 80rpx;
+  margin-bottom: 10rpx;
+}
+
+.month_person_name {
+  font-size: medium;
+  font-weight: 520;
+}
+
+.month_person_dept {
+  font-size: x-small;
+  color: grey;
+}
+
+.month_item_ls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+}
+
+.month_item_ls_item {
+  margin-top: 10rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.month_item_ls_block {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 5rpx;
+  margin-right: 10rpx;
+  background: yellow;
+}
+
+.month_item_ls_text {
+  font-size: small;
+  color: gray;
 }
