@@ -35,7 +35,6 @@ Page({
     date: "",
     week:"",
     month: "",
-    timer: null,
   },
 
   handleItemChange(e){
@@ -121,9 +120,6 @@ Page({
       date: TIME,
       week: WEEK,
       month: MONTH,
-    })
-    that.setData({
-      timer: _timer
     })
   },
   subDate(){
