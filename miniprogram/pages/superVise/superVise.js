@@ -44,7 +44,6 @@ Page({
       tabs
     })
   },
-
   handlemethodchange(e){
     var chosen = e.detail
     if(chosen == "设置监管范围"){
@@ -56,28 +55,75 @@ Page({
 
   setCurrentDate() {
     const that = this
+    var dateTime=new Date();
     //setInterval是根据设置的时间来回调的，比如每秒回调一次
-    let _timer = setInterval(() => {
-      var TIME = util.formatDateLine(new Date());
-      var WEEK = util.getWeekByDate(new Date());
-      var MONTH = util.formatMonthLine(new Date());
-      that.setData({
-        date: TIME,
-        week: WEEK,
-        month: MONTH,
-      })
-    }, 1000)
+    var TIME = util.formatDateLine(dateTime);
+    var WEEK = util.getWeekByDate(dateTime);
+    var MONTH = util.formatMonthLine(dateTime);
+    that.setData({
+      date: TIME,
+      week: WEEK,
+      month: MONTH,
+    })
     that.setData({
       timer: _timer
     })
   },
+  subDate(){
+    const that = this
+    var dateTime=new Date(that.data.date)
+    dateTime=dateTime.setDate(dateTime.getDate()-1);
+    dateTime=new Date(dateTime);
+    var TIME = util.formatDateLine(dateTime);
+    var WEEK = util.getWeekByDate(dateTime);
+    that.setData({
+      date: TIME,
+      week: WEEK,
+    })
+  },
+  addDate(){
+    const that = this
+    var dateTime=new Date(that.data.date)
+    dateTime=dateTime.setDate(dateTime.getDate()+1);
+    dateTime=new Date(dateTime);
+    var TIME = util.formatDateLine(dateTime);
+    var WEEK = util.getWeekByDate(dateTime);
+    that.setData({
+      date: TIME,
+      week: WEEK,
+    })
+  },
+  subMonth(){
+    const that = this
+    var dateTime=new Date(that.data.month)
+    dateTime=dateTime.setMonth(dateTime.getMonth()-1);
+    dateTime=new Date(dateTime);
+    var MONTH = util.formatMonthLine(dateTime);
+    that.setData({
+      month: MONTH,
+    })
+  },
+  addMonth(){
+    const that = this
+    var dateTime=new Date(that.data.month)
+    dateTime=dateTime.setMonth(dateTime.getMonth()+1);
+    dateTime=new Date(dateTime);
+    var MONTH = util.formatMonthLine(dateTime);
+    that.setData({
+      month: MONTH,
+    })
+  },
 
   onLoad: function (options) {
+    // var dateTime=new Date();
+    // var TIME = util.formatMonthLine(dateTime);
+    // console.log(TIME)
+    // dateTime=dateTime.setMonth(dateTime.getMonth()-2);
+    // dateTime=new Date(dateTime);
+    // TIME = util.formatMonthLine(dateTime);
+    // console.log(TIME)
     var that = this;
-    this.setCurrentDate();
-    that.setData({
-      
-    })
+    that.setCurrentDate();
   },
 
 })

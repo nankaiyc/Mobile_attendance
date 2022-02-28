@@ -1,27 +1,26 @@
 <!--pages/superVise/superVise.wxml-->
 <topbar curIndex='1' content='{{content}}' bindmethodchange="handlemethodchange"/>
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
-  <view wx:if="{{tabs[0].isActive}}" class="">
+  <view wx:if="{{tabs[0].isActive}}" class="First_Tab">
   <view class="time_tab">
-    <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left"/>
+    <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon" bindtap="subDate"/>
     <view class="date_content">{{date}} {{week}}</view>
-    <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right"/>
+    <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon" bindtap="addDate"/>
   </view>
-
     <view class="content1-2">本日无考勤数据</view>
   </view>
 
-  <view wx:elif="{{tabs[1].isActive}}">
+  <view wx:elif="{{tabs[1].isActive}}" class="Second_Tab">
     <view class="content2-1">暂无报告</view>
     <view class="content2-2">若已订阅，报告将在下次订阅时间收到</view>
     <view class="content2-3">如新订阅，请联系你的考勤平台管理员</view>
   </view>
 
-  <view wx:else>
+  <view wx:else class="Third_Tab">
     <view class="month_tab">
-      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left"/>
-      <view class="content3-1">考勤月：{{month}}</view>
-      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right"/>
+      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon" bindtap="subMonth"/>
+      <view class="month_content">考勤月：{{month}}</view>
+      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon" bindtap="addMonth"/>
     </view>
   </view>
 </Tabs>
