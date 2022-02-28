@@ -8,6 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    screenHeight: 0,
+    screenWidth: 0,
     content: [
       {
         index : 0,
@@ -56,7 +58,7 @@ Page({
 
   getDailyReportsByDate(date) {
     // case: '2022-01-01'
-    console.log(app.dailyReportsArray.filter((val) => {return val.reportTime == date}))
+    console.log(app.punchRecordsArray.filter((val) => {return val.date == date}))
   },
   
   getMonthlyReports(month) {
@@ -98,7 +100,7 @@ Page({
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.monthlyReportsArray
-          console.log(newArray)
+          // console.log(newArray)
           that.setData({
             monthlyReportsArray: newArray
           })
@@ -116,6 +118,7 @@ Page({
     var TIME = util.formatDateLine(dateTime);
     var WEEK = util.getWeekByDate(dateTime);
     var MONTH = util.formatMonthLine(dateTime);
+    this.getMonthlyReports(MONTH)
     that.setData({
       date: TIME,
       week: WEEK,
@@ -155,6 +158,7 @@ Page({
     that.setData({
       month: MONTH,
     })
+    this.getMonthlyReports(MONTH)
   },
   addMonth(){
     const that = this
@@ -165,6 +169,7 @@ Page({
     that.setData({
       month: MONTH,
     })
+    this.getMonthlyReports(MONTH)
   },
 
   onLoad: function (options) {
@@ -177,5 +182,9 @@ Page({
     // console.log(TIME)
     var that = this;
     that.setCurrentDate();
+    this.setData({
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth
+    })
   },
 })
