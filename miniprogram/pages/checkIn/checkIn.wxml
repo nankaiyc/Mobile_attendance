@@ -19,13 +19,11 @@
   bindtouchstart="touchStartButton" bindtouchmove="touchMoveButton" bindtouchend="touchEndButton"/>
 
   <view wx:if="{{!interface1}}" class="Info">{{name}}  ( 考勤号：{{id}} )</view>
-  <view wx:if="{{!interface1}}" class="History" wx:for="{{HistoryRecord}}" wx:key="index">
-    <view class="image"><image src="../../resource/icon_ok.png" mode="heightFix" class="judge_icon"/></view>  
-    <view class="text">{{item}}</view>
+  <view class="history_box">
+    <view wx:if="{{!interface1}}" class="History" wx:for="{{punchRecordsArray}}" wx:key="index">
+      <view class="image"><image src="../../resource/icon_ok.png" mode="heightFix" class="judge_icon"/></view>  
+      <view class="text">{{item.date + ' ' + item.time +  '于' + item.deviceLocation + '打卡成功'}}</view>
+    </view>
   </view>
 
 </view>
-
-
-
-<!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">getPhoneNumber</button> -->

@@ -49,6 +49,8 @@ Page({
     HistoryRecord:[],
     ak:"UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL",
     markers: [],
+    punchRecordsArray:[] //"2022-02-19 19:14:21于解放村打卡成功。","2022-02-19 19:14:21于南开大学打卡成功。","123","456"
+
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -191,8 +193,18 @@ Page({
   },
 
   popUp() {
+    const that = this
     if (app.globalData.AppPhoto >= 10) {
-      //弹窗，success中get_location
+      wx.showActionSheet({
+        itemList: ['不拍照', '自拍', '拍场景', '自拍 + 拍场景'],
+        success: (e) => {
+          that.setData({
+            photomode: e.tapIndex
+          })
+          app.globalData.AppPhoto = 10 + e.tapIndex
+          that.get_location()
+        }
+      })
     } else {
       this.get_location()
     }
@@ -268,9 +280,7 @@ Page({
           flag = 0
           if(this.data.photomode == 0){
             // 待完善
-            wx.navigateTo({
-              url: '../../pages/checkInResult/checkInResult?status=success&locationName=' + CheckinPalces[i].name,
-            })
+            console.log('不拍照')
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
@@ -309,28 +319,21 @@ Page({
     })
   },
 
-
   onLoad: function (options) {
     var that = this;
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
     that.setData({
-      imgurl: photo ? photo : app.globalData.avatarUrl,
+      imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
       apartment:app.globalData.apartment,
       GPSplace:app.globalData.GPSplace,  
       id:app.globalData.AttNo,
-      // photomode:2
-      photomode:app.globalData.AppPhoto % 10
+      photomode:app.globalData.AppPhoto % 10,
+      punchRecordsArray: app.punchRecordsArray
     })
     if (options.directlyCheck == 'true') {
       this.popUp()
-      // var interval = setInterval(() => {
-      //   if (this.data.locallatitude != 0) {
-      //     clearInterval(interval)
-      //     that.take_photo()
-      //   }
-      // }, 500)
     }
   },
 })
