@@ -30,7 +30,7 @@
       <image src="../../resource/ic_action_undo.png" mode="widthFix" class="item_img"/>
       <view class="item_text">重拍</view>
     </view>
-    <view class="item">
+    <view class="item" bindtap="share">
       <image src="../../resource/ic_action_share.png" mode="widthFix" class="item_img"/>
       <view class="item_text">分享</view>
     </view>

@@ -14,5 +14,12 @@
 
   <view wx:else>
     <view class="content3-1">考勤月：2022-02</view>
+    <view class="month_body">
+      <view class="month_item">
+        <view class="person_info">
+          
+        </view>
+      </view>
+    </view>
   </view>
 </Tabs>
