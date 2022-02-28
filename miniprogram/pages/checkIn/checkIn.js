@@ -5,6 +5,9 @@ const app = getApp();
 var startX,startY,endX,endY;
 var moveFlag = true;// 判断执行滑动事件
 var util = require('../../utils/util.js');
+const CryptoJS = require('../../utils/crypto.js')
+var bmap = require('../../utils/bmap-wx.js'); 
+
 Page({
 
   /**
@@ -41,9 +44,11 @@ Page({
     checkin_button:"../../resource/checkin_button1.png",
     GPSplace:[],
     photomode:0,
-    locallatitude:0,
-    locallongitude:0,
-    HistoryRecord:["2022-02-19 19:14:21于解放村打卡成功。","2022-02-19 19:14:21于南开大学打卡成功。","123","456"]
+    latitude:0,
+    longitude:0,
+    HistoryRecord:[],
+    ak:"UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL",
+    markers: [],
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
@@ -145,7 +150,6 @@ Page({
     this.button_selected();
     moveFlag = true;
   },
-
   touchMoveButton(e){
     endX = e.touches[0].pageX; // 获取触摸时的原点
     endY = e.touches[0].pageY;
@@ -161,7 +165,6 @@ Page({
       }
     }
   },
-
   touchEndButton(e){
     if(this.data.checkin_button == "../../resource/checkin_button1.png"){
       // this.checkin_Failure();
@@ -194,38 +197,61 @@ Page({
       this.get_location()
     }
   },
-
   get_location() {
     var that = this;
     wx.showLoading({
       title: '正在获取位置···',
     })
-    wx.getLocation({
-      type: 'wgs84',
-      isHighAccuracy:true,
-      highAccuracyExpireTime:6000,
-      success (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        const accuracy = res.accuracy
-        // wx.openLocation({
-        //   latitude: res.latitude,
-        //   longitude: res.longitude,
-        //   scale: 28
-        // })
-        // console.log(latitude, longitude,accuracy)
-        that.setData({
-          locallatitude:latitude,
-          locallongitude:longitude,      
-        })
-        app.globalData.locallatitude = latitude
-        app.globalData.locallongitude = longitude
-        wx.hideLoading({
-          title: '正在获取位置···',
-        })
-        that.take_photo()
-      }
-     })  
+    var BMap = new bmap.BMapWX({ 
+      ak: that.data.ak 
+    }); 
+    var fail = function(data) { 
+      console.log(data);
+    }; 
+    var success = function(data) { 
+      //返回数据内，已经包含经纬度
+      // console.log(data.wxMarkerData);
+      const lati = data.wxMarkerData[0].latitude
+      const longi = data.wxMarkerData[0].longitude
+      //把所有数据放在初始化data内
+      that.setData({ 
+        latitude: lati,
+        longitude: longi,
+      })
+      app.globalData.locallatitude = lati
+      app.globalData.locallongitude = longi
+      console.log(lati);
+      console.log(longi);
+      wx.hideLoading({
+        title: '正在获取位置···',
+      })
+      that.take_photo()
+    } 
+  // 发起regeocoding检索请求 
+    BMap.regeocoding({ 
+      fail: fail, 
+      success: success
+    });   
+    // wx.getLocation({
+    //   type: 'wgs84',
+    //   isHighAccuracy:true,
+    //   highAccuracyExpireTime:6000,
+    //   success (res) {
+    //     const latitude = res.latitude
+    //     const longitude = res.longitude
+    //     const accuracy = res.accuracy
+    //     that.setData({
+    //       locallatitude:latitude,
+    //       locallongitude:longitude,      
+    //     })
+    //     app.globalData.locallatitude = latitude
+    //     app.globalData.locallongitude = longitude
+    //     wx.hideLoading({
+    //       title: '正在获取位置···',
+    //     })
+    //     that.take_photo()
+    //   }
+    //  })  
   },
   take_photo(){
     var that = this;
@@ -236,9 +262,9 @@ Page({
         const checkin_latitude = CheckinPalces[i].location.lat
         const checkin_longitude = CheckinPalces[i].location.lng
         const radius = CheckinPalces[i].radius / 1000
-        const dis = util.getdistance(this.data.locallatitude,this.data.locallongitude,checkin_latitude,checkin_longitude)
+        const dis = util.getdistance(this.data.latitude,this.data.longitude,checkin_latitude,checkin_longitude)
         console.log(radius, dis)
-        if(dis <= radius*20){
+        if(dis <= radius*4){
           flag = 0
           if(this.data.photomode == 0){
             // 待完善
@@ -307,5 +333,4 @@ Page({
       // }, 500)
     }
   },
-    
 })

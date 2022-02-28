@@ -1,4 +1,28 @@
 /* pages/superVise/superVise.wxss */
+.time_tab {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.direction_icon_left{
+  height: 60rpx;
+}
+.date_content{
+  font-size: 25rpx;
+  font-weight: 400;
+}
+.direction_icon_right{
+  height: 60rpx;
+}
+
+.month_tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .content1-1 content3-1{
   font-size: 15px;
 }
