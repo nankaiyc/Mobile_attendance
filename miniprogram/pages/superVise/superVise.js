@@ -1,4 +1,6 @@
 // pages/superVise/superVise.js
+var util = require('../../utils/util.js');
+const app = getApp();
 Page({
 
   /**
@@ -27,7 +29,11 @@ Page({
         name:"考勤统计",
         isActive:false
       },
-    ]
+    ],
+    date: "",
+    week:"",
+    month: "",
+    timer: null,
   },
 
   handleItemChange(e){
@@ -47,4 +53,31 @@ Page({
       })
     }
   },
+
+  setCurrentDate() {
+    const that = this
+    //setInterval是根据设置的时间来回调的，比如每秒回调一次
+    let _timer = setInterval(() => {
+      var TIME = util.formatDateLine(new Date());
+      var WEEK = util.getWeekByDate(new Date());
+      var MONTH = util.formatMonthLine(new Date());
+      that.setData({
+        date: TIME,
+        week: WEEK,
+        month: MONTH,
+      })
+    }, 1000)
+    that.setData({
+      timer: _timer
+    })
+  },
+
+  onLoad: function (options) {
+    var that = this;
+    this.setCurrentDate();
+    that.setData({
+      
+    })
+  },
+
 })

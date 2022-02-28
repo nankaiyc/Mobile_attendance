@@ -1,8 +1,13 @@
 <!--pages/superVise/superVise.wxml-->
 <topbar curIndex='1' content='{{content}}' bindmethodchange="handlemethodchange"/>
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
-  <view wx:if="{{tabs[0].isActive}}">
-    <view class="content1-1">2022-02-09 周三</view>
+  <view wx:if="{{tabs[0].isActive}}" class="">
+  <view class="time_tab">
+    <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left"/>
+    <view class="date_content">{{date}} {{week}}</view>
+    <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right"/>
+  </view>
+
     <view class="content1-2">本日无考勤数据</view>
   </view>
 
@@ -13,6 +18,10 @@
   </view>
 
   <view wx:else>
-    <view class="content3-1">考勤月：2022-02</view>
+    <view class="month_tab">
+      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left"/>
+      <view class="content3-1">考勤月：{{month}}</view>
+      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right"/>
+    </view>
   </view>
 </Tabs>
