@@ -6,6 +6,8 @@
     "pages/checkIn/checkIn",
     "pages/checkInResult/checkInResult",
     "pages/superVise/superVise",
+    "pages/DailyReport/DailyReport",
+    "pages/MonthlyReport/MonthlyReport",
     "pages/member/member",
     "pages/person/person",
     "pages/personInfo/personInfo",

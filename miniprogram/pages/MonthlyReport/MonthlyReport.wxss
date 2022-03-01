@@ -1,0 +1,96 @@
+/* pages/MonthlyReport/MonthlyReport.wxss */
+.user_tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid gainsboro;
+  height: 45px;
+}
+.Name{
+  margin-left: 20rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+.att_rate{
+  margin-right: 20rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: green;
+}
+
+.monthly_report{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 1px solid gainsboro;
+}
+.group{
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+.report{
+  font-size: 30rpx;
+  font-weight: 500;
+  color: grey;
+}
+.daily_date{
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+  font-size: 35rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+}
+
+.dailyDate_Tab{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+ 
+}
+.dailyDate_content{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* align-items: center; */
+  border-bottom: 1px solid gainsboro;
+}
+.datetime{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  margin-left: 20rpx;
+}
+.Date{
+  font-size: 30rpx;
+  font-weight: 500;
+  color: grey;
+  margin-top: 5rpx;
+}
+.week,.classes{
+  font-size: 25rpx;
+  font-weight: 500;
+  color: grey;
+  margin-top: 5rpx;
+}
+.daterecord{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  margin-left: 20rpx;
+}
+.condition{
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-top: 5rpx;
+}
+.record{
+  font-size: 25rpx;
+  font-weight: 500;
+  margin-top: 5rpx;
+  margin-bottom: 5rpx;
+}
