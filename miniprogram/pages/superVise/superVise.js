@@ -1,6 +1,7 @@
 // pages/superVise/superVise.js
+const app = getApp()
+const CryptoJS = require('../../utils/crypto.js')
 var util = require('../../utils/util.js');
-const app = getApp();
 Page({
 
   /**
@@ -141,7 +142,6 @@ Page({
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.monthlyReportsArray
-          console.log(newArray)
           that.setData({
             monthlyReportsArray: newArray
           })
@@ -160,13 +160,13 @@ Page({
     var TIME = util.formatDateLine(dateTime);
     var WEEK = util.getWeekByDate(dateTime);
     var MONTH = util.formatMonthLine(dateTime);
+    this.getMonthlyReports(MONTH)
     that.setData({
       date: TIME,
       week: WEEK,
       month: MONTH,
     })
     this.getDailyReportsByDate(dateTime)
-
   },
   subDate(){
     const that = this
@@ -203,6 +203,7 @@ Page({
     that.setData({
       month: MONTH,
     })
+    this.getMonthlyReports(MONTH)
   },
   addMonth(){
     const that = this
@@ -213,16 +214,15 @@ Page({
     that.setData({
       month: MONTH,
     })
+    this.getMonthlyReports(MONTH)
   },
 
   onLoad: function (options) {
     var that = this;
     that.setCurrentDate();
-    
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
     })
   },
-
 })
