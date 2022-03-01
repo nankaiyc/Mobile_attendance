@@ -33,7 +33,20 @@ Page({
     date: "",
     week:"",
     month: "",
-    timer: null,
+    screenHeight: 0,
+    screenWidth: 0,
+    StaffList: [
+      {
+        name:"秦寅畅",
+        company:"开发测试1",
+        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
+      },
+      {
+        name:"王文鹏",
+        company:"开发测试2",
+        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
+      },
+  ],
   },
 
   handleItemChange(e){
@@ -53,6 +66,93 @@ Page({
     }
   },
 
+  getDailyReportsByDate(date) {
+    // case: '2022-01-01'
+    var that = this;
+    that.setData({
+      StaffList: [],
+    })
+    var DailyReports = app.punchRecordsArray.filter((val) => {return val.date == date})
+
+    for(var i in DailyReports) {
+      var tempdic = {}
+//       console.log(DailyReports[i])
+      var flag = 0  
+      for(var j in this.data.StaffList){      
+        if(this.data.StaffList[j].name == DailyReports[i].staffName){
+          var MSG = DailyReports[i].date +' '+ DailyReports[i].time+' '+DailyReports[i].deviceLocation
+          // console.log(MSG)
+          this.data.StaffList[j].message.push(MSG)
+          flag = 1
+        }
+      }
+      if(flag == 0){
+        var MSG = DailyReports[i].date +' '+ DailyReports[i].time+' '+DailyReports[i].deviceLocation
+        // console.log(MSG)
+        tempdic.name = DailyReports[i].staffName
+        tempdic.company = DailyReports[i].deptName
+        tempdic.message = []
+        tempdic.message.push(MSG)
+        this.data.StaffList.push(tempdic)
+      }    
+    }
+    that.setData({
+      StaffList: this.data.StaffList,
+    })
+    // console.log(this.data.StaffList)
+  },
+  
+  getMonthlyReports(month) {
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+    this.data.monthlyReportsArray = []
+    this.getMonthlyReportsSinal(month, 0)
+  },
+
+  getMonthlyReportsSinal(month, index) {
+    const that = this
+    var clid = app.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    const maxResult = 5
+    var _p = {
+      '_s': clid + timestamp,
+      'month': month,
+      'maxResult': maxResult,
+      'index': index,
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: app.globalData.baseUrl + '/monthlyReports/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'monthlyReports ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
+        if (res.RESULT < maxResult) {
+          const newArray = that.data.monthlyReportsArray
+          console.log(newArray)
+          that.setData({
+            monthlyReportsArray: newArray
+          })
+          wx.hideLoading({})
+        } else {
+          that.getMonthlyReportsSinal(month, index + maxResult)
+        }
+      }
+    })
+  },
+
   setCurrentDate() {
     const that = this
     var dateTime=new Date();
@@ -65,9 +165,8 @@ Page({
       week: WEEK,
       month: MONTH,
     })
-    that.setData({
-      timer: _timer
-    })
+    this.getDailyReportsByDate(dateTime)
+
   },
   subDate(){
     const that = this
@@ -80,6 +179,7 @@ Page({
       date: TIME,
       week: WEEK,
     })
+    this.getDailyReportsByDate(this.data.date)
   },
   addDate(){
     const that = this
@@ -92,6 +192,7 @@ Page({
       date: TIME,
       week: WEEK,
     })
+    this.getDailyReportsByDate(this.data.date)
   },
   subMonth(){
     const that = this
@@ -115,15 +216,13 @@ Page({
   },
 
   onLoad: function (options) {
-    // var dateTime=new Date();
-    // var TIME = util.formatMonthLine(dateTime);
-    // console.log(TIME)
-    // dateTime=dateTime.setMonth(dateTime.getMonth()-2);
-    // dateTime=new Date(dateTime);
-    // TIME = util.formatMonthLine(dateTime);
-    // console.log(TIME)
     var that = this;
     that.setCurrentDate();
+    
+    that.setData({
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth,
+    })
   },
 
 })

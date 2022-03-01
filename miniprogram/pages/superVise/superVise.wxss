@@ -10,16 +10,57 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 400rpx;
+  border-bottom: 1px solid gainsboro;
 }
-.direction_icon{
-  height: 60rpx;
+.direction_icon_left{
+  height: 70rpx;
+  margin-left: 22%;
+}
+.direction_icon_right{
+  height: 70rpx;
+  margin-right: 22%;
 }
 .date_content,.month_content{
   font-size: 30rpx;
   font-weight: 400;
 }
-
+.time_tab_content{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid gainsboro;
+}
+.default_user{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+.user_icon{
+  margin-left: 10rpx;
+  height: 70rpx;
+} 
+.Name{
+  margin-left: 20rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+}
+.Company{
+  margin-left: 20rpx;
+  font-size: 35rpx;
+  font-weight: 500;
+}
+.message{
+  margin-left: 95rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 5rpx;
+}
+.nocheckin_message{
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-top: 100rpx;
+}
 .Third_Tab{
 
 }
