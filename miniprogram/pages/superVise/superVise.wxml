@@ -2,12 +2,20 @@
 <topbar curIndex='1' content='{{content}}' bindmethodchange="handlemethodchange"/>
 <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
   <view wx:if="{{tabs[0].isActive}}" class="First_Tab">
-  <view class="time_tab">
-    <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon" bindtap="subDate"/>
-    <view class="date_content">{{date}} {{week}}</view>
-    <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon" bindtap="addDate"/>
-  </view>
-    <view class="content1-2">本日无考勤数据</view>
+    <view class="time_tab" style="width: {{screenWidth}}px;">
+      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left" bindtap="subDate"/>
+      <view class="date_content">{{date}} {{week}}</view>
+      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right" bindtap="addDate"/>
+    </view>
+    <view class="time_tab_content" style="width: {{screenWidth}}px;" wx:for="{{StaffList}}" wx:key="index">
+      <view class="default_user" >
+        <image src="../../resource/default_user_icon.png" mode="heightFix" class="user_icon"/>
+        <view class="Name">{{item.name}}</view>
+        <view class="Company">{{item.company}}</view>
+      </view>
+      <view class="message" wx:for="{{item.message}}" wx:key="index">{{item}}</view>
+    </view>
+    <view wx:if="{{StaffList.length == 0}}" class="nocheckin_message">本日无考勤数据</view>
   </view>
 
   <view wx:elif="{{tabs[1].isActive}}" class="Second_Tab">
@@ -17,10 +25,18 @@
   </view>
 
   <view wx:else class="Third_Tab">
-    <view class="month_tab">
-      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon" bindtap="subMonth"/>
+    <view class="month_tab" style="width: {{screenWidth}}px;">
+      <image src="../../resource/item_left.png" mode="heightFix" class="direction_icon_left" bindtap="subMonth"/>
       <view class="month_content">考勤月：{{month}}</view>
-      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon" bindtap="addMonth"/>
+      <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right" bindtap="addMonth"/>
+
+      <view class="month_body">
+        <view class="month_item">
+          <view class="person_info">
+          
+          </view>
+        </view>
+      </view>
     </view>
     
     <view class="month_body">
