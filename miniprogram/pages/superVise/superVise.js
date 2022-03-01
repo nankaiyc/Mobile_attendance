@@ -31,6 +31,8 @@ Page({
         isActive:false
       },
     ],
+    monthlyReportsArray: [],
+    dailyReportsArray: [],
     date: "",
     week:"",
     month: "",
@@ -54,6 +56,9 @@ Page({
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
+    if (index == 2) {
+      this.getMonthlyReports(this.data.month)
+    }
     this.setData({
       tabs
     })
@@ -166,6 +171,69 @@ Page({
       }
     })
   },
+  
+  getDailyReports() {
+    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
+    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
+    let lastSyncTime = wx.getStorageSync('dailyReportsLastSyncTime')
+    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
+    var dateTime = new Date()
+    dateTime = dateTime.setDate(dateTime.getDate()-31)
+    dateTime = new Date(dateTime)
+    const beginDate = util.formatDateLine(dateTime)
+    const endDate = util.formatDateLine(new Date())
+    this.data.dailyReportsArray = dailyReportsArray
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+    this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, 0)
+  },
+
+  getDailyReportsSinal(lastSyncTime, beginDate, endDate, index) {
+    const that = this
+    var clid = app.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    const maxResult = 5
+    var _p = {
+      '_s': clid + timestamp,
+      'lastSyncTime': lastSyncTime,
+      'maxResult': maxResult,
+      'index': index,
+      'beginDate': beginDate,
+      'endDate': endDate
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: app.globalData.baseUrl + '/dailyReports/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'dailyReports ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
+        if (res.RESULT < maxResult) {
+          const newArray = that.data.dailyReportsArray
+          wx.setStorageSync('dailyReportsLastSyncTime', endDate + util.formatTime(new Date()))
+          wx.setStorageSync('dailyReportsArray', JSON.stringify(newArray))
+          that.setData({
+            dailyReportsArray: newArray
+          })
+          wx.hideLoading({})
+        } else {
+          that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        }
+      }
+    })
+  },
 
   setCurrentDate() {
     const that = this
@@ -174,12 +242,12 @@ Page({
     var TIME = util.formatDateLine(dateTime);
     var WEEK = util.getWeekByDate(dateTime);
     var MONTH = util.formatMonthLine(dateTime);
-    this.getMonthlyReports(MONTH)
     that.setData({
       date: TIME,
       week: WEEK,
       month: MONTH,
     })
+    this.getDailyReports()
     this.getDailyReportsByDate(dateTime)
   },
   subDate(){

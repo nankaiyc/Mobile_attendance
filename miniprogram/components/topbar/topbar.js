@@ -27,6 +27,9 @@ Component({
       wx.navigateTo({
         url: '../../pages/messageList/messageList',
       })
+    },
+    check() {
+      this.triggerEvent("checkchange")
     }
   },
 
