@@ -6,41 +6,41 @@
       <image src="../../resource/default_user_icon.png" mode="heightFix" class="default_user_icon"/>
     </view>
     <view class="second_left">
-      <view class="bold_text">{{name}}</view>
-      <view class="thin_text">{{company}}</view>
+      <view class="bold_text">{{personInfo.Name}}</view>
+      <view class="thin_text">{{personInfo.deptName}}</view>
     </view>
   </view>
 
   <view class="item">
     <view class="first_left">
       <view class="blue_text">考勤号</view>
-      <view class="info_text">{{id}}</view>
+      <view class="info_text">{{personInfo.AttNo}}</view>
     </view>
   </view>
 
   <view class="item">
     <view class="first_left">
       <view class="blue_text">入职时间</view>
-      <view class="info_text">{{entry_data}}</view>
+      <view class="info_text">{{personInfo.jobDate}}</view>
     </view>
   </view>
 
   <view class="item phone">
     <view class="first_left">
       <view class="blue_text">电话</view>
-      <view class="info_text">{{phone}}</view>
+      <view class="info_text">{{personInfo.mobile}}</view>
     </view>
     <view class="first_right">
       <image src="../../resource/contact_sms.png" mode="heightFix" class="contact_icon"/>
       <image src="../../resource/contact_phone.png" mode="heightFix" class="contact_icon"
-      bindtap="launchPhoneCall" data-tel="{{phone}}"/>
+      bindtap="launchPhoneCall" data-tel="{{personInfo.mobile}}"/>
     </view>
   </view>
 
   <view class="item">
     <view class="first_left">
       <view class="blue_text">邮箱</view>
-      <view class="info_text"></view>
+      <view class="info_text">{{personInfo.email}}</view>
     </view>
   </view>
 </view>
