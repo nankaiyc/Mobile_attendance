@@ -1,0 +1,35 @@
+/* pages/DailyReport/DailyReport.wxss */
+.user_tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid gainsboro;
+  height: 45px;
+}
+.Name{
+  margin-left: 20rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+.Time{
+  margin-left: 30rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.daily_report{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.group{
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+.report{
+  font-size: 30rpx;
+  font-weight: 500;
+  color: grey;
+}

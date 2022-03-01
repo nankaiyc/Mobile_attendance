@@ -67,6 +67,20 @@ Page({
     }
   },
 
+  DailyReport_Detail(e){
+    var name = e.currentTarget.dataset.name
+    wx.navigateTo({
+      url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week,
+    })
+  },
+
+  MonthlyReport_Detail(e){
+    var name = e.currentTarget.dataset.name
+    wx.navigateTo({
+      url: '../../pages/MonthlyReport/MonthlyReport?name=' + name + '&month=' + this.data.month,
+    })
+  },
+
   getDailyReportsByDate(date) {
     // case: '2022-01-01'
     var that = this;
