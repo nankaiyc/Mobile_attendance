@@ -8,8 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    screenHeight: 0,
-    screenWidth: 0,
     content: [
       {
         index : 0,
@@ -38,6 +36,20 @@ Page({
     date: "",
     week:"",
     month: "",
+    screenHeight: 0,
+    screenWidth: 0,
+    StaffList: [
+      {
+        name:"秦寅畅",
+        company:"开发测试1",
+        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
+      },
+      {
+        name:"王文鹏",
+        company:"开发测试2",
+        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
+      },
+  ],
   },
 
   handleItemChange(e){
@@ -58,6 +70,56 @@ Page({
         url: '../../pages/attendancePersonSet/attendancePersonSet',
       })
     }
+  },
+
+  DailyReport_Detail(e){
+    var name = e.currentTarget.dataset.name
+    wx.navigateTo({
+      url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week,
+    })
+  },
+
+  MonthlyReport_Detail(e){
+    var name = e.currentTarget.dataset.name
+    wx.navigateTo({
+      url: '../../pages/MonthlyReport/MonthlyReport?name=' + name + '&month=' + this.data.month,
+    })
+  },
+
+  getDailyReportsByDate(date) {
+    // case: '2022-01-01'
+    var that = this;
+    that.setData({
+      StaffList: [],
+    })
+    var DailyReports = app.punchRecordsArray.filter((val) => {return val.date == date})
+
+    for(var i in DailyReports) {
+      var tempdic = {}
+//       console.log(DailyReports[i])
+      var flag = 0  
+      for(var j in this.data.StaffList){      
+        if(this.data.StaffList[j].name == DailyReports[i].staffName){
+          var MSG = DailyReports[i].date +' '+ DailyReports[i].time+' '+DailyReports[i].deviceLocation
+          // console.log(MSG)
+          this.data.StaffList[j].message.push(MSG)
+          flag = 1
+        }
+      }
+      if(flag == 0){
+        var MSG = DailyReports[i].date +' '+ DailyReports[i].time+' '+DailyReports[i].deviceLocation
+        // console.log(MSG)
+        tempdic.name = DailyReports[i].staffName
+        tempdic.company = DailyReports[i].deptName
+        tempdic.message = []
+        tempdic.message.push(MSG)
+        this.data.StaffList.push(tempdic)
+      }    
+    }
+    that.setData({
+      StaffList: this.data.StaffList,
+    })
+    // console.log(this.data.StaffList)
   },
   
   getMonthlyReports(month) {
@@ -99,7 +161,6 @@ Page({
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.monthlyReportsArray
-          // console.log(newArray)
           that.setData({
             monthlyReportsArray: newArray
           })
@@ -187,6 +248,7 @@ Page({
       month: MONTH,
     })
     this.getDailyReports()
+    this.getDailyReportsByDate(dateTime)
   },
   subDate(){
     const that = this
@@ -199,6 +261,7 @@ Page({
       date: TIME,
       week: WEEK,
     })
+    this.getDailyReportsByDate(this.data.date)
   },
   addDate(){
     const that = this
@@ -211,6 +274,7 @@ Page({
       date: TIME,
       week: WEEK,
     })
+    this.getDailyReportsByDate(this.data.date)
   },
   subMonth(){
     const that = this
@@ -238,9 +302,9 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.setCurrentDate();
-    this.setData({
+    that.setData({
       screenHeight: app.globalData.screenHeight,
-      screenWidth: app.globalData.screenWidth
+      screenWidth: app.globalData.screenWidth,
     })
   },
 })

@@ -1,0 +1,43 @@
+<!--pages/MonthlyReport/MonthlyReport.wxml-->
+<topbar curIndex='20'/>
+<view class="user_tab">
+  <view class="Name">{{name}} {{month}}</view>
+  <view class="att_rate">出勤率 {{rate}}</view>
+</view>
+
+<view class="monthly_report">
+  <view class="group">
+    <view class="report">应出勤20.0天，实际出勤0.0天</view>
+  </view>
+  <view class="group">
+    <view class="report">有薪假0次,共0.0h</view>
+    <view class="report">无薪假0次,共0.0h</view>
+  </view>
+  <view class="group">
+    <view class="report">平常加班：0.0h</view>
+    <view class="report">休日加班：0.0h</view>
+    <view class="report">假日加班：0.0h</view>
+  </view>
+  <view class="group">
+    <view class="report">迟到次数/时长：0次/0.00m</view>
+    <view class="report">早退次数/时长：0次/0m</view>
+    <view class="report">缺勤次数/时长：<text style="color: red;font-weight: 700;">0次/0.00h</text></view>
+    <view class="report">旷工次数/时长：<text style="color: red;font-weight: 700;">0次/0.00h</text></view>
+    <view class="report">缺卡次数：0次</view>
+  </view>
+<view class="daily_date">日报数据</view>
+</view>
+
+<view class="dailyDate_Tab">
+  <view class="dailyDate_content" wx:for="{{dailyDate}}" wx:key="index" style="width: {{screenWidth}}px;">
+  <view class="datetime" >
+    <view class="Date">{{item.date}}</view>
+    <view class="week">{{item.week}}</view>
+  </view>
+  <view class="daterecord" >
+    <view class="condition"><text style="color: red;">{{item.condition}}</text></view>
+    <view class="classes">{{item.classes}}</view>
+    <view class="record"><text style="color: red;">{{item.record}}</text></view>
+  </view>
+</view>
+</view>
