@@ -275,6 +275,9 @@ Component({
           if (staffqueryGroups) {
             that.data.staffqueryGroups = staffqueryGroups
             that.getEmployeesByGroup(0)
+          } else {
+            wx.hideLoading({})
+            that.initParms()
           }
         }
       })
