@@ -33,17 +33,33 @@ Page({
   },
 
   nonPositioned () {
+    const that = this
     console.log(app.globalData.locallatitude, app.globalData.locallongitude)
     wx.chooseLocation({
       latitude: app.globalData.locallatitude,
       longitude: app.globalData.locallongitude,
       success: (e) => {
         console.log(e.name, e.latitude, e.longitude)
-        wx.navigateTo({
-          url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude + '&photomode=' + this.data.photoMode,
-        })
+        if (that.data.photoMode == 0) {
+          that.completeUp(e.name, e.latitude, e.longitude)
+        } else {
+          wx.navigateTo({
+            url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude + '&photomode=' + this.data.photoMode,
+          })
+        }
       }
     })
+  },
+  
+  completeUp(locationName, latitude, longitude) {
+    const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+    const mac = '00:00:00:00:00:00'
+    let pid = '0' + '\t' + locationName + '@' + latitude + ',' + longitude
+    const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
+    let dateTimeP = dateTime.replace(/-/g, '')
+    dateTimeP = dateTimeP.replace(/:/g, '')
+    dateTimeP = dateTimeP.replace(/ /g, '')
+    app.postRecord(item, '', '', locationName, dateTimeP)
   },
   /**
    * 生命周期函数--监听页面加载

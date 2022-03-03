@@ -214,6 +214,7 @@ Component({
           var res = JSON.parse(CryptoJS.Base64Decode(e.data))
           console.log(res)
           let staffDepts = res.StaffDepts
+          staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
           let staffqueryGroups = res.StaffqueryGroups
           that.getEmployees(staffDepts, staffqueryGroups)
         }
@@ -384,11 +385,12 @@ Component({
     saveSelected() {
       let selectedArray = []
       for (var i in this.data.itemArray) {
-        if (this.data.itemArray[i].selectStatus == 1) {
+        if (this.data.itemArray[i].selectStatus != 0) {
           selectedArray.push(this.data.itemArray[i].staffId)
         }
       }
       wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
+      app.globalData.selectedArray = selectedArray
       wx.showModal({
         title: '保存成功！',
         success: (e) => {
@@ -404,8 +406,9 @@ Component({
 
   lifetimes: {
     attached: function () {
-      let selectedArray = wx.getStorageSync('selectedArray')
-      this.data.selectedArray = selectedArray?JSON.parse(selectedArray):[]
+      this.setData({
+        selectedArray: app.globalData.selectedArray
+      })
       this.getDepartAndGroup()
     }
   }

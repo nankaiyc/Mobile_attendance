@@ -49,7 +49,8 @@ Page({
         company:"开发测试2",
         message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
       },
-  ],
+    ],
+    selectedArray: []
   },
 
   handleItemChange(e){
@@ -80,9 +81,10 @@ Page({
   },
 
   MonthlyReport_Detail(e){
-    var name = e.currentTarget.dataset.name
+    const that = this
+    var index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../../pages/MonthlyReport/MonthlyReport?name=' + name + '&month=' + this.data.month,
+      url: '../../pages/MonthlyReport/MonthlyReport?monthItem=' + JSON.stringify(that.data.monthlyReportsArray[index]),
     })
   },
 
@@ -92,7 +94,7 @@ Page({
     that.setData({
       StaffList: [],
     })
-    var DailyReports = app.punchRecordsArray.filter((val) => {return val.date == date})
+    var DailyReports = app.punchRecordsArray.filter((val) => {return val.date == date && that.data.selectedArray.includes(val.staffId)})
 
     for(var i in DailyReports) {
       var tempdic = {}
@@ -161,6 +163,9 @@ Page({
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.monthlyReportsArray
+          for (var i in newArray) {
+            newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
+          }
           that.setData({
             monthlyReportsArray: newArray
           })
@@ -305,6 +310,7 @@ Page({
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
+      selectedArray: app.globalData.selectedArray
     })
   },
 })
