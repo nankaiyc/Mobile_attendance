@@ -7,7 +7,7 @@
       <view class="date_content">{{date}} {{week}}</view>
       <image src="../../resource/item_right.png" mode="heightFix" class="direction_icon_right" bindtap="addDate"/>
     </view>
-    <view class="time_tab_content" style="width: {{screenWidth}}px;" wx:for="{{StaffList}}" wx:key="index" bindtap="DailyReport_Detail" data-name = "{{item.name}}">
+    <view class="time_tab_content" style="width: {{screenWidth}}px;" wx:for="{{StaffList}}" wx:key="index" bindtap="DailyReport_Detail" data-name = "{{item.name}}" data-staffId = "{{item.staffId}}">
       <view class="default_user" >
         <image src="../../resource/default_user_icon.png" mode="heightFix" class="user_icon"/>
         <view class="Name">{{item.name}}</view>

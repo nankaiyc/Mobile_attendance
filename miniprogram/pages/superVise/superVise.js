@@ -41,11 +41,13 @@ Page({
     StaffList: [
       {
         name:"秦寅畅",
+        staffId:0,
         company:"开发测试1",
         message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
       },
       {
         name:"王文鹏",
+        staffId:0,
         company:"开发测试2",
         message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
       },
@@ -74,8 +76,9 @@ Page({
 
   DailyReport_Detail(e){
     var name = e.currentTarget.dataset.name
+    var staffId = e.currentTarget.dataset.staffid
     wx.navigateTo({
-      url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week,
+      url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week + '&staffId=' + staffId,
     })
   },
 
@@ -110,6 +113,7 @@ Page({
         var MSG = DailyReports[i].date +' '+ DailyReports[i].time+' '+DailyReports[i].deviceLocation
         // console.log(MSG)
         tempdic.name = DailyReports[i].staffName
+        tempdic.staffId = DailyReports[i].staffId
         tempdic.company = DailyReports[i].deptName
         tempdic.message = []
         tempdic.message.push(MSG)
