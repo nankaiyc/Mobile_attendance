@@ -82,7 +82,7 @@ Page({
           canvas: that.data.canvas,
           complete: (e)=> {
             that.setData({
-              canvas: e.tempFilePath
+              canvasImg: e.tempFilePath
             })
             that.completeUp(e.tempFilePath)
           }
@@ -113,16 +113,10 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    console.log(finalImg)
     if (app.globalData.autoSave == 1) {
       this.savePhotoAuto(false)
     }
-    // const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
-    // const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
-    // const fs = wx.getFileSystemManager()
-    // fs.renameSync(this.data.personImg, fileF)
-    // fs.renameSync(finalImg, fileB)
-    // app.postRecord(1, item, fileF, fileB, this.data.locationName)
+    app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP)
   },
 
   drawImg() {

@@ -279,8 +279,7 @@ Page({
         if(dis <= radius*4){
           flag = 0
           if(this.data.photomode == 0){
-            // 待完善
-            console.log('不拍照')
+            that.completeUp(i)
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
@@ -306,6 +305,17 @@ Page({
     if(flag == 1){
       this.checkin_Failure()
     }
+  },
+
+  completeUp(index) {
+    const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+    const mac = '00:00:00:00:00:00'
+    let pid = app.globalData.GPSplace[index].pid
+    const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
+    let dateTimeP = dateTime.replace(/-/g, '')
+    dateTimeP = dateTimeP.replace(/:/g, '')
+    dateTimeP = dateTimeP.replace(/ /g, '')
+    app.postRecord(item, '', '', app.globalData.GPSplace[index].name, dateTimeP)
   },
 
   checkin_Success(){

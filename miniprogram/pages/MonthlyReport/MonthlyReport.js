@@ -8,10 +8,8 @@ Page({
   data: {
     screenHeight: 0,
     screenWidth: 0,
-    name:"寅畅",
-    month: "2022-03",
-    rate:"0.0%",
-    dailyDate:[
+    monthItem: '',
+    dailyArray:[
       {
         date:"2022-03-31",
         week:"周四",
@@ -34,11 +32,29 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    const monthItem = JSON.parse(options.monthItem)
+    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
+    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
+    dailyReportsArray = dailyReportsArray.filter((val) => {
+      return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
+    })
+    for (var i in dailyReportsArray) {
+      if (!dailyReportsArray[i].signinTime) {
+        dailyReportsArray[i].condition = '缺勤'
+      } else if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
+        dailyReportsArray[i].condition = '迟到'
+      } else if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
+        dailyReportsArray[i].condition = '早退'
+      } else if (!dailyReportsArray[i].workTurnName) {
+        dailyReportsArray[i].condition = '未指定班次'
+      }
+    }
+    console.log(monthItem, dailyReportsArray)
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      name:options.name,
-      month:options.month,
+      monthItem: monthItem,
+      dailyArray: dailyReportsArray
     })
   },
 
