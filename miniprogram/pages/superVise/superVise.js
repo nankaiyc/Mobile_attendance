@@ -31,6 +31,8 @@ Page({
         isActive:false
       },
     ],
+    monthlyReportsArray: [],
+    dailyReportsArray: [],
     date: "",
     week:"",
     month: "",
@@ -56,6 +58,9 @@ Page({
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
+    if (index == 2) {
+      this.getMonthlyReports(this.data.month)
+    }
     this.setData({
       tabs
     })
@@ -221,7 +226,6 @@ Page({
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.dailyReportsArray
-          // console.log(newArray)
           wx.setStorageSync('dailyReportsLastSyncTime', endDate + util.formatTime(new Date()))
           wx.setStorageSync('dailyReportsArray', JSON.stringify(newArray))
           that.setData({
@@ -242,12 +246,12 @@ Page({
     var TIME = util.formatDateLine(dateTime);
     var WEEK = util.getWeekByDate(dateTime);
     var MONTH = util.formatMonthLine(dateTime);
-    this.getMonthlyReports(MONTH)
     that.setData({
       date: TIME,
       week: WEEK,
       month: MONTH,
     })
+    this.getDailyReports()
     this.getDailyReportsByDate(dateTime)
   },
   subDate(){

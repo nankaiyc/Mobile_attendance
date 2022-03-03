@@ -1,4 +1,6 @@
 // components/memberInfo/memberInfo.js
+const app = getApp()
+const CryptoJS = require('../../utils/crypto.js')
 Component({
 
   /**
@@ -8,44 +10,52 @@ Component({
     isModifiable: {
       type: String,
       value: '0'
+    },
+    needSave: {
+      type: String,
+      value: '0'
     }
   },
 
   data: {
     itemArray: [
-      {
-        'name': '开发测试',
-        'type': 1,
-        'selectStatus': 0
-      },
-      {
-        'name': '监管人员',
-        'type': 2,
-        'selectStatus': 0
-      },
-      {
-        'name': '在逃人员',
-        'type': 1,
-        'selectStatus': 2
-      },
-      {
-        'name': '张三',
-        'type': 0,
-        'selectStatus': 2
-      },
-      {
-        'name': '罗X',
-        'type': 0,
-        'selectStatus': 0
-      },
+      // {
+      //   'name': '开发测试',
+      //   'type': 1,
+      //   'selectStatus': 0
+      // },
+      // {
+      //   'name': '监管人员',
+      //   'type': 2,
+      //   'selectStatus': 0
+      // },
+      // {
+      //   'name': '在逃人员',
+      //   'type': 1,
+      //   'selectStatus': 2
+      // },
+      // {
+      //   'name': '张三',
+      //   'type': 0,
+      //   'selectStatus': 2
+      // },
+      // {
+      //   'name': '罗X',
+      //   'type': 0,
+      //   'selectStatus': 0
+      // },
     ],
-    subordinationArray: [[], [2, 4], [3], [], []],
+    subordinationArray: [
+      // [], [2, 4], [3], [], []
+    ],
     childrenNum: [],
     firstShowItems: [],
     curShowItems: [],
     selectedNum: 0,
     navigationArray: [-1],
-    allSelected: false
+    allSelected: false,
+    staffqueryGroups: '',
+    selectedArray: ''
   },
 
   methods: {
@@ -73,17 +83,18 @@ Component({
       const touchedIndex = this.data.curShowItems[e.currentTarget.dataset.index]
       if (this.data.itemArray[touchedIndex].type == 0) {
         wx.navigateTo({
-          url: '../../pages/personInfo/personInfo',
+          url: '../../pages/personInfo/personInfo?StaffID=' + this.data.itemArray[touchedIndex].staffId,
+        })
+      } else {
+        let newNavigationArray = this.data.navigationArray
+        newNavigationArray.push(touchedIndex)
+        this.setData({
+          curShowItems: this.data.subordinationArray[touchedIndex],
+          navigationArray: newNavigationArray
         })
       }
 
-      let newNavigationArray = this.data.navigationArray
-      newNavigationArray.push(touchedIndex)
 
-      this.setData({
-        curShowItems: this.data.subordinationArray[touchedIndex],
-        navigationArray: newNavigationArray
-      })
     },
 
     selectorTapped: function (e) {
@@ -91,11 +102,17 @@ Component({
       this.updateAll(touchedIndex)
     },
 
-    updateAll: function (touchedIndex) {
+    updateAll: function (touchedIndex, pointed = false, val = 0) {
       if (this.data.itemArray[touchedIndex].selectStatus == 2) {
         return
       } else {
-        this.changeStatusUnder(touchedIndex, 1 - this.data.itemArray[touchedIndex].selectStatus)
+        let targetVal = ''
+        if (pointed) {
+          targetVal = val
+        } else {
+          targetVal = 1 - this.data.itemArray[touchedIndex].selectStatus
+        }
+        this.changeStatusUnder(touchedIndex, targetVal)
         this.updateStatus()
       }
     },
@@ -161,16 +178,173 @@ Component({
 
     selectAll: function () {
       for (var item in this.data.curShowItems) {
-        this.updateAll(this.data.curShowItems[item])
+        this.updateAll(this.data.curShowItems[item], true, this.data.allSelected?0:1)
       }
       this.setData({
         allSelected: !this.data.allSelected
       })
-    }
-  },
+    },
+    
+    getDepartAndGroup() {
+      const that = this
+      var clid = app.globalData.clid
 
-  lifetimes: {
-    attached: function () {
+      var timestamp = Date.parse(new Date());
+      timestamp = timestamp / 1000;
+
+      var _p = {
+        '_s': clid + timestamp,
+      }
+      _p = JSON.stringify(_p)
+      var _p_base64 = CryptoJS.Base64Encode(_p)
+      
+      wx.showLoading({
+        title: '数据加载中···',
+      })
+      wx.request({
+        url: app.globalData.baseUrl + '/staffdepts/',
+        method: 'GET',
+        data: {
+          'CLID': clid,
+          '_p': _p_base64,
+          '_en': 'app2'
+        },
+        success: (e) => {
+          console.log('success get' + 'staffdepts')
+          var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+          console.log(res)
+          let staffDepts = res.StaffDepts
+          let staffqueryGroups = res.StaffqueryGroups
+          that.getEmployees(staffDepts, staffqueryGroups)
+        }
+      })
+    },
+
+    getEmployees(staffDepts, staffqueryGroups) {
+      const that = this
+      var clid = app.globalData.clid
+
+      var timestamp = Date.parse(new Date());
+      timestamp = timestamp / 1000;
+
+      var _p = {
+        '_s': clid + timestamp,
+      }
+      _p = JSON.stringify(_p)
+      var _p_base64 = CryptoJS.Base64Encode(_p)
+      
+      wx.request({
+        url: app.globalData.baseUrl + '/employees/',
+        method: 'GET',
+        data: {
+          'CLID': clid,
+          '_p': _p_base64,
+          '_en': 'app2'
+        },
+        success: (e) => {
+          console.log('success get' + 'employees')
+          var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+          console.log(res.Employees)
+          for (var i in staffDepts) {
+            let personArray = res.Employees.filter((val) => {return val.deptId == staffDepts[i].id})
+            const item = {
+              'name': staffDepts[i].name,
+              'type': 1,
+              'selectStatus': 0
+            }
+            that.data.itemArray.push(item)
+            let tmp = []
+            for (var j in personArray) {
+              tmp.push(parseInt(that.data.itemArray.length) + parseInt(j))
+            }
+            that.data.subordinationArray.push(tmp)
+
+            for (var j in personArray) {
+              const itemP = {
+                'name': personArray[j].Name,
+                'type': 0,
+                'selectStatus': 0,
+                'staffId': personArray[j].staffId
+              }
+              that.data.itemArray.push(itemP)
+              that.data.subordinationArray.push([])
+            }
+          }
+
+          that.data.staffqueryGroups = staffqueryGroups
+          that.getEmployeesByGroup(0)
+        }
+      })
+    },
+
+    getEmployeesByGroup(index) {
+      if (index >= this.data.staffqueryGroups.length) {
+        wx.hideLoading({})
+        this.initParms()
+        return
+      }
+      const that = this
+      var clid = app.globalData.clid
+
+      var timestamp = Date.parse(new Date());
+      timestamp = timestamp / 1000;
+
+      var _p = {
+        '_s': clid + timestamp,
+        'staffGroupId': that.data.staffqueryGroups[index].id
+      }
+      _p = JSON.stringify(_p)
+      var _p_base64 = CryptoJS.Base64Encode(_p)
+      
+      wx.request({
+        url: app.globalData.baseUrl + '/employeesByGroup/',
+        method: 'GET',
+        data: {
+          'CLID': clid,
+          '_p': _p_base64,
+          '_en': 'app2'
+        },
+        success: (e) => {
+          console.log('success get' + 'employees')
+          var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+          console.log(res)
+          
+          let personArray = res.Employees
+          const item = {
+            'name': that.data.staffqueryGroups[index].name,
+            'type': 2,
+            'selectStatus': 0
+          }
+          that.data.itemArray.push(item)
+          let tmp = []
+          for (var j in personArray) {
+            tmp.push(parseInt(that.data.itemArray.length) + parseInt(j))
+          }
+          that.data.subordinationArray.push(tmp)
+
+          for (var j in personArray) {
+            const itemP = {
+              'name': personArray[j].Name,
+              'type': 0,
+              'selectStatus': 0,
+              'staffId': personArray[j].staffId
+            }
+            that.data.itemArray.push(itemP)
+            that.data.subordinationArray.push([])
+          }
+          
+          that.getEmployeesByGroup(index + 1)
+        }
+      })
+    },
+
+    initParms() {
+      const newItemArray = this.data.itemArray
+      for (var i in newItemArray) {
+        if (newItemArray[i].selectStatus == 0 && this.data.selectedArray.includes(newItemArray[i].staffId)) {
+          newItemArray[i].selectStatus = 1
+        }
+      }
       let newChildrenNum = []
       let newfirstShowItems = []
       let count = []
@@ -195,13 +369,44 @@ Component({
           newfirstShowItems.push(item)
         }
       }
+      const newSubordinationArray = this.data.subordinationArray
       this.setData({
+        itemArray: newItemArray,
+        subordinationArray: newSubordinationArray,
         childrenNum: newChildrenNum,
         firstShowItems: newfirstShowItems,
         curShowItems: newfirstShowItems,
         selectedNum: newSelectedNum
       })
-      
+      this.updateStatus()
+    },
+
+    saveSelected() {
+      let selectedArray = []
+      for (var i in this.data.itemArray) {
+        if (this.data.itemArray[i].selectStatus == 1) {
+          selectedArray.push(this.data.itemArray[i].staffId)
+        }
+      }
+      wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
+      wx.showModal({
+        title: '保存成功！',
+        success: (e) => {
+          if (e.confirm) {
+            wx.navigateBack({
+              delta: 0,
+            })
+          }
+        }
+      })
+    }
+  },
+
+  lifetimes: {
+    attached: function () {
+      let selectedArray = wx.getStorageSync('selectedArray')
+      this.data.selectedArray = selectedArray?JSON.parse(selectedArray):[]
+      this.getDepartAndGroup()
     }
   }
 

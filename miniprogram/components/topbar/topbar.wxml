@@ -2,7 +2,7 @@
 <view class="topAera">
   <view class="leftAera">
     <view class="leftMenu" wx:if="{{curIndex < 3 || curIndex == 10}}">
-      <menu curIndex='{{curIndex}}'/>
+      <menu curIndex='{{curIndex==10?2:curIndex==2?3:curIndex}}'/>
     </view>
     <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':''}}">
       {{itemArray[curIndex]}}
@@ -18,7 +18,7 @@
     <view class="rightMenu" wx:if="{{curIndex < 2 || curIndex == 10 || curIndex == 13}}">
       <rightmenu content='{{content}}' bindmethodchange="handlemethodchange"/>
     </view>
-    <view class="check" wx:if="{{curIndex == 9}}">
+    <view class="check" wx:if="{{curIndex == 9}}" bindtap="check">
       <image src="../../resource/ic_done.png" mode="scaleToFill" class="left_menu_img"/>
     </view>
   </view>
