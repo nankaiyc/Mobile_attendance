@@ -272,8 +272,10 @@ Component({
             }
           }
 
-          that.data.staffqueryGroups = staffqueryGroups
-          that.getEmployeesByGroup(0)
+          if (staffqueryGroups) {
+            that.data.staffqueryGroups = staffqueryGroups
+            that.getEmployeesByGroup(0)
+          }
         }
       })
     },

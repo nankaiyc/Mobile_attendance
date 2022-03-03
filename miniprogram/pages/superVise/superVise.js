@@ -237,6 +237,12 @@ Page({
             dailyReportsArray: newArray
           })
           wx.hideLoading({})
+
+          if (that.data.selectedArray.length == 0) {
+            wx.showModal({
+              title: '初次使用该功能，请设置监管范围！',
+            })
+          }
         } else {
           that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
         }
