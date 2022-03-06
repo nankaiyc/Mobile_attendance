@@ -13,14 +13,16 @@ Page({
     dateStart: '',
     dateEnd: '',
     dailyReportsArray: '',
-    itemArray: [],
-    subordinationArray: [],
+    departmentObjectArray: [],
+    subordinationDict: '',
+    tmpDeparts: ''
   },
 
   bindDepartmentPickerChange: function (e) {
     this.setData({
       departmentIndex: e.detail.value
     })
+    console.log(this.getAllDeparts(e.detail.value))
   },
   bindDateStartPickerChange: function name(e) {
     this.setData({
@@ -73,62 +75,19 @@ Page({
         console.log(res)
         let staffDepts = res.StaffDepts
         staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
-        that.getEmployees(staffDepts)
-      }
-    })
-  },
-
-  getEmployees(staffDepts) {
-    const that = this
-    var clid = app.globalData.clid
-
-    var timestamp = Date.parse(new Date());
-    timestamp = timestamp / 1000;
-
-    var _p = {
-      '_s': clid + timestamp,
-    }
-    _p = JSON.stringify(_p)
-    var _p_base64 = CryptoJS.Base64Encode(_p)
-    
-    wx.request({
-      url: app.globalData.baseUrl + '/employees/',
-      method: 'GET',
-      data: {
-        'CLID': clid,
-        '_p': _p_base64,
-        '_en': 'app2'
-      },
-      success: (e) => {
-        console.log('success get' + 'employees')
-        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res.Employees)
+        
+        let subordinationDict = {}
         let staffDeptNames = []
         for (var i in staffDepts) {
           staffDeptNames.push(staffDepts[i].name)
-          let personArray = res.Employees.filter((val) => {return val.deptId == staffDepts[i].id})
-          const item = {
-            'name': staffDepts[i].name,
-            'type': 1
-          }
-          that.data.itemArray.push(item)
-          let tmp = []
-          for (var j in personArray) {
-            tmp.push(parseInt(that.data.itemArray.length) + parseInt(j))
-          }
-          that.data.subordinationArray.push(tmp)
-
-          for (var j in personArray) {
-            const itemP = {
-              'name': personArray[j].Name,
-              'type': 0,
-              'staffId': personArray[j].staffId
-            }
-            that.data.itemArray.push(itemP)
-            that.data.subordinationArray.push([])
+          const curPid = staffDepts[i].pid
+          const curId = staffDepts[i].id
+          if (subordinationDict[curPid]) {
+            subordinationDict[curPid].push(curId)
+          } else {
+            subordinationDict[curPid] = [curId]
           }
         }
-
         var currentdate = util.formatDateLine(new Date())
         let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
         dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
@@ -136,11 +95,35 @@ Page({
           dateStart: currentdate,
           dateEnd: currentdate,
           dailyReportsArray: dailyReportsArray,
-          departmentArray: staffDeptNames
+          departmentArray: staffDeptNames,
+          departmentObjectArray: staffDepts,
+          subordinationDict: subordinationDict
         })
         wx.hideLoading({})
       }
     })
+  },
+
+  getAllDeparts(i) {
+    this.data.tmpDeparts = []
+    const curId = this.data.departmentObjectArray[i].id
+    this.getSubDeparts(curId)
+
+    let departs = this.data.departmentObjectArray.filter((val) => {return this.data.tmpDeparts.includes(val.id)})
+    let departNames = []
+    for (var i in departs) {
+      departNames.push(departs[i].name)
+    }
+    return departNames
+  },
+
+  getSubDeparts(curId) {
+    this.data.tmpDeparts.push(curId)
+    if (this.data.subordinationDict[curId]) {
+      for (var i in this.data.subordinationDict[curId]) {
+        this.getSubDeparts(this.data.subordinationDict[curId][i])
+      }
+    }
   },
 
   /**
