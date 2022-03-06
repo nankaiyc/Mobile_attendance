@@ -18,36 +18,8 @@ Component({
   },
 
   data: {
-    itemArray: [
-      // {
-      //   'name': '开发测试',
-      //   'type': 1,
-      //   'selectStatus': 0
-      // },
-      // {
-      //   'name': '监管人员',
-      //   'type': 2,
-      //   'selectStatus': 0
-      // },
-      // {
-      //   'name': '在逃人员',
-      //   'type': 1,
-      //   'selectStatus': 2
-      // },
-      // {
-      //   'name': '张三',
-      //   'type': 0,
-      //   'selectStatus': 2
-      // },
-      // {
-      //   'name': '罗X',
-      //   'type': 0,
-      //   'selectStatus': 0
-      // },
-    ],
-    subordinationArray: [
-      // [], [2, 4], [3], [], []
-    ],
+    itemArray: [],
+    subordinationArray: [],
     childrenNum: [],
     firstShowItems: [],
     curShowItems: [],

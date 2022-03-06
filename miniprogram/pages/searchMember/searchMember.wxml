@@ -8,7 +8,7 @@
   <view wx:for="{{showItems}}" wx:key="index">
     <view class="item" bindtap="itemTapped" data-index="{{index}}" style="width: {{screenWidth}}px;">
       <image src="../../resource/default_user_icon.png" mode="widthFix" class="item_img"/>
-      <view class="normal_text">{{itemArray[item].name}}</view>
+      <view class="normal_text">{{itemArray[item].Name}}</view>
     </view>
   </view>
 </view>

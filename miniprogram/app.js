@@ -104,6 +104,7 @@ App({
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
+          that.globalData.REMARKS = res.REMARKS
 
           that.punchRecordsArray = []
           that.PunchRecordsLastSyncTime = ''
