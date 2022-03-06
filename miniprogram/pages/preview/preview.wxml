@@ -18,7 +18,9 @@
   <view class="under">
     <view class="hint">{{personName + ' ' + dateTime + ' ' + locationName}}</view>
     <view class="ps">
-      <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
+      <picker mode="selector" bindchange="bindChangePs" range="{{psArray}}" value="{{psIndex}}">
+        <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
+      </picker>
       <view class="ps_input_box" style="width: {{screenWidth * 0.85}}px;">
         <input placeholder="备注内容" bindblur="bindInputChange"/>
       </view>

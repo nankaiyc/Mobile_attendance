@@ -25,12 +25,23 @@ Page({
     imgPH: '',
     imgPW: '',
     photoMode: '',
-    canvasImg: ''
+    canvasImg: '',
+    psArray: '',
+    psIndex: ''
   },
 
   bindInputChange(e) {
     this.setData({
       psContent: e.detail.value
+    })
+    if (this.data.photoMode == 3) {
+      this.drawText()
+    }
+  },
+
+  bindChangePs(e) {
+    this.setData({
+      psContent: this.data.psArray[e.detail.value]
     })
     if (this.data.photoMode == 3) {
       this.drawText()
@@ -247,7 +258,8 @@ Page({
       locationName: options.LocationName,
       latitude: options.latitude,
       longitude: options.longitude,
-      photoMode: tmp
+      photoMode: tmp,
+      psArray: app.globalData.REMARKS
     })
     if (tmp == 3) {
       const that = this

@@ -39,14 +39,14 @@ Page({
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
     })
     for (var i in dailyReportsArray) {
-      if (!dailyReportsArray[i].signinTime) {
+      if (!dailyReportsArray[i].workTurnName) {
+        dailyReportsArray[i].condition = '未指定班次'
+      } else if (!dailyReportsArray[i].signinTime) {
         dailyReportsArray[i].condition = '缺勤'
-      } else if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
-        dailyReportsArray[i].condition = '迟到'
       } else if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
         dailyReportsArray[i].condition = '早退'
-      } else if (!dailyReportsArray[i].workTurnName) {
-        dailyReportsArray[i].condition = '未指定班次'
+      } else if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
+        dailyReportsArray[i].condition = '迟到'
       }
     }
     console.log(monthItem, dailyReportsArray)
