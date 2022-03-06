@@ -35,4 +35,15 @@
   </view>
 
   <button class="submit" style="width: 95%" form-type="submit">搜索</button>
+  <view class="time_tab_content" style="width: {{screenWidth}}px;" wx:for="{{StaffList}}" wx:key="index" wx:for-item="i">
+    <view class="messageList" wx:for="{{i.messageList}}" wx:key="index" wx:for-item="j" style="width: {{screenWidth}}px;"
+    bindtap="DailyReport_Detail" data-name = "{{i.name}}" data-staffId = "{{i.staffId}}" data-date = "{{j.date}}">
+      <view class="default_user" >
+        <image src="../../resource/default_user_icon.png" mode="heightFix" class="user_icon"/>
+        <view class="Name">{{i.name}}</view>
+        <view class="Company">{{i.company}}</view>
+      </view>
+      <view wx:for="{{j.message}}" wx:key="index" class="message">{{item}}</view>
+    </view>
+  </view>
 </form>

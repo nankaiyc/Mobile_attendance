@@ -29,6 +29,10 @@
   flex-direction: column;
   align-items: flex-start;
   border-bottom: 1px solid gainsboro;
+  background: white;
+  margin-bottom: 10rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
 }
 .default_user{
   display: flex;
