@@ -276,7 +276,7 @@ Page({
         const radius = CheckinPalces[i].radius / 1000
         const dis = util.getdistance(this.data.latitude,this.data.longitude,checkin_latitude,checkin_longitude)
         console.log(radius, dis)
-        if(dis <= radius*4){
+        if(dis <= radius){
           flag = 0
           if(this.data.photomode == 0){
             // 待完善
