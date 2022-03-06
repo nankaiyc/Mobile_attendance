@@ -12,7 +12,6 @@ Page({
     departmentArray: [],
     dateStart: '',
     dateEnd: '',
-    dailyReportsArray: '',
     departmentObjectArray: [],
     subordinationDict: '',
     tmpDeparts: ''
@@ -89,12 +88,9 @@ Page({
           }
         }
         var currentdate = util.formatDateLine(new Date())
-        let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
-        dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
         that.setData({
           dateStart: currentdate,
           dateEnd: currentdate,
-          dailyReportsArray: dailyReportsArray,
           departmentArray: staffDeptNames,
           departmentObjectArray: staffDepts,
           subordinationDict: subordinationDict
