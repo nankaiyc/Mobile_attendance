@@ -12,13 +12,17 @@ Page({
     departmentArray: [],
     dateStart: '',
     dateEnd: '',
-    dailyReportsArray: ''
+    dailyReportsArray: '',
+    departmentObjectArray: [],
+    subordinationDict: '',
+    tmpDeparts: ''
   },
 
   bindDepartmentPickerChange: function (e) {
     this.setData({
       departmentIndex: e.detail.value
     })
+    console.log(this.getAllDeparts(e.detail.value))
   },
   bindDateStartPickerChange: function name(e) {
     this.setData({
@@ -72,9 +76,17 @@ Page({
         let staffDepts = res.StaffDepts
         staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
         
+        let subordinationDict = {}
         let staffDeptNames = []
         for (var i in staffDepts) {
           staffDeptNames.push(staffDepts[i].name)
+          const curPid = staffDepts[i].pid
+          const curId = staffDepts[i].id
+          if (subordinationDict[curPid]) {
+            subordinationDict[curPid].push(curId)
+          } else {
+            subordinationDict[curPid] = [curId]
+          }
         }
         var currentdate = util.formatDateLine(new Date())
         let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
@@ -83,11 +95,35 @@ Page({
           dateStart: currentdate,
           dateEnd: currentdate,
           dailyReportsArray: dailyReportsArray,
-          departmentArray: staffDeptNames
+          departmentArray: staffDeptNames,
+          departmentObjectArray: staffDepts,
+          subordinationDict: subordinationDict
         })
         wx.hideLoading({})
       }
     })
+  },
+
+  getAllDeparts(i) {
+    this.data.tmpDeparts = []
+    const curId = this.data.departmentObjectArray[i].id
+    this.getSubDeparts(curId)
+
+    let departs = this.data.departmentObjectArray.filter((val) => {return this.data.tmpDeparts.includes(val.id)})
+    let departNames = []
+    for (var i in departs) {
+      departNames.push(departs[i].name)
+    }
+    return departNames
+  },
+
+  getSubDeparts(curId) {
+    this.data.tmpDeparts.push(curId)
+    if (this.data.subordinationDict[curId]) {
+      for (var i in this.data.subordinationDict[curId]) {
+        this.getSubDeparts(this.data.subordinationDict[curId][i])
+      }
+    }
   },
 
   /**
