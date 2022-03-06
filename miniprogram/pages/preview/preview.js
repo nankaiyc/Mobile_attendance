@@ -25,12 +25,23 @@ Page({
     imgPH: '',
     imgPW: '',
     photoMode: '',
-    canvasImg: ''
+    canvasImg: '',
+    psArray: '',
+    psIndex: ''
   },
 
   bindInputChange(e) {
     this.setData({
       psContent: e.detail.value
+    })
+    if (this.data.photoMode == 3) {
+      this.drawText()
+    }
+  },
+
+  bindChangePs(e) {
+    this.setData({
+      psContent: this.data.psArray[e.detail.value]
     })
     if (this.data.photoMode == 3) {
       this.drawText()
@@ -82,7 +93,7 @@ Page({
           canvas: that.data.canvas,
           complete: (e)=> {
             that.setData({
-              canvas: e.tempFilePath
+              canvasImg: e.tempFilePath
             })
             that.completeUp(e.tempFilePath)
           }
@@ -113,16 +124,10 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    console.log(finalImg)
     if (app.globalData.autoSave == 1) {
       this.savePhotoAuto(false)
     }
-    // const fileF = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'f.jpg'
-    // const fileB = wx.env.USER_DATA_PATH + '/' + dateTimeP + '_' + 'b.jpg'
-    // const fs = wx.getFileSystemManager()
-    // fs.renameSync(this.data.personImg, fileF)
-    // fs.renameSync(finalImg, fileB)
-    // app.postRecord(1, item, fileF, fileB, this.data.locationName)
+    app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP)
   },
 
   drawImg() {
@@ -253,7 +258,8 @@ Page({
       locationName: options.LocationName,
       latitude: options.latitude,
       longitude: options.longitude,
-      photoMode: tmp
+      photoMode: tmp,
+      psArray: app.globalData.REMARKS
     })
     if (tmp == 3) {
       const that = this

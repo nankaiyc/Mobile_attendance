@@ -32,7 +32,7 @@
     </view>
     
     <view class="month_body">
-        <view class="month_item" wx:for="{{monthlyReportsArray}}" wx:key="index" style="width: {{screenWidth - 50}}px;" bindtap="MonthlyReport_Detail" data-name = "{{item.staffName}}">
+        <view class="month_item" wx:for="{{monthlyReportsArray}}" wx:key="index" style="width: {{screenWidth - 50}}px;" bindtap="MonthlyReport_Detail" data-index = "{{index}}" wx:if="{{item.isShow}}">
           <view class="person_info">
             <image src="../../resource/default_user_icon.png" mode="widthFix" class="month_person_img"/>
             <view class="month_person_name">{{item.staffName}}</view>

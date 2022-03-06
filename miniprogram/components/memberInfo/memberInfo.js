@@ -18,36 +18,8 @@ Component({
   },
 
   data: {
-    itemArray: [
-      // {
-      //   'name': '开发测试',
-      //   'type': 1,
-      //   'selectStatus': 0
-      // },
-      // {
-      //   'name': '监管人员',
-      //   'type': 2,
-      //   'selectStatus': 0
-      // },
-      // {
-      //   'name': '在逃人员',
-      //   'type': 1,
-      //   'selectStatus': 2
-      // },
-      // {
-      //   'name': '张三',
-      //   'type': 0,
-      //   'selectStatus': 2
-      // },
-      // {
-      //   'name': '罗X',
-      //   'type': 0,
-      //   'selectStatus': 0
-      // },
-    ],
-    subordinationArray: [
-      // [], [2, 4], [3], [], []
-    ],
+    itemArray: [],
+    subordinationArray: [],
     childrenNum: [],
     firstShowItems: [],
     curShowItems: [],
@@ -214,6 +186,7 @@ Component({
           var res = JSON.parse(CryptoJS.Base64Decode(e.data))
           console.log(res)
           let staffDepts = res.StaffDepts
+          staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
           let staffqueryGroups = res.StaffqueryGroups
           that.getEmployees(staffDepts, staffqueryGroups)
         }
@@ -271,8 +244,13 @@ Component({
             }
           }
 
-          that.data.staffqueryGroups = staffqueryGroups
-          that.getEmployeesByGroup(0)
+          if (staffqueryGroups) {
+            that.data.staffqueryGroups = staffqueryGroups
+            that.getEmployeesByGroup(0)
+          } else {
+            wx.hideLoading({})
+            that.initParms()
+          }
         }
       })
     },
@@ -384,11 +362,12 @@ Component({
     saveSelected() {
       let selectedArray = []
       for (var i in this.data.itemArray) {
-        if (this.data.itemArray[i].selectStatus == 1) {
+        if (this.data.itemArray[i].selectStatus != 0) {
           selectedArray.push(this.data.itemArray[i].staffId)
         }
       }
       wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
+      app.globalData.selectedArray = selectedArray
       wx.showModal({
         title: '保存成功！',
         success: (e) => {
@@ -404,8 +383,9 @@ Component({
 
   lifetimes: {
     attached: function () {
-      let selectedArray = wx.getStorageSync('selectedArray')
-      this.data.selectedArray = selectedArray?JSON.parse(selectedArray):[]
+      this.setData({
+        selectedArray: app.globalData.selectedArray
+      })
       this.getDepartAndGroup()
     }
   }

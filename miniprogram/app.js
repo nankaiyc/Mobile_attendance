@@ -22,6 +22,8 @@ App({
     this.globalData.firstPage = index ? index : 0;
     let autoSave = wx.getStorageSync('autoSave');
     this.globalData.autoSave = autoSave ? autoSave : 0;
+    let selectedArray = wx.getStorageSync('selectedArray')
+    this.globalData.selectedArray = selectedArray?JSON.parse(selectedArray):[]
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
     var clid = wx.getStorageSync('unionId')
@@ -102,6 +104,7 @@ App({
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
+          that.globalData.REMARKS = res.REMARKS
 
           that.punchRecordsArray = []
           that.PunchRecordsLastSyncTime = ''
@@ -166,15 +169,16 @@ App({
     })
   },
 
-  postRecord(Count, items, fileF, fileB, locationName) {
+  postRecord(items, fileF, fileB, locationName, dateTimeP) {
     const that = this
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
+    const count = 1
     var _p = {
       '_s': clid + timestamp,
-      'COUNT': Count,
+      'COUNT': count,
       'DATATYPE': 'Att',
     }
     _p = JSON.stringify(_p)
@@ -185,12 +189,20 @@ App({
       method: 'POST',
       data: CryptoJS.Base64Encode(items),
       success: (e) => {
-        console.log('success')
+        console.log('success postRecord')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
         if (res.RESULT == 0) {
-          that.postPhoto(fileF)
-          that.postPhoto(fileB)
+          if (that.globalData.AppPhoto % 10 == 3) {
+            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')))
+            that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')))
+          } else if (that.globalData.AppPhoto % 10 == 2) {
+            that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')))
+          } else if (that.globalData.AppPhoto % 10 == 1) {
+            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')))
+          } else {
+            console.log('that.globalData.AppPhoto % 10 == 0')
+          }
           setTimeout(() => {
             wx.navigateTo({
               url: '../checkInResult/checkInResult?status=success&locationName=' + locationName,
@@ -201,14 +213,15 @@ App({
     })
   },
 
-  postPhoto(filePath) {
+  postPhoto(filePath, fileName) {
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
     var _p = {
       '_s': clid + timestamp,
-      'COUNT': 1
+      'COUNT': 1,
+      'PHOTONAME': fileName
     }
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
@@ -219,11 +232,6 @@ App({
       url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
       success: (e) => {
         console.log(CryptoJS.Base64Decode(e.data))
-      },
-      complete: (e) => {
-        console.log(e)
-        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
       }
     })
   },
