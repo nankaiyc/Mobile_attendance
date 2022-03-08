@@ -22,7 +22,7 @@
   <view class="history_box">
     <view wx:if="{{!interface1}}" class="History" wx:for="{{punchRecordsArray}}" wx:key="index">
       <view class="image"><image src="../../resource/icon_ok.png" mode="heightFix" class="judge_icon"/></view>  
-      <view class="text">{{item.date + ' ' + item.time +  '于' + item.deviceLocation + '打卡成功'}}</view>
+      <view class="text">{{item.dateTime +  '于' + item.location + '打卡成功'}}</view>
     </view>
   </view>
 

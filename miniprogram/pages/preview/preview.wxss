@@ -13,10 +13,10 @@
   align-items: flex-start;
 }
 
-/* .person_img_box_in {
+.person_img_box_in {
   background: white;
   padding: 2px;
-} */
+}
 
 .person_img {
   width: 100%;
