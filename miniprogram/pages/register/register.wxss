@@ -46,3 +46,25 @@
   color: white;
   font-size: 28rpx;
 }
+.UnBoldTextArea{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+.UnBoldText{
+  margin-top: 30rpx;
+  font-size: 25rpx;
+  font-weight: 400;
+  color: grey;
+}
+
+.BussinessText{
+  position: fixed;
+  bottom: 5%;
+  color: #4BBFE6;
+  font-size: 30rpx;
+  font-weight: 400;
+}

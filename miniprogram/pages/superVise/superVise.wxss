@@ -11,17 +11,18 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid gainsboro;
+  padding: 3%;
 }
 .direction_icon_left{
-  height: 70rpx;
-  margin-left: 22%;
+  height: 80rpx;
+  margin-left: 20%;
 }
 .direction_icon_right{
-  height: 70rpx;
-  margin-right: 22%;
+  height: 80rpx;
+  margin-right: 20%;
 }
 .date_content,.month_content{
-  font-size: 30rpx;
+  font-size: 35rpx;
   font-weight: 400;
 }
 .time_tab_content{

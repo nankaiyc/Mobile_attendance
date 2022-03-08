@@ -29,6 +29,19 @@
   margin-left: 10rpx;
 }
 
+.user_info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 200rpx;
+  font-size: 35rpx;
+  font-weight: 500;
+  margin-right: 50rpx;
+}
+.Attno{
+  margin-top: 10rpx;
+}
 .err_say{
   display: flex;
   flex-direction: column;
@@ -42,11 +55,33 @@
 .ButtonArea{
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 150rpx;
+  margin-top: 30rpx;
   margin-left: 350rpx;
 }
 .define{
   background-color: #4BBFE6;
   color: white;
   font-size: 28rpx;
+}
+
+.UnBoldTextArea{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+.UnBoldText{
+  margin-top: 30rpx;
+  font-size: 25rpx;
+  font-weight: 400;
+  color: grey;
+}
+.BussinessText{
+  position: fixed;
+  bottom: 5%;
+  color: #4BBFE6;
+  font-size: 30rpx;
+  font-weight: 400;
 }

@@ -295,8 +295,11 @@ Page({
             punchRecordslastSyncTime: endDate + util.formatTime(new Date())
           })
           
+          this.getDailyReportsByDate(this.data.date)
+          
           wx.hideLoading({})
           that.data.isLoading = false
+
 
           if (that.data.selectedArray.length == 0) {
             wx.showModal({
@@ -313,9 +316,10 @@ Page({
   setCurrentDate() {
     const that = this
     var dateTime=new Date();
-    //setInterval是根据设置的时间来回调的，比如每秒回调一次
     var TIME = util.formatDateLine(dateTime);
     var WEEK = util.getWeekByDate(dateTime);
+    dateTime=dateTime.setMonth(dateTime.getMonth()-1);
+    dateTime=new Date(dateTime);
     var MONTH = util.formatMonthLine(dateTime);
     that.setData({
       date: TIME,
@@ -346,16 +350,19 @@ Page({
       return
     }
     const that = this
+    var today=new Date();
     var dateTime=new Date(that.data.date)
-    dateTime=dateTime.setDate(dateTime.getDate()+1);
-    dateTime=new Date(dateTime);
-    var TIME = util.formatDateLine(dateTime);
-    var WEEK = util.getWeekByDate(dateTime);
-    that.setData({
-      date: TIME,
-      week: WEEK,
-    })
-    this.getDailyReportsByDate(this.data.date)
+    var dateTimeAdded=dateTime.setDate(dateTime.getDate()+1);
+    if(today >= dateTimeAdded){
+      dateTimeAdded=new Date(dateTimeAdded);
+      var TIME = util.formatDateLine(dateTimeAdded);
+      var WEEK = util.getWeekByDate(dateTimeAdded);
+      that.setData({
+        date: TIME,
+        week: WEEK,
+      })
+      this.getDailyReportsByDate(this.data.date)
+    }  
   },
   subMonth(){
     if (this.data.isLoading) {
@@ -376,14 +383,17 @@ Page({
       return
     }
     const that = this
-    var dateTime=new Date(that.data.month)
-    dateTime=dateTime.setMonth(dateTime.getMonth()+1);
-    dateTime=new Date(dateTime);
-    var MONTH = util.formatMonthLine(dateTime);
-    that.setData({
-      month: MONTH,
-    })
-    this.getMonthlyReports(MONTH)
+    var today=new Date();
+    var MonthTime=new Date(that.data.month)
+    var MonthTimeAdded = MonthTime.setMonth(MonthTime.getMonth()+1);
+    if(today >= MonthTimeAdded){
+      MonthTimeAdded=new Date(MonthTimeAdded);
+      var MONTH = util.formatMonthLine(MonthTimeAdded);
+      that.setData({
+        month: MONTH,
+      })
+      this.getMonthlyReports(MONTH)
+    }
   },
 
   onLoad: function (options) {

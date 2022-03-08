@@ -11,6 +11,7 @@
     <image src="{{imgurl}}" mode="scaleToFill" class="head" bindtap="setPhotoInfo"/>
     <view class="info">
       <view class="name">{{name}}</view>
+      <view class="position">{{Position}}</view>
       <view class="apartment">{{apartment}}</view>
     </view>
   </view>
@@ -29,4 +30,6 @@
       </view>
     </view>
   </view>
+  
+  <view class="BussinessText">©天津融商科技有限公司 2019</view>
 </view>
