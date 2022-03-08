@@ -27,11 +27,15 @@ Component({
     navigationArray: [-1],
     allSelected: false,
     staffqueryGroups: '',
-    selectedArray: ''
+    selectedArray: '',
+    isLoading: true
   },
 
   methods: {
     navigationTapped: function (e) {
+      if (this.data.isLoading) {
+        return
+      }
       const viewIndex = e.currentTarget.dataset.index;
       const touchedIndex = this.data.navigationArray[viewIndex]
 
@@ -52,6 +56,9 @@ Component({
     },
 
     itemTapped: function (e) {
+      if (this.data.isLoading) {
+        return
+      }
       const touchedIndex = this.data.curShowItems[e.currentTarget.dataset.index]
       if (this.data.itemArray[touchedIndex].type == 0) {
         wx.navigateTo({
@@ -149,6 +156,9 @@ Component({
     },
 
     selectAll: function () {
+      if (this.data.isLoading) {
+        return
+      }
       for (var item in this.data.curShowItems) {
         this.updateAll(this.data.curShowItems[item], true, this.data.allSelected?0:1)
       }
@@ -248,7 +258,6 @@ Component({
             that.data.staffqueryGroups = staffqueryGroups
             that.getEmployeesByGroup(0)
           } else {
-            wx.hideLoading({})
             that.initParms()
           }
         }
@@ -257,7 +266,6 @@ Component({
 
     getEmployeesByGroup(index) {
       if (index >= this.data.staffqueryGroups.length) {
-        wx.hideLoading({})
         this.initParms()
         return
       }
@@ -357,6 +365,8 @@ Component({
         selectedNum: newSelectedNum
       })
       this.updateStatus()
+      this.data.isLoading = false
+      wx.hideLoading({})
     },
 
     saveSelected() {

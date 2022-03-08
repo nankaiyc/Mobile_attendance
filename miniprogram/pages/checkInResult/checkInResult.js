@@ -1,5 +1,6 @@
 // pages/checkInResult/checkInResult.js
-var util = require('../../utils/util.js');
+var util = require('../../utils/util.js')
+var bmap = require('../../utils/bmap-wx.js')
 const app =getApp()
 Page({
 
@@ -11,7 +12,9 @@ Page({
     place:"PLACE",
     message:"",
     isQuit: '',
-    photoMode: ''
+    photoMode: '',
+    poiArray: [],
+    nameArray: []
   },
 
   changeResult(){
@@ -27,28 +30,18 @@ Page({
   },
 
   onFail () {
-    wx.redirectTo({
-      url: '../checkIn/checkIn?directlyCheck=true',
-    })
+    wx.navigateBack()
   },
 
-  nonPositioned () {
-    const that = this
-    console.log(app.globalData.locallatitude, app.globalData.locallongitude)
-    wx.chooseLocation({
-      latitude: app.globalData.locallatitude,
-      longitude: app.globalData.locallongitude,
-      success: (e) => {
-        console.log(e.name, e.latitude, e.longitude)
-        if (that.data.photoMode == 0) {
-          that.completeUp(e.name, e.latitude, e.longitude)
-        } else {
-          wx.navigateTo({
-            url: '../../pages/camera/camera?positioned=false&LocationName=' + e.name + '&latitude=' + e.latitude + '&longitude=' + e.longitude + '&photomode=' + this.data.photoMode,
-          })
-        }
-      }
-    })
+  nonPositioned (e) {
+    const item = this.data.poiArray[e.detail.value]
+    if (this.data.photoMode == 0) {
+      this.completeUp(item.address, item.latitude, item.longitude)
+    } else {
+      wx.navigateTo({
+        url: '../../pages/camera/camera?positioned=false&LocationName=' + item.address + '&latitude=' + item.latitude + '&longitude=' + item.longitude + '&photomode=' + this.data.photoMode,
+      })
+    }
   },
   
   completeUp(locationName, latitude, longitude) {
@@ -59,7 +52,11 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    app.postRecord(item, '', '', locationName, dateTimeP)
+    let punchRecord = {
+      'dateTime': dateTime,
+      'location': locationName
+    }
+    app.postRecord(item, '', '', locationName, dateTimeP, punchRecord)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -68,12 +65,32 @@ Page({
     var DATE = util.formatDate(new Date());
     var TIME = util.formatTime(new Date());
     var PLACE = options.locationName
+    
+    if (options.isQuit != 'true') {
+      const that = this
+      var BMap = new bmap.BMapWX({ 
+        ak: app.globalData.ak 
+      })
+      BMap.search({
+        success: (e) => {
+          const res = e.wxMarkerData
+          let nameArray = []
+          for (var i in res) {
+            nameArray.push(res[i].address)
+          }
+          that.setData({
+            nameArray: nameArray,
+            poiArray: res
+          })
+        }
+      })
+    }
+
     this.setData({
       message : "您于" + DATE + TIME + "在" + PLACE + "打卡成功。",
       isSuccess:options.status == "success"?true:false,
       isQuit: options.isQuit=='true'?true:false,
       photoMode: app.globalData.AppPhoto % 10,
-      UploadLoc: app.globalData.UploadLoc
     })
     
     // console.log(this.data.message)

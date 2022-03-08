@@ -25,6 +25,7 @@ App({
     let selectedArray = wx.getStorageSync('selectedArray')
     this.globalData.selectedArray = selectedArray?JSON.parse(selectedArray):[]
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
+    this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
 
     that.punchRecordsArray = []
     that.PunchRecordsLastSyncTime = ''
@@ -105,7 +106,7 @@ App({
           that.globalData.Position = res.STAFFINFO.Position
           that.globalData.GPSplace = res.GPS
           that.globalData.PERMS = res.PERMS
-          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
+          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto          
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
           that.globalData.REMARKS = res.REMARKS
@@ -167,7 +168,7 @@ App({
     })
   },
 
-  postRecord(items, fileF, fileB, locationName, dateTimeP) {
+  postRecord(items, fileF, fileB, locationName, dateTimeP, punchRecord) {
     const that = this
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
@@ -192,14 +193,20 @@ App({
         console.log(res)
         if (res.RESULT == 0) {
           if (that.globalData.AppPhoto % 10 == 3) {
-            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')))
-            that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')))
+            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')),'')
+            setTimeout( ()=> {
+              that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')), punchRecord)
+            }, 1000)
           } else if (that.globalData.AppPhoto % 10 == 2) {
-            that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')))
+            that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')), punchRecord)
           } else if (that.globalData.AppPhoto % 10 == 1) {
-            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')))
+            that.postPhoto(fileB, dateTimeP + '_' + 'f' + fileB.substring(fileB.indexOf('.')), punchRecord)
           } else {
             console.log('that.globalData.AppPhoto % 10 == 0')
+            let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+            punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+            punchRecordsArray.push(punchRecord)
+            wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
           }
           setTimeout(() => {
             wx.navigateTo({
@@ -211,7 +218,7 @@ App({
     })
   },
 
-  postPhoto(filePath, fileName) {
+  postPhoto(filePath, fileName, punchRecord) {
     var clid = this.globalData.clid
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
@@ -229,7 +236,21 @@ App({
       name: 'photos',
       url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
       success: (e) => {
-        console.log(CryptoJS.Base64Decode(e.data))
+        const res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        if (punchRecord.dateTime) {
+          wx.saveFile({
+            tempFilePath: filePath,
+            success: (e) => {
+              punchRecord.filePath = e.savedFilePath
+              console.log(punchRecord)
+              let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+              punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+              punchRecordsArray.push(punchRecord)
+              wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
+            }
+          })
+        }
       }
     })
   },

@@ -42,10 +42,14 @@ Page({
     selectedArray: [],
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
-    dailyReportsLastSyncTime: ''
+    dailyReportsLastSyncTime: '',
+    isLoading: true
   },
 
   handleItemChange(e){
+    if (this.data.isLoading) {
+      return
+    }
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
@@ -57,6 +61,9 @@ Page({
     })
   },
   handlemethodchange(e){
+    if (this.data.isLoading) {
+      return
+    }
     var chosen = e.detail
     if(chosen == "设置监管范围"){
       wx.navigateTo({
@@ -66,6 +73,9 @@ Page({
   },
 
   DailyReport_Detail(e){
+    if (this.data.isLoading) {
+      return
+    }
     var name = e.currentTarget.dataset.name
     var staffId = e.currentTarget.dataset.staffid
     wx.navigateTo({
@@ -74,6 +84,9 @@ Page({
   },
 
   MonthlyReport_Detail(e){
+    if (this.data.isLoading) {
+      return
+    }
     const that = this
     var index = e.currentTarget.dataset.index
     wx.navigateTo({
@@ -119,6 +132,7 @@ Page({
   },
   
   getMonthlyReports(month) {
+    this.data.isLoading = true
     wx.showLoading({
       title: '数据加载中···',
     })
@@ -164,6 +178,7 @@ Page({
             monthlyReportsArray: newArray
           })
           wx.hideLoading({})
+          that.data.isLoading = false
         } else {
           that.getMonthlyReportsSinal(month, index + maxResult)
         }
@@ -280,8 +295,12 @@ Page({
             punchRecordslastSyncTime: endDate + util.formatTime(new Date())
           })
           
-          wx.hideLoading({})
           this.getDailyReportsByDate(this.data.date)
+          
+          wx.hideLoading({})
+          that.data.isLoading = false
+
+
           if (that.data.selectedArray.length == 0) {
             wx.showModal({
               title: '初次使用该功能，请设置监管范围！',
@@ -311,6 +330,9 @@ Page({
     this.getDailyReportsByDate(dateTime)
   },
   subDate(){
+    if (this.data.isLoading) {
+      return
+    }
     const that = this
     var dateTime=new Date(that.data.date)
     dateTime=dateTime.setDate(dateTime.getDate()-1);
@@ -324,6 +346,9 @@ Page({
     this.getDailyReportsByDate(this.data.date)
   },
   addDate(){
+    if (this.data.isLoading) {
+      return
+    }
     const that = this
     var today=new Date();
     var dateTime=new Date(that.data.date)
@@ -340,6 +365,9 @@ Page({
     }  
   },
   subMonth(){
+    if (this.data.isLoading) {
+      return
+    }
     const that = this
     var dateTime=new Date(that.data.month)
     dateTime=dateTime.setMonth(dateTime.getMonth()-1);
@@ -351,6 +379,9 @@ Page({
     this.getMonthlyReports(MONTH)
   },
   addMonth(){
+    if (this.data.isLoading) {
+      return
+    }
     const that = this
     var today=new Date();
     var MonthTime=new Date(that.data.month)

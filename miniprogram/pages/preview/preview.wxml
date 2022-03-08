@@ -5,10 +5,10 @@
   <view class="images">
     <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;"/>
     <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;">
-      <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.1875}}px;">
-        <image src="{{personImg}}" mode="scaleToFill" class="person_img" hidden="{{photoMode == 2}}"/>
+      <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.1875}}px; {{photoMode == 3?'background: white;':''}}">
+        <image src="{{personImg}}" mode="scaleToFill" class="person_img" hidden="{{photoMode < 3}}"/>
       </view>
-      <view class="ps_overflow">{{psContent}}</view>
+      <view class="ps_overflow" style="{{psContent.length > 0?'padding: 10rpx;':''}}">{{psContent}}</view>
     </view>
   </view>
 
@@ -19,7 +19,7 @@
         <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
       </picker>
       <view class="ps_input_box" style="width: {{screenWidth * 0.85}}px;">
-        <input placeholder="备注内容" bindblur="bindInputChange"/>
+        <input placeholder="备注内容" model:value="{{psContent}}"/>
       </view>
     </view>
   </view>
