@@ -18,34 +18,24 @@ Page({
     index: '',
     latitude: '',
     longitude: '',
-    canvas: '',
     psContent: '',
-    imgBH: '',
-    imgBW: '',
-    imgPH: '',
-    imgPW: '',
     photoMode: '',
     canvasImg: '',
     psArray: '',
-    psIndex: ''
+    psIndex: '',
+    isCanDraw: false
   },
 
   bindInputChange(e) {
     this.setData({
       psContent: e.detail.value
     })
-    if (this.data.photoMode == 3) {
-      this.drawText()
-    }
   },
 
   bindChangePs(e) {
     this.setData({
       psContent: this.data.psArray[e.detail.value]
     })
-    if (this.data.photoMode == 3) {
-      this.drawText()
-    }
   },
 
   redo () {
@@ -55,49 +45,42 @@ Page({
   },
 
   share() {
-    this.savePhotoAuto(true)
+    this.setData({
+      isCanDraw: true
+    })
+    
+    var interval = setInterval(() => {
+      const that = this
+      if (!that.data.isCanDraw) {
+        clearInterval(interval)
+        wx.showShareImageMenu({
+          path:  that.data.canvasImg,
+          fail: err => {
+            console.log(err)
+          }
+        })
+      }
+    }, 500)
+    
   },
 
   savePhotoAuto(isShowModal) {
-    const that = this
-    if (this.data.photoMode == 3) {
-      if (this.data.canvasImg == '') {
-        wx.canvasToTempFilePath({
-          canvas: that.data.canvas,
-          complete: (e)=> {
-            that.setData({
-              canvasImg: e.tempFilePath
-            })
-            that.savePhoto(e.tempFilePath)
-            that.savePhoto(that.data.personImg)
-          }
-        })
-      } else {
-        this.savePhoto(this.data.canvasImg, false)
-        that.savePhoto(that.data.personImg, isShowModal)
-      }
-    } else if (this.data.photoMode == 2) {
-      that.savePhoto(that.data.backgroundImg, isShowModal)
-    } else if (this.data.photoMode == 1) {
-      that.savePhoto(that.data.personImg, isShowModal)
-    } else {
-      console.log(this.data.photoMode)
-    }
+    this.savePhoto(this.data.canvasImg, false)
   },
 
   complete() {
     const that = this
     if (this.data.photoMode == 3) {
       if (this.data.canvasImg == '') {
-        wx.canvasToTempFilePath({
-          canvas: that.data.canvas,
-          complete: (e)=> {
-            that.setData({
-              canvasImg: e.tempFilePath
-            })
-            that.completeUp(e.tempFilePath)
-          }
+        this.setData({
+          isCanDraw: true
         })
+        var interval = setInterval(() => {
+          if (!this.data.isCanDraw) {
+            clearInterval(interval)
+            this.completeUp(this.data.canvasImg)
+          }
+        }, 500)
       } else {
         this.completeUp(this.data.canvasImg)
       }
@@ -127,107 +110,25 @@ Page({
     if (app.globalData.autoSave == 1) {
       this.savePhotoAuto(false)
     }
+    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+    punchRecordsArray.push({
+      'dateTime': dateTime,
+      'location': this.data.locationName
+    })
+    wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
     app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP)
   },
 
-  drawImg() {
-    const that = this
-    wx.createSelectorQuery()
-    .select('#canvas')
-    .fields({
-      node: true,
-      size: true,
-    }).exec((res) => {
-      const canvas = res[0].node
-      const height = res[0].height
-      const width = res[0].width
-      const ctx = canvas.getContext('2d')
-      that.setData({
-        canvas: canvas
-      })
-
-      const imgB = canvas.createImage()
-      imgB.src = this.data.backgroundImg
-      imgB.onload = function () {
-        const realRto = that.data.imgBW / that.data.imgBH
-        const canRto = width / height
-        ctx.drawImage(imgB, 0, 0, width * 0.8, width * 0.8 * realRto * canRto)
-        that.drawImgP(res)
-      }
-      
-    })
-  },
-
-  drawImgP(res) {
-    const that = this
-    const canvas = res[0].node
-    const height = res[0].height
-    const width = res[0].width
-    const ctx = canvas.getContext('2d')
-
-    const imgP = canvas.createImage()
-    imgP.src = this.data.personImg
-    imgP.onload = function () {
-      const heightP = height * 0.25
-      const widthP = width * 0.25
-      const realRto = that.data.imgPW / that.data.imgPH
-      const canRto = width / height
-      // ctx.clearRect(0, 0, widthP+ 6, heightP + 6)
-      ctx.drawImage(imgP, 3, 3, widthP * 0.8, widthP * 0.8 * realRto * canRto)
-    }
-  },
-
-  drawText() {
-    const psContent = this.data.psContent.split('').join(' ')
-    const canvas = this.data.canvas
-    const ctx = canvas.getContext('2d')
-    const fontpx = 8
-    ctx.font = 'common-ligatures small-caps ' + fontpx + 'px sans-serif'
-    const realRtoB = this.data.imgBW / this.data.imgBH
-    const realRtoP = this.data.imgPW / this.data.imgPH
-    const height = fontpx * 2
-    const width = fontpx * psContent.length / 1.2 + 10
-    const rx = 10
-    const ry = this.data.screenHeight * 0.6 * realRtoB * realRtoP / 1.5 + 20
-
-    const fx = rx + 5
-    const fy = ry + fontpx * 1.5
-
-    ctx.fillStyle = 'blueviolet'
-    ctx.fillRect(rx, ry, width, height)
-    ctx.fillStyle = 'white'
-    ctx.fillText(psContent, fx, fy)
-  },
-
-  getImgP(e) {
-    this.setData({
-      imgPH: e.detail.height,
-      imgPW: e.detail.width
-    })
-    console.log('P', e.detail.height, e.detail.width)
-  },
-
-  getImgB(e) {
-    this.setData({
-      imgBH: e.detail.height,
-      imgBW: e.detail.width
-    })
-    console.log('B', e.detail.height, e.detail.width)
-  },
-
   savePhoto(photoPath, isShowModal) {
-    const that = this
+    console.log(photoPath)
     wx.saveImageToPhotosAlbum({
       filePath: photoPath,
       success: (e) => {
-        if (isShowModal) {
-          wx.showModal({
-            title: '提示',
-            content: '图片已保存至本地，可自行分享'
-          })
-        }
+        console.log('success save')
       },
       fail: (err) => {
+        console.log(err)
         if (err.errMsg == "saveImageToPhotosAlbum:fail cancel") {
           //获取权限
           // if (settingdata.authSetting["scope.writePhotosAlbum"]) {
@@ -240,6 +141,15 @@ Page({
       }
     })
   },
+  
+  handleClose(e) {
+    console.log(e)
+    this.setData({
+      isCanDraw: !this.data.isCanDraw,
+      canvasImg: e.detail
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -262,13 +172,13 @@ Page({
       psArray: app.globalData.REMARKS
     })
     if (tmp == 3) {
-      const that = this
-      var interval = setInterval(() => {
-        if (that.data.imgBH && that.data.imgPH) {
-          clearInterval(interval)
-          that.drawImg()
-        }
-      }, 500)
+      // const that = this
+      // var interval = setInterval(() => {
+      //   if (that.data.imgBH && that.data.imgPH) {
+      //     clearInterval(interval)
+      //     that.drawImg()
+      //   }
+      // }, 500)
     } else if (tmp == 1) {
       this.setData({
         backgroundImg: options.frontsrc

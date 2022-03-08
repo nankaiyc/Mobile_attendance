@@ -1,19 +1,16 @@
 <!--pages/preview/preview.wxml-->
 <topbar curIndex='17'/>
+<share-box isCanDraw="{{isCanDraw}}" backgroundImg="{{backgroundImg}}" personImg="{{personImg}}" psContent="{{psContent}}" bind:initData="handleClose" />
 <view class="content">
-  <view class="images" wx:if="{{photoMode < 3}}">
-    <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.5}}px;"/>
-    <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.5}}px;">
-      <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.125}}px;">
-        <!-- <image src="{{personImg}}" mode="scaleToFill" class="person_img" wx:if="{{photoMode < 3}}"/> -->
+  <view class="images">
+    <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;"/>
+    <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;">
+      <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.1875}}px;">
+        <image src="{{personImg}}" mode="scaleToFill" class="person_img" hidden="{{photoMode == 2}}"/>
       </view>
       <view class="ps_overflow">{{psContent}}</view>
     </view>
   </view>
-
-  <image src="{{backgroundImg}}" bindload="getImgB" hidden/>
-  <image src="{{personImg}}" bindload="getImgP" hidden/>
-  <canvas type="2d" id="canvas" style="width: {{screenWidth}}px; height: {{screenHeight * 0.6}}px;"  wx:if="{{photoMode == 3}}"></canvas>
 
   <view class="under">
     <view class="hint">{{personName + ' ' + dateTime + ' ' + locationName}}</view>
