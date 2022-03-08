@@ -24,7 +24,7 @@ page {
 .info{
   display: flex;
   flex-direction: column;
-  margin-top: 165rpx;
+  margin-top: 150rpx;
 }
 .head{
   height: 180rpx;
@@ -38,10 +38,15 @@ page {
   font-size: 50rpx;
   font-weight: 600;
 }
+.position{
+  font-size: 35rpx;
+  font-weight: 400;
+  margin-top: 10rpx;
+}
 .apartment{
   font-size: 35rpx;
   font-weight: 400;
-  margin-top: 5rpx;
+  margin-top: 10rpx;
 }
 
 .current_time{
@@ -92,4 +97,11 @@ page {
   width: 600rpx;
   margin-top: 15rpx;
   margin-left: 20rpx;
+}
+.BussinessText{
+  position: fixed;
+  bottom: 5%;
+  color: #4BBFE6;
+  font-size: 30rpx;
+  font-weight: 400;
 }

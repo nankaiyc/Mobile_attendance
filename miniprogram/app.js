@@ -102,6 +102,7 @@ App({
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.AttNo = res.STAFFINFO.AttNo
           that.globalData.StaffID = res.STAFFINFO.StaffID
+          that.globalData.Position = res.STAFFINFO.Position
           that.globalData.GPSplace = res.GPS
           that.globalData.PERMS = res.PERMS
           that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
@@ -155,7 +156,11 @@ App({
       success: (e) => {
         console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        wx.navigateTo({
+        if (res.RESULT == 0){
+          that.globalData.username = res.STAFFINFO.Name
+          that.globalData.AttNo = res.STAFFINFO.AttNo
+        }
+        wx.redirectTo({
           url: '../registerResult/registerResult?IsSuccess='+ res.RESULT
         })
       }

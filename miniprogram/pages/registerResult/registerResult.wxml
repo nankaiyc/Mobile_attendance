@@ -8,6 +8,11 @@
     <view class="normal_text" bindtap="itemchange">{{IsSuccess?'注册成功！':'注册失败！'}}</view>
   </view>
 
+  <view class="user_info" wx:if="{{IsSuccess}}">
+    <view class="name">注册人：{{name}}</view>
+    <view class="Attno">考勤号：{{Attno}}</view>
+  </view>
+
   <view class="err_say" wx:if="{{!IsSuccess}}">
     注册码错误或已失效，请重新输入。
   </view>
@@ -15,4 +20,11 @@
   <view class="ButtonArea">
     <button class="define" style="width: 90px;height: 36px" bindtap="Result_Vetify">确定</button>
   </view>
+
+  <view class="UnBoldTextArea">
+    <view class="UnBoldText">激活码由开通融商云移动考勤的企业通过短信下发，如未收到，请联系人力资源部门。</view> 
+    <view class="UnBoldText">咨询融商云移动考勤业务，请拨打服务电话400-110-8800，或登录www.yunkq.com了解更多信息</view>
+  </view>
+
+  <view class="BussinessText">©天津融商科技有限公司 2019</view>
 </view>
