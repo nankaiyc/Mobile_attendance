@@ -37,6 +37,7 @@ Page({
     interface1:true,
     name:"",
     apartment:"",
+    Position:"董事长",
     id:0,
     timer: null,
     currentDate: "",
@@ -337,7 +338,8 @@ Page({
       imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
       apartment:app.globalData.apartment,
-      GPSplace:app.globalData.GPSplace,  
+      Position:app.globalData.Position,
+      GPSplace:app.globalData.GPSplace, 
       id:app.globalData.AttNo,
       photomode:app.globalData.AppPhoto % 10,
       punchRecordsArray: app.punchRecordsArray

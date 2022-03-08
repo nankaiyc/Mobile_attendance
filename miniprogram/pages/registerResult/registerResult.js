@@ -1,4 +1,5 @@
 // pages/registerResult/registerResult.js
+const app = getApp();
 Page({
 
   /**
@@ -6,6 +7,8 @@ Page({
    */
   data: {
     isSuccess:false,
+    name:"",
+    Attno:0,
   },
 
   itemchange(){
@@ -23,11 +26,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      name: app.globalData.username,
+      Attno:app.globalData.AttNo,
+    })
     if(options.IsSuccess == 0){
       this.setData({
         IsSuccess: true,
       })
     }
+
   },
 
   /**

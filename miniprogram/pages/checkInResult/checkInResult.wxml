@@ -31,5 +31,7 @@
     <button class="button retry" style="width: 90px;height: 36px;" bindtap="onFail">重试</button>
 
   </view>
+
+  <view class="BussinessText">©天津融商科技有限公司 2019</view>
 </view>
 
