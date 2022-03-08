@@ -4,9 +4,9 @@
 const app = getApp();
 var startX,startY,endX,endY;
 var moveFlag = true;// 判断执行滑动事件
-var util = require('../../utils/util.js');
+var util = require('../../utils/util.js')
 const CryptoJS = require('../../utils/crypto.js')
-var bmap = require('../../utils/bmap-wx.js'); 
+var bmap = require('../../utils/bmap-wx.js')
 
 Page({
 
@@ -47,9 +47,12 @@ Page({
     latitude:0,
     longitude:0,
     HistoryRecord:[],
-    ak:"UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL",
     markers: [],
-    punchRecordsArray:[] //"2022-02-19 19:14:21于解放村打卡成功。","2022-02-19 19:14:21于南开大学打卡成功。","123","456"
+    punchRecordsArray:[],
+    modalHidden: true,
+    modalShowItem: '',
+    screenHeight: '',
+    screenWidth: '',
 
   },
   //自定义事件 用来接受子组件传递的数据
@@ -215,7 +218,7 @@ Page({
       title: '正在获取位置···',
     })
     var BMap = new bmap.BMapWX({ 
-      ak: that.data.ak 
+      ak: app.globalData.ak 
     }); 
     var fail = function(data) { 
       console.log(data);
@@ -315,7 +318,11 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    app.postRecord(item, '', '', app.globalData.GPSplace[index].name, dateTimeP)
+    let punchRecord = {
+      'dateTime': dateTime,
+      'location': app.globalData.GPSplace[index].name
+    }
+    app.postRecord(item, '', '', app.globalData.GPSplace[index].name, dateTimeP, punchRecord)
   },
 
   checkin_Success(){
@@ -327,6 +334,22 @@ Page({
     wx.navigateTo({
       url: '../../pages/checkInResult/checkInResult?status=failure',
     })
+  },
+
+  showImg (e) {
+    const that = this
+    const modalShowItem = e.currentTarget.dataset.item
+    if (modalShowItem.filePath) {
+      wx.previewImage({
+        urls: [modalShowItem.filePath],
+        showmenu: true
+      })
+    } else {
+      wx.showModal({
+        title: '打卡详情',
+        content: that.data.name + ' ' + modalShowItem.dateTime + ' ' + modalShowItem.location
+      })
+    }
   },
 
   onLoad: function (options) {
@@ -341,10 +364,9 @@ Page({
       GPSplace:app.globalData.GPSplace, 
       id:app.globalData.AttNo,
       photomode:app.globalData.AppPhoto % 10,
-      punchRecordsArray: punchRecordsArray?JSON.parse(punchRecordsArray):[]
+      punchRecordsArray: punchRecordsArray?JSON.parse(punchRecordsArray):[],
+      screenHeight: app.globalData.screenHeight,
+      screenWidth: app.globalData.screenWidth,
     })
-    if (options.directlyCheck == 'true') {
-      this.popUp()
-    }
   },
 })

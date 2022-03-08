@@ -27,7 +27,10 @@
       </view>  
     </view>
     <image src="{{'../../resource/checkin_err_say.png'}}" mode="heightFix" class="err_say"/>
-    <button class="unfixed" style="width: 160px;height: 36px;" wx:if="{{!isQuit}}" bindtap="nonPositioned" wx:if="{{UploadLoc == 1}}">非固定地点签到</button>
+    
+    <picker mode="selector" bindchange="nonPositioned" range="{{nameArray}}">
+      <button class="unfixed" style="width: 160px;height: 36px;" wx:if="{{!isQuit}}">非固定地点签到</button>
+    </picker>
     <button class="button retry" style="width: 90px;height: 36px;" bindtap="onFail">重试</button>
 
   </view>

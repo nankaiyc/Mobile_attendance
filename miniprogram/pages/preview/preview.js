@@ -26,12 +26,6 @@ Page({
     isCanDraw: false
   },
 
-  bindInputChange(e) {
-    this.setData({
-      psContent: e.detail.value
-    })
-  },
-
   bindChangePs(e) {
     this.setData({
       psContent: this.data.psArray[e.detail.value]
@@ -64,32 +58,20 @@ Page({
     
   },
 
-  savePhotoAuto(isShowModal) {
-    this.savePhoto(this.data.canvasImg, false)
-  },
-
   complete() {
-    const that = this
-    if (this.data.photoMode == 3) {
-      if (this.data.canvasImg == '') {
-        this.setData({
-          isCanDraw: true
-        })
-        var interval = setInterval(() => {
-          if (!this.data.isCanDraw) {
-            clearInterval(interval)
-            this.completeUp(this.data.canvasImg)
-          }
-        }, 500)
-      } else {
-        this.completeUp(this.data.canvasImg)
-      }
-    } else if (this.data.photoMode == 2) {
-      that.completeUp(that.data.backgroundImg)
-    } else if (this.data.photoMode == 1) {
-      that.completeUp(that.data.personImg)
+    // const that = this
+    if (this.data.canvasImg == '') {
+      this.setData({
+        isCanDraw: true
+      })
+      var interval = setInterval(() => {
+        if (!this.data.isCanDraw) {
+          clearInterval(interval)
+          this.completeUp(this.data.canvasImg)
+        }
+      }, 500)
     } else {
-      console.log(this.data.photoMode)
+      this.completeUp(this.data.canvasImg)
     }
   },
 
@@ -107,23 +89,23 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    if (app.globalData.autoSave == 1) {
-      this.savePhotoAuto(false)
-    }
-    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
-    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
-    punchRecordsArray.push({
+    
+    let punchRecord = {
       'dateTime': dateTime,
       'location': this.data.locationName
-    })
-    wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
-    app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP)
+    }
+
+    if (app.globalData.autoSave == 1) {
+      this.savePhoto(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP, punchRecord)
+    } else {
+      app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP, punchRecord)
+    }
+
   },
 
-  savePhoto(photoPath, isShowModal) {
-    console.log(photoPath)
+  savePhoto(items, fileF, fileB, locationName, dateTimeP, punchRecord) {
     wx.saveImageToPhotosAlbum({
-      filePath: photoPath,
+      filePath: fileB,
       success: (e) => {
         console.log('success save')
       },
@@ -138,6 +120,9 @@ Page({
           // }
           // that.savePhoto(photoPath)
         }
+      },
+      complete: (e) => {
+        app.postRecord(items, fileF, fileB, locationName, dateTimeP, punchRecord)
       }
     })
   },
@@ -171,15 +156,7 @@ Page({
       photoMode: tmp,
       psArray: app.globalData.REMARKS
     })
-    if (tmp == 3) {
-      // const that = this
-      // var interval = setInterval(() => {
-      //   if (that.data.imgBH && that.data.imgPH) {
-      //     clearInterval(interval)
-      //     that.drawImg()
-      //   }
-      // }, 500)
-    } else if (tmp == 1) {
+    if (tmp == 1) {
       this.setData({
         backgroundImg: options.frontsrc
       })
