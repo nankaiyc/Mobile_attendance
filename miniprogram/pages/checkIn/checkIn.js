@@ -334,6 +334,7 @@ Page({
     var that = this;
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
+    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
     that.setData({
       imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
@@ -342,7 +343,7 @@ Page({
       GPSplace:app.globalData.GPSplace, 
       id:app.globalData.AttNo,
       photomode:app.globalData.AppPhoto % 10,
-      punchRecordsArray: app.punchRecordsArray
+      punchRecordsArray: punchRecordsArray?JSON.parse(punchRecordsArray):[]
     })
     if (options.directlyCheck == 'true') {
       this.popUp()

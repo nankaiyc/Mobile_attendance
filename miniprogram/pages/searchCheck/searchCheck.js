@@ -12,23 +12,7 @@ Page({
     departmentArray: [],
     dateStart: '',
     dateEnd: '',
-    StaffList: [
-      {
-        name:"秦寅畅",
-        staffId:0,
-        company:"开发测试1",
-        messageList:[
-          {
-            date:"2022-02-24",
-            message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"]
-          },
-          {
-            date:"2022-02-25",
-            message:["2022-02-25 13:01:05 解放村","2022-02-25 13:01:05 中国农业银行(齐河县支行)","2022-02-25 13:01:05 仍里"]
-          },
-        ],
-      },
-    ],
+    StaffList: [],
     screenHeight: 0,
     screenWidth: 0,
 
@@ -41,7 +25,6 @@ Page({
     this.setData({
       departmentIndex: e.detail.value
     })
-    console.log(this.getAllDeparts(e.detail.value))
   },
   bindDateStartPickerChange: function name(e) {
     this.setData({
@@ -60,7 +43,8 @@ Page({
     that.setData({
       StaffList: [],
     })
-    var DailyReports = app.punchRecordsArray.filter((val) => {return val.staffName.indexOf(name_searched)>=0 && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && name_searched!=""})
+    const departs = this.getAllDeparts(this.data.departmentIndex)
+    var DailyReports = app.punchRecordsArray.filter((val) => {return val.staffName.indexOf(name_searched)>=0 && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && name_searched!="" && departs.includes(val.deptId)})
     console.log(DailyReports)
     for(var i in DailyReports) {
       var tempdic = {}
@@ -185,12 +169,12 @@ Page({
     const curId = this.data.departmentObjectArray[i].id
     this.getSubDeparts(curId)
 
-    let departs = this.data.departmentObjectArray.filter((val) => {return this.data.tmpDeparts.includes(val.id)})
-    let departNames = []
-    for (var i in departs) {
-      departNames.push(departs[i].name)
-    }
-    return departNames
+    // let departs = this.data.departmentObjectArray.filter((val) => {return this.data.tmpDeparts.includes(val.id)})
+    // let departNames = []
+    // for (var i in departs) {
+    //   departNames.push(departs[i].name)
+    // }
+    return this.data.tmpDeparts
   },
 
   getSubDeparts(curId) {

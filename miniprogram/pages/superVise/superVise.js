@@ -38,21 +38,11 @@ Page({
     month: "",
     screenHeight: 0,
     screenWidth: 0,
-    StaffList: [
-      {
-        name:"秦寅畅",
-        staffId:0,
-        company:"开发测试1",
-        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
-      },
-      {
-        name:"王文鹏",
-        staffId:0,
-        company:"开发测试2",
-        message:["2022-02-24 13:01:05 解放村","2022-02-24 13:01:05 中国农业银行(齐河县支行)","2022-02-24 13:01:05 仍里"],
-      },
-    ],
-    selectedArray: []
+    StaffList: [],
+    selectedArray: [],
+    punchRecordslastSyncTime: '',
+    punchRecordsArray: [],
+    dailyReportsLastSyncTime: ''
   },
 
   handleItemChange(e){
@@ -182,16 +172,12 @@ Page({
   },
   
   getDailyReports() {
-    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
-    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
-    let lastSyncTime = wx.getStorageSync('dailyReportsLastSyncTime')
-    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
     var dateTime = new Date()
-    dateTime = dateTime.setDate(dateTime.getDate()-31)
+    dateTime = dateTime.setDate(dateTime.getDate()-10)
     dateTime = new Date(dateTime)
     const beginDate = util.formatDateLine(dateTime)
     const endDate = util.formatDateLine(new Date())
-    this.data.dailyReportsArray = dailyReportsArray
+    const lastSyncTime = this.data.dailyReportsLastSyncTime
     wx.showLoading({
       title: '数据加载中···',
     })
@@ -231,11 +217,69 @@ Page({
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.dailyReportsArray
-          wx.setStorageSync('dailyReportsLastSyncTime', endDate + util.formatTime(new Date()))
-          wx.setStorageSync('dailyReportsArray', JSON.stringify(newArray))
           that.setData({
-            dailyReportsArray: newArray
+            dailyReportsArray: newArray,
+            dailyReportsLastSyncTime: endDate + util.formatTime(new Date())
           })
+
+          that.getPunchRecords()
+        } else {
+          that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        }
+      }
+    })
+  },
+
+  getPunchRecords() {
+    var dateTime = new Date()
+    dateTime = dateTime.setDate(dateTime.getDate()-10)
+    dateTime = new Date(dateTime)
+    const beginDate = util.formatDateLine(dateTime)
+    const endDate = util.formatDateLine(new Date())
+    const lastSyncTime = this.data.punchRecordslastSyncTime
+    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
+  },
+
+  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index) {
+    const that = this
+    var clid = app.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    const maxResult = 5
+    var _p = {
+      '_s': clid + timestamp,
+      'lastSyncTime': lastSyncTime,
+      'maxResult': maxResult,
+      'index': index,
+      'beginDate': beginDate,
+      'endDate': endDate
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: app.globalData.baseUrl + '/punchRecords/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'punchRecords ' + index)
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        
+        that.data.punchRecordsArray.push.apply(that.data.punchRecordsArray, res.AttRecords)
+        if (res.RESULT < maxResult) {
+          const newArray = that.data.punchRecordsArray
+          app.punchRecordsArray = newArray
+          this.setData({
+            punchRecordsArray: newArray,
+            punchRecordslastSyncTime: endDate + util.formatTime(new Date())
+          })
+          
           wx.hideLoading({})
           this.getDailyReportsByDate(this.data.date)
           if (that.data.selectedArray.length == 0) {
@@ -244,7 +288,7 @@ Page({
             })
           }
         } else {
-          that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+          that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
         }
       }
     })

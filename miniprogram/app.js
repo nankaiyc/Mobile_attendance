@@ -26,6 +26,9 @@ App({
     this.globalData.selectedArray = selectedArray?JSON.parse(selectedArray):[]
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
 
+    that.punchRecordsArray = []
+    that.PunchRecordsLastSyncTime = ''
+
     var clid = wx.getStorageSync('unionId')
     if (!clid) {
       this.login()
@@ -107,20 +110,10 @@ App({
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
           that.globalData.REMARKS = res.REMARKS
 
-          that.punchRecordsArray = []
-          that.PunchRecordsLastSyncTime = ''
-          that.getPunchRecords()
-
-          const now = util.formatDateLine(new Date()) + util.formatTime(new Date())
-          var interval = setInterval(() => {
-            if (that.PunchRecordsLastSyncTime >= now) {
-              wx.redirectTo({
-                url: indexPages[this.globalData.firstPage],
-              })
-              clearInterval(interval)
-              wx.hideLoading({})
-            }
-          }, 500)
+          wx.redirectTo({
+            url: indexPages[this.globalData.firstPage],
+          })
+          wx.hideLoading({})
         } else {
           wx.redirectTo({
             url: '../register/register',
@@ -237,67 +230,6 @@ App({
       url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
       success: (e) => {
         console.log(CryptoJS.Base64Decode(e.data))
-      }
-    })
-  },
-
-  getPunchRecords() {
-    let punchRecordsArray = wx.getStorageSync('punchRecordsArray')
-    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
-    let lastSyncTime = wx.getStorageSync('PunchRecordsLastSyncTime')
-    lastSyncTime = lastSyncTime?lastSyncTime:'2022-01-01 00:00:00'
-    var dateTime = new Date()
-    dateTime = dateTime.setDate(dateTime.getDate()-31)
-    dateTime = new Date(dateTime)
-    const beginDate = util.formatDateLine(dateTime)
-    const endDate = util.formatDateLine(new Date())
-    this.punchRecordsArray = punchRecordsArray
-    wx.showLoading({
-      title: '数据加载中···',
-    })
-    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
-  },
-
-  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index) {
-    const that = this
-    var clid = this.globalData.clid
-
-    var timestamp = Date.parse(new Date());
-    timestamp = timestamp / 1000;
-
-    const maxResult = 5
-    var _p = {
-      '_s': clid + timestamp,
-      'lastSyncTime': lastSyncTime,
-      'maxResult': maxResult,
-      'index': index,
-      'beginDate': beginDate,
-      'endDate': endDate
-    }
-    _p = JSON.stringify(_p)
-    var _p_base64 = CryptoJS.Base64Encode(_p)
-    
-    wx.request({
-      url: that.globalData.baseUrl + '/punchRecords/',
-      method: 'GET',
-      data: {
-        'CLID': clid,
-        '_p': _p_base64,
-        '_en': 'app2'
-      },
-      success: (e) => {
-        console.log('success get' + 'punchRecords ' + index)
-        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        
-        that.punchRecordsArray.push.apply(that.punchRecordsArray, res.AttRecords)
-        if (res.RESULT < maxResult) {
-          const newArray = that.punchRecordsArray
-          wx.setStorageSync('PunchRecordsLastSyncTime', endDate + util.formatTime(new Date()))
-          wx.setStorageSync('punchRecordsArray', JSON.stringify(newArray))
-          that.PunchRecordsLastSyncTime = endDate + util.formatTime(new Date())
-        } else {
-          that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
-        }
       }
     })
   },
