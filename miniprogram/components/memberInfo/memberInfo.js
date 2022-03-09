@@ -180,6 +180,7 @@ Component({
       _p = JSON.stringify(_p)
       var _p_base64 = CryptoJS.Base64Encode(_p)
       
+      this.data.isLoading = true
       wx.showLoading({
         title: '数据加载中···',
       })
@@ -370,6 +371,9 @@ Component({
     },
 
     saveSelected() {
+      if (this.data.isLoading) {
+        return
+      }
       let selectedArray = []
       for (var i in this.data.itemArray) {
         if (this.data.itemArray[i].selectStatus != 0) {

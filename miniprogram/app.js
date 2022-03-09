@@ -37,9 +37,7 @@ App({
       this.globalData.clid = clid
     }
 
-    // this.getMsg('employees')
-    // this.getMsg('staffdepts')
-    // this.getPersonInfo('1651306')
+    // this.getMsg('appPushReports')
   },
 
   login() {

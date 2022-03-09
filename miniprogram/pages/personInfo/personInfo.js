@@ -12,9 +12,13 @@ Page({
     id:0,
     entry_data:"ed",
     phone:'phone',
-    personInfo: ''
+    personInfo: '',
+    isLoading: true
   },
   launchPhoneCall(e){
+    if (this.data.isLoading) {
+      return
+    }
     var tel = e.currentTarget.dataset.tel.toString();
     console.log(typeof(tel))
     wx.makePhoneCall({
@@ -32,6 +36,7 @@ Page({
     wx.showLoading({
       title: '数据加载中···',
     })
+    this.data.isLoading = true
     const that = this
     var clid = app.globalData.clid
 
@@ -60,6 +65,7 @@ Page({
         that.setData({
           personInfo: res.Employees.filter((val) => {return val.staffId == StaffID})[0]
         })
+        that.data.isLoading = false
         wx.hideLoading({})
       }
     })
