@@ -54,10 +54,14 @@ Page({
     modalShowItem: '',
     screenHeight: '',
     screenWidth: '',
+    isLoading: false
 
   },
   //自定义事件 用来接受子组件传递的数据
   handlemethodchange(e){
+    if (this.data.isLoading) {
+      return
+    }
     var chosen = e.detail
     if(chosen == "WiFi考勤"){
       this.setData({
@@ -81,6 +85,9 @@ Page({
   },
 
   touchStartALL: function (e) {
+    if (this.data.isLoading) {
+      return
+    }
     startX = e.touches[0].pageX; // 获取触摸时的原点
     startY = e.touches[0].pageY;
     // console.log(startX,startY)
@@ -88,6 +95,9 @@ Page({
   },
   // 触摸移动事件
   touchMoveALL: function (e) {
+    if (this.data.isLoading) {
+      return
+    }
     endX = e.touches[0].pageX; // 获取触摸时的原点
     if (moveFlag) {
       if (endX - startX > 100) {
@@ -105,15 +115,24 @@ Page({
   },
   // 触摸结束事件
   touchEndALL: function (e) {
+    if (this.data.isLoading) {
+      return
+    }
     moveFlag = true; // 回复滑动事件
   },
   move2left() {
+    if (this.data.isLoading) {
+      return
+    }
     var that = this;
     that.setData({
       interface1:false,
     });
   },
   move2right() {
+    if (this.data.isLoading) {
+      return
+    }
     var that = this;
     that.setData({
       interface1:true,
@@ -135,28 +154,41 @@ Page({
   },
 
   setPhotoInfo(){
+    if (this.data.isLoading) {
+      return
+    }
     var that = this;
     wx.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        that.setData({
-          imgurl: res.tempFilePaths
-        });
-      wx.setStorageSync('ImagURL', res.tempFilePaths[0])
-        // console.log(res.tempFilePaths)
+        wx.saveFile({
+          tempFilePath: res.tempFilePaths[0],
+          success: (e) => {
+            that.setData({
+              imgurl: e.savedFilePath
+            });
+            wx.setStorageSync('ImagURL', e.savedFilePath)
+          }
+        })
       }
     })
   },
 
   touchStartButton(e){
+    if (this.data.isLoading) {
+      return
+    }
     startX = e.touches[0].pageX; // 获取触摸时的原点
     startY = e.touches[0].pageY;
     this.button_selected();
     moveFlag = true;
   },
   touchMoveButton(e){
+    if (this.data.isLoading) {
+      return
+    }
     endX = e.touches[0].pageX; // 获取触摸时的原点
     endY = e.touches[0].pageY;
     // console.log(endX,endY)
@@ -172,6 +204,9 @@ Page({
     }
   },
   touchEndButton(e){
+    if (this.data.isLoading) {
+      return
+    }
     if(this.data.checkin_button == "../../resource/checkin_button1.png"){
       // this.checkin_Failure();
       this.button_unselected();
@@ -184,12 +219,18 @@ Page({
   },
 
   button_unselected(){
+    if (this.data.isLoading) {
+      return
+    }
     var that = this;
     that.setData({
       checkin_button: "../../resource/checkin_button1.png"
     });
   },
   button_selected(){
+    if (this.data.isLoading) {
+      return
+    }
     var that = this;
     that.setData({
       checkin_button: "../../resource/checkin_button2.png"
@@ -215,6 +256,7 @@ Page({
   },
   get_location() {
     var that = this;
+    this.data.isLoading = true
     wx.showLoading({
       title: '正在获取位置···',
     })
@@ -270,9 +312,8 @@ Page({
       app.globalData.locallongitude = longi
       console.log(lati);
       console.log(longi);
-      wx.hideLoading({
-        title: '正在获取位置···',
-      })
+      wx.hideLoading({})
+      that.data.isLoading = false
       that.take_photo()
     } 
   // 发起regeocoding检索请求 

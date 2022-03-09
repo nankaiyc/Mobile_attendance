@@ -22,7 +22,7 @@ Page({
       },
       {
         id:1,
-        name:"及时报告",
+        name:"即时报告",
         isActive:false
       },
       {
@@ -43,7 +43,8 @@ Page({
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
     dailyReportsLastSyncTime: '',
-    isLoading: true
+    isLoading: true,
+    isPullDown: false
   },
 
   handleItemChange(e){
@@ -179,6 +180,16 @@ Page({
           })
           wx.hideLoading({})
           that.data.isLoading = false
+          
+          if (that.data.isPullDown) {
+            that.data.isPullDown = false
+            wx.stopPullDownRefresh()
+            wx.showToast({
+              title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+              icon: 'none',
+              duration: 1500
+            })
+          }
         } else {
           that.getMonthlyReportsSinal(month, index + maxResult)
         }
@@ -300,10 +311,25 @@ Page({
           wx.hideLoading({})
           that.data.isLoading = false
 
-
+          if (that.data.isPullDown) {
+            that.data.isPullDown = false
+            wx.stopPullDownRefresh()
+            wx.showToast({
+              title: '刷新成功！同步时间：' + that.data.punchRecordslastSyncTime,
+              icon: 'none',
+              duration: 1500
+            })
+          }
           if (that.data.selectedArray.length == 0) {
             wx.showModal({
               title: '初次使用该功能，请设置监管范围！',
+              success: (res) => {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '../../pages/attendancePersonSet/attendancePersonSet',
+                  })
+                }
+              }
             })
           }
         } else {
@@ -417,4 +443,13 @@ Page({
       selectedArray: app.globalData.selectedArray
     })
   },
+
+  onPullDownRefresh: function (options) {
+    this.data.isPullDown = true
+    if (this.data.tabs[0].isActive) {
+      this.getDailyReports()
+    } else if (this.data.tabs[2].isActive) {
+      this.getMonthlyReports(this.data.month)
+    }
+  }
 })

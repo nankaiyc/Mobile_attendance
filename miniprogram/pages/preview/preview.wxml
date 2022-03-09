@@ -15,11 +15,11 @@
   <view class="under">
     <view class="hint">{{personName + ' ' + dateTime + ' ' + locationName}}</view>
     <view class="ps">
-      <picker mode="selector" bindchange="bindChangePs" range="{{psArray}}" value="{{psIndex}}">
+      <picker mode="selector" bindchange="bindChangePs" range="{{psArray}}" value="{{psIndex}}" disabled="{{isCanDraw}}">
         <view class="ps_header" style="width: {{screenWidth * 0.1}}px;">备注</view>
       </picker>
       <view class="ps_input_box" style="width: {{screenWidth * 0.85}}px;">
-        <input placeholder="备注内容" model:value="{{psContent}}"/>
+        <input placeholder="备注内容" model:value="{{psContent}}" disabled="{{isCanDraw}}"/>
       </view>
     </view>
   </view>
