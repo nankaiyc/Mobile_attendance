@@ -38,7 +38,7 @@
   },
   "permission":{
     "scope.userLocation":{
-      "desc":"请点击确定"
+      "desc":"您的位置信息将用于定位"
     }
   },
   "sitemapLocation": "sitemap.json",

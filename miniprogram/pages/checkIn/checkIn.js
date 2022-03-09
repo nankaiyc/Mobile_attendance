@@ -221,8 +221,40 @@ Page({
     var BMap = new bmap.BMapWX({ 
       ak: app.globalData.ak 
     }); 
-    var fail = function(data) { 
+    var fail = function(data) {
+      if (data.errMsg == 'getLocation:fail:auth denied' || data.errMsg == 'getLocation:fail auth deny' || data.errMsg == 'getLocation:fail authorize no response') {
+        wx.hideLoading({})
+      }
       console.log(data);
+      wx.getSetting({
+        success: res => {
+          if (typeof(res.authSetting['scope.userLocation']) != 'undefined' && !res.authSetting['scope.userLocation']) {
+            // 用户拒绝了授权
+            wx.showModal({
+              title: '提示',
+              content: '您拒绝了定位权限，将无法使用考勤打卡功能',
+              success: res => {
+                if (res.confirm) {
+                  // 跳转设置页面
+                  wx.openSetting({
+                    success: res => {
+                      if (res.authSetting['scope.userLocation']) {
+                        // 授权成功，重新定位
+                      } else {
+                        // 没有允许定位权限
+                        wx.showToast({
+                          title: '您拒绝了定位权限，将无法使用考勤打卡功能',
+                          icon: 'none'
+                        });
+                      }
+                    }
+                  });
+                }
+              }
+            });
+          }
+        }
+      });
     }; 
     var success = function(data) { 
       //返回数据内，已经包含经纬度

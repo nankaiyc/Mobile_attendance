@@ -326,6 +326,9 @@ Page({
       week: WEEK,
       month: MONTH,
     })
+    // var MonthTime=new Date(that.data.month)
+    // var thisMonth = MonthTime.getMonth() + 1;
+    // console.log(thisMonth)
     this.getDailyReports()
     this.getDailyReportsByDate(dateTime)
   },
@@ -369,14 +372,20 @@ Page({
       return
     }
     const that = this
-    var dateTime=new Date(that.data.month)
-    dateTime=dateTime.setMonth(dateTime.getMonth()-1);
-    dateTime=new Date(dateTime);
-    var MONTH = util.formatMonthLine(dateTime);
-    that.setData({
-      month: MONTH,
-    })
-    this.getMonthlyReports(MONTH)
+    var today=new Date();
+    var currentmonth = today.getMonth() + 1;
+    var MonthTime=new Date(that.data.month)
+    var thisMonth = MonthTime.getMonth() + 1;
+    console.log(currentmonth,thisMonth)
+    var MonthTimeSubed = MonthTime.setMonth(MonthTime.getMonth()-1);
+    if(currentmonth >= thisMonth && thisMonth > currentmonth-1){
+      MonthTimeSubed=new Date(MonthTimeSubed);
+      var MONTH = util.formatMonthLine(MonthTimeSubed);
+      that.setData({
+        month: MONTH,
+      })
+      this.getMonthlyReports(MONTH)
+    }
   },
   addMonth(){
     if (this.data.isLoading) {
@@ -384,9 +393,12 @@ Page({
     }
     const that = this
     var today=new Date();
+    var currentmonth = today.getMonth() + 1;
     var MonthTime=new Date(that.data.month)
+    var thisMonth = MonthTime.getMonth() + 1;
+    console.log(currentmonth,thisMonth)
     var MonthTimeAdded = MonthTime.setMonth(MonthTime.getMonth()+1);
-    if(today >= MonthTimeAdded){
+    if(currentmonth > thisMonth && thisMonth >= currentmonth-1){
       MonthTimeAdded=new Date(MonthTimeAdded);
       var MONTH = util.formatMonthLine(MonthTimeAdded);
       that.setData({

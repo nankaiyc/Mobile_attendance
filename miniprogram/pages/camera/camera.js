@@ -15,6 +15,7 @@ Page({
     latitude: '',
     longitude: '',
     photomode:0,
+    showPhoto:true,
   },
 
   takePhoto() {
@@ -57,7 +58,41 @@ Page({
 
   },
   error(e) {
-    console.log(e.detail)
+    this.setData({
+      showPhoto:false
+    })
+    wx.getSetting({
+      success: res => {
+        if (typeof(res.authSetting['scope.camera']) != 'undefined' && !res.authSetting['scope.camera']) {
+          // 用户拒绝了授权
+          wx.showModal({
+            title: '提示',
+            content: '您拒绝了摄像头权限，将无法使用摄像头功能',
+            success: res => {
+              if (res.confirm) {
+                // 跳转设置页面
+                wx.openSetting({
+                  success: res => {
+                    if (res.authSetting['scope.camera']) {
+                      // 授权成功，重新定位
+                      this.setData({
+                        showPhoto:true
+                      })
+                    } else {
+                      // 没有允许定位权限
+                      wx.showToast({
+                        title: '您拒绝了摄像头权限，将无法使用摄像头功能',
+                        icon: 'none'
+                      });
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
+    });
   },
   /**
    * 生命周期函数--监听页面加载

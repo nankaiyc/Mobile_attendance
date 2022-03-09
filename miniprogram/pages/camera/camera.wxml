@@ -2,7 +2,7 @@
 <topbar curIndex='{{isfront?15:16}}'/>
 <view class="page-body">
   <camera device-position="{{isfront?'front':'back'}}" flash="off" binderror="error" 
-    style="width: {{screenWidth}}px; height: {{screenHeight*0.84}}px;" class="camera">
+    style="width: {{screenWidth}}px; height: {{screenHeight*0.84}}px;" class="camera" wx:if="{{showPhoto}}">
     <view wx:if="{{isfront == true}}" class="border">
     <view class="text">请将脸部放入白色方框内</view>
     </view>  
