@@ -1,10 +1,14 @@
 <!--components/topbar/topbar.wxml-->
+<view class="topBar" style="height: {{safeTop + 30}}px;">移动考勤</view>
 <view class="topAera">
   <view class="leftAera">
     <view class="leftMenu" wx:if="{{curIndex < 3 || curIndex == 10}}">
       <menu curIndex='{{curIndex==10?2:curIndex==2?3:curIndex}}'/>
     </view>
-    <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':''}}">
+    <view class="backImgBox" wx:if="{{curIndex > 3 && curIndex != 10 && curIndex != 14}}" bindtap="handleBack">
+      <image src="../../resource/back_arrow.png" mode="heightFix" class="backImg"/>
+    </view>
+    <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':'leftTitle'}}">
       {{itemArray[curIndex]}}
     </view>
   </view>

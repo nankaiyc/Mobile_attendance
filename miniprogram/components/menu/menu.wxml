@@ -7,7 +7,7 @@
 <view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>
 
 <!-- 左侧栏目 -->
-<view class="left_container  {{show?'yd_left_content':'yd_close_overlay'}}">
+<view class="left_container  {{show?'yd_left_content':'yd_close_overlay'}}" style="top: {{safeTop}}px;">
   <view class="left_menu_top">
     <image src="../../resource/startup_logo.png" mode="widthFix" class="menu_logo"/>
   </view>

@@ -34,7 +34,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#4BBFE6",
     "navigationBarTitleText": "移动考勤",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom"
   },
   "permission":{
     "scope.userLocation":{

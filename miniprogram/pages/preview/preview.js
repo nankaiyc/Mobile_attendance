@@ -113,6 +113,7 @@ Page({
   },
 
   savePhoto(items, fileF, fileB, locationName, dateTimeP, punchRecord, needPost) {
+    const that = this
     wx.saveImageToPhotosAlbum({
       filePath: fileB,
       success: (e) => {

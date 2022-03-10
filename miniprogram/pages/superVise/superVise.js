@@ -247,6 +247,7 @@ Page({
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
         if (res.RESULT < maxResult) {
           const newArray = that.data.dailyReportsArray
+          app.dailyReportsArray = newArray
           that.setData({
             dailyReportsArray: newArray,
             dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())

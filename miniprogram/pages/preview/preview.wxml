@@ -3,8 +3,8 @@
 <share-box isCanDraw="{{isCanDraw}}" backgroundImg="{{backgroundImg}}" personImg="{{personImg}}" psContent="{{psContent}}" bind:initData="handleClose" />
 <view class="content">
   <view class="images">
-    <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;"/>
-    <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.75}}px;">
+    <image src="{{backgroundImg}}" mode="scaleToFill" class="background_img" style="width: {{screenWidth}}px; height: {{screenHeight * 0.7}}px;"/>
+    <view class="person_img_box" style="width: {{screenWidth}}px; height: {{screenHeight * 0.7}}px;">
       <view class="person_img_box_in" style="width: {{screenWidth * 0.25}}px; height: {{screenHeight * 0.1875}}px; {{photoMode == 3?'background: white;':''}}">
         <image src="{{personImg}}" mode="scaleToFill" class="person_img" hidden="{{photoMode < 3}}"/>
       </view>
