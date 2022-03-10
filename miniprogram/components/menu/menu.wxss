@@ -61,12 +61,12 @@
 }
 
 .cur-item {
-  background: gray;
+  background: rgb(178, 178, 178);
   color: white;
 }
 
 .long_pressed {
-  background: blue;
+  background: rgb(178, 178, 178);
 }
 
 .left_menu_img {

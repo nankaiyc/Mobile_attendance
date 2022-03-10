@@ -44,7 +44,8 @@ Page({
     punchRecordsArray: [],
     dailyReportsLastSyncTime: '',
     isLoading: true,
-    isPullDown: false
+    isPullDown: false,
+    earliestDate: ''
   },
 
   handleItemChange(e){
@@ -198,12 +199,15 @@ Page({
   },
   
   getDailyReports() {
-    var dateTime = new Date()
+    var dateTime = new Date(this.data.date)
     dateTime = dateTime.setDate(dateTime.getDate()-10)
     dateTime = new Date(dateTime)
     const beginDate = util.formatDateLine(dateTime)
-    const endDate = util.formatDateLine(new Date())
+    const endDate = util.formatDateLine(new Date(this.data.date))
     const lastSyncTime = this.data.dailyReportsLastSyncTime
+    this.data.isLoading = true
+    this.data.earliestDate = beginDate
+    console.log(beginDate, endDate, lastSyncTime)
     wx.showLoading({
       title: '数据加载中···',
     })
@@ -245,7 +249,7 @@ Page({
           const newArray = that.data.dailyReportsArray
           that.setData({
             dailyReportsArray: newArray,
-            dailyReportsLastSyncTime: endDate + util.formatTime(new Date())
+            dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
           })
 
           that.getPunchRecords()
@@ -257,11 +261,11 @@ Page({
   },
 
   getPunchRecords() {
-    var dateTime = new Date()
+    var dateTime = new Date(this.data.date)
     dateTime = dateTime.setDate(dateTime.getDate()-10)
     dateTime = new Date(dateTime)
     const beginDate = util.formatDateLine(dateTime)
-    const endDate = util.formatDateLine(new Date())
+    const endDate = util.formatDateLine(new Date(this.data.date))
     const lastSyncTime = this.data.punchRecordslastSyncTime
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
   },
@@ -303,7 +307,7 @@ Page({
           app.punchRecordsArray = newArray
           this.setData({
             punchRecordsArray: newArray,
-            punchRecordslastSyncTime: endDate + util.formatTime(new Date())
+            punchRecordslastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
           })
           
           this.getDailyReportsByDate(this.data.date)
@@ -352,11 +356,7 @@ Page({
       week: WEEK,
       month: MONTH,
     })
-    // var MonthTime=new Date(that.data.month)
-    // var thisMonth = MonthTime.getMonth() + 1;
-    // console.log(thisMonth)
     this.getDailyReports()
-    this.getDailyReportsByDate(dateTime)
   },
   subDate(){
     if (this.data.isLoading) {
@@ -372,7 +372,13 @@ Page({
       date: TIME,
       week: WEEK,
     })
-    this.getDailyReportsByDate(this.data.date)
+    if (TIME < this.data.earliestDate) {
+      this.data.dailyReportsLastSyncTime = ''
+      this.data.punchRecordslastSyncTime = ''
+      this.getDailyReports()
+    } else {
+      this.getDailyReportsByDate(this.data.date)
+    }
   },
   addDate(){
     if (this.data.isLoading) {
@@ -390,7 +396,13 @@ Page({
         date: TIME,
         week: WEEK,
       })
-      this.getDailyReportsByDate(this.data.date)
+      if (TIME < this.data.earliestDate) {
+        this.data.dailyReportsLastSyncTime = ''
+        this.data.punchRecordslastSyncTime = ''
+        this.getDailyReports()
+      } else {
+        this.getDailyReportsByDate(this.data.date)
+      }
     }  
   },
   subMonth(){
@@ -439,8 +451,7 @@ Page({
     that.setCurrentDate();
     that.setData({
       screenHeight: app.globalData.screenHeight,
-      screenWidth: app.globalData.screenWidth,
-      selectedArray: app.globalData.selectedArray
+      screenWidth: app.globalData.screenWidth
     })
   },
 
@@ -451,5 +462,11 @@ Page({
     } else if (this.data.tabs[2].isActive) {
       this.getMonthlyReports(this.data.month)
     }
+  },
+
+  onShow: function (options) {
+    this.setData({
+      selectedArray: app.globalData.selectedArray
+    })
   }
 })
