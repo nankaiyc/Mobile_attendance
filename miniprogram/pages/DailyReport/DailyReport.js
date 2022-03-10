@@ -21,9 +21,8 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
-    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
-    dailyReportsArray = dailyReportsArray.filter((val) => {return val.staffId == options.staffId & val.reportTime == options.date})
+    let dailyReportsArray = app.dailyReportsArray
+    dailyReportsArray = dailyReportsArray.filter((val) => {return val.staffId == options.staffId && val.reportTime == options.date})
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
@@ -33,7 +32,7 @@ Page({
       staffId:options.staffId,
       dailyReportsArray:dailyReportsArray
     })
-    console.log(this.data.dailyReportsArray[0])
+    console.log(this.data.dailyReportsArray)
 
   },
 })

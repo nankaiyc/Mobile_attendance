@@ -10,18 +10,18 @@
     <view class="report">应出勤{{dailyReportsArray[0].shouldAttandence}}天，实际出勤{{dailyReportsArray[0].actualAttandence}}天</view>
   </view>
   <view class="group">
-    <view class="report">有薪假共{{dailyReportsArray[0].leavewithpayTime}}h，无薪假共{{dailyReportsArray[0].leavenopayTime}}h</view>
+    <view class="report">有薪假共{{dailyReportsArray[0].leavewithpayTime / 60}}h，无薪假共{{dailyReportsArray[0].leavenopayTime / 60}}h</view>
   </view>
   <view class="group">
-    <view class="report">平常加班：{{dailyReportsArray[0].usuallyOverTimes}}h</view>
-    <view class="report">休日加班：{{dailyReportsArray[0].restOverTimes}}h</view>
-    <view class="report">假日加班：{{dailyReportsArray[0].holidayOverTimes}}h</view>
+    <view class="report">平常加班：{{dailyReportsArray[0].usuallyOverTimes / 60}}h</view>
+    <view class="report">休日加班：{{dailyReportsArray[0].restOverTimes / 60}}h</view>
+    <view class="report">假日加班：{{dailyReportsArray[0].holidayOverTimes / 60}}h</view>
   </view>
   <view class="group">
     <view class="report">迟到时长：{{dailyReportsArray[0].lateTime}}m</view>
     <view class="report">早退时长：{{dailyReportsArray[0].leaveearlyTime}}m</view>
-    <view class="report">缺勤时长：{{dailyReportsArray[0].actualNotduty}}h</view>
-    <view class="report">旷工时长：{{dailyReportsArray[0].absenteeism}}h</view>
+    <view class="report">缺勤时长：{{dailyReportsArray[0].actualNotduty / 60}}h</view>
+    <view class="report">旷工时长：{{dailyReportsArray[0].absenteeism / 60}}h</view>
     <view class="report">缺卡次数：{{dailyReportsArray[0].lackCheckCardTime}}次</view>
   </view>
   <view class="group">

@@ -7,10 +7,11 @@ App({
     let that = this;
     wx.getSystemInfo({
       success: function (res) {
-        let clientHeight = res.windowHeight;
-        let clientWidth = res.windowWidth;
-        that.globalData.screenHeight = clientHeight;
-        that.globalData.screenWidth = clientWidth;
+        let clientHeight = res.windowHeight
+        let clientWidth = res.windowWidth
+        that.globalData.safeArea = res.safeArea
+        that.globalData.screenHeight = clientHeight
+        that.globalData.screenWidth = clientWidth
         that.globalData.OS = res.system
         that.globalData.OSVersion = res.version
         that.globalData.MANU = res.brand

@@ -32,7 +32,7 @@
 .background_img {
   z-index: -1;
   position: fixed;
-  top: 45px;
+  top: 240rpx;
 }
 
 .under {
