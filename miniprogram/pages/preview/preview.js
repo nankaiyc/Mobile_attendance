@@ -26,70 +26,61 @@ Page({
     isCanDraw: false
   },
 
-  bindInputChange(e) {
-    this.setData({
-      psContent: e.detail.value
-    })
-  },
-
   bindChangePs(e) {
     this.setData({
       psContent: this.data.psArray[e.detail.value]
     })
   },
 
-  redo () {
+  redo() {
+    if (this.data.isCanDraw) {
+      return
+    }
     wx.redirectTo({
-      url: '../checkIn/checkIn?directlyCheck=true',
+      url: '../checkIn/checkIn',
     })
   },
 
   share() {
+    if (this.data.isCanDraw) {
+      return
+    }
     this.setData({
       isCanDraw: true
     })
-    
+
     var interval = setInterval(() => {
       const that = this
       if (!that.data.isCanDraw) {
         clearInterval(interval)
         wx.showShareImageMenu({
-          path:  that.data.canvasImg,
+          path: that.data.canvasImg,
           fail: err => {
             console.log(err)
           }
         })
       }
     }, 500)
-    
-  },
 
-  savePhotoAuto(isShowModal) {
-    this.savePhoto(this.data.canvasImg, false)
   },
 
   complete() {
-    const that = this
-    if (this.data.photoMode == 3) {
-      if (this.data.canvasImg == '') {
-        this.setData({
-          isCanDraw: true
-        })
-        var interval = setInterval(() => {
-          if (!this.data.isCanDraw) {
-            clearInterval(interval)
-            this.completeUp(this.data.canvasImg)
-          }
-        }, 500)
-      } else {
-        this.completeUp(this.data.canvasImg)
-      }
-    } else if (this.data.photoMode == 2) {
-      that.completeUp(that.data.backgroundImg)
-    } else if (this.data.photoMode == 1) {
-      that.completeUp(that.data.personImg)
+    if (this.data.isCanDraw) {
+      return
+    }
+    // const that = this
+    if (this.data.canvasImg == '') {
+      this.setData({
+        isCanDraw: true
+      })
+      var interval = setInterval(() => {
+        if (!this.data.isCanDraw) {
+          clearInterval(interval)
+          this.completeUp(this.data.canvasImg)
+        }
+      }, 500)
     } else {
-      console.log(this.data.photoMode)
+      this.completeUp(this.data.canvasImg)
     }
   },
 
@@ -107,41 +98,66 @@ Page({
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
-    if (app.globalData.autoSave == 1) {
-      this.savePhotoAuto(false)
-    }
-    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
-    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
-    punchRecordsArray.push({
+
+    let punchRecord = {
       'dateTime': dateTime,
       'location': this.data.locationName
-    })
-    wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
-    app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP)
+    }
+
+    if (app.globalData.autoSave == 1) {
+      this.savePhoto(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP, punchRecord, true)
+    } else {
+      app.postRecord(item, this.data.personImg, finalImg, this.data.locationName, dateTimeP, punchRecord)
+    }
+
   },
 
-  savePhoto(photoPath, isShowModal) {
-    console.log(photoPath)
+  savePhoto(items, fileF, fileB, locationName, dateTimeP, punchRecord, needPost) {
     wx.saveImageToPhotosAlbum({
-      filePath: photoPath,
+      filePath: fileB,
       success: (e) => {
         console.log('success save')
       },
       fail: (err) => {
         console.log(err)
-        if (err.errMsg == "saveImageToPhotosAlbum:fail cancel") {
-          //获取权限
-          // if (settingdata.authSetting["scope.writePhotosAlbum"]) {
-          // console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
-          // }else {
-          // console.log('获取权限失败，给出不给权限就无法正常使用的提示')
-          // }
-          // that.savePhoto(photoPath)
+        wx.getSetting({
+          success: res => {
+            if (typeof (res.authSetting['scope.writePhotosAlbum']) != 'undefined' && !res.authSetting['scope.writePhotosAlbum']) {
+              // 用户拒绝了授权
+              wx.showModal({
+                title: '提示',
+                content: '您拒绝了访问相册权限，将无法使用保存相片到相册功能',
+                success: res => {
+                  if (res.confirm) {
+                    // 跳转设置页面
+                    wx.openSetting({
+                      success: res => {
+                        if (res.authSetting['scope.writePhotosAlbum']) {
+                          that.savePhoto(items, fileF, fileB, locationName, dateTimeP, punchRecord, false)
+                        } else {
+                          // 没有允许定位权限
+                          wx.showToast({
+                            title: '您拒绝了访问相册权限，将无法使用保存相片到相册功能',
+                            icon: 'none'
+                          });
+                        }
+                      }
+                    });
+                  }
+                }
+              });
+            }
+          }
+        });
+      },
+      complete: (e) => {
+        if (needPost) {
+          app.postRecord(items, fileF, fileB, locationName, dateTimeP, punchRecord)
         }
       }
     })
   },
-  
+
   handleClose(e) {
     console.log(e)
     this.setData({
@@ -154,14 +170,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var TIME = util.formatDateLine(new Date()) + util.formatTime(new Date());
+    var TIME = util.formatDateLine(new Date()) + util.formatTime(new Date());
     const tmp = app.globalData.AppPhoto % 10
     this.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
       dateTime: TIME,
-      personImg:options.frontsrc,
-      backgroundImg:options.backsrc,
+      personImg: options.frontsrc,
+      backgroundImg: options.backsrc,
       personName: app.globalData.username,
       positioned: options.positioned,
       index: options.index,
@@ -171,15 +187,7 @@ Page({
       photoMode: tmp,
       psArray: app.globalData.REMARKS
     })
-    if (tmp == 3) {
-      // const that = this
-      // var interval = setInterval(() => {
-      //   if (that.data.imgBH && that.data.imgPH) {
-      //     clearInterval(interval)
-      //     that.drawImg()
-      //   }
-      // }, 500)
-    } else if (tmp == 1) {
+    if (tmp == 1) {
       this.setData({
         backgroundImg: options.frontsrc
       })
@@ -190,7 +198,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**

@@ -15,28 +15,40 @@ Page({
     StaffList: [],
     screenHeight: 0,
     screenWidth: 0,
-
     departmentObjectArray: [],
     subordinationDict: '',
-    tmpDeparts: ''
+    tmpDeparts: '',
+    isLoading: true
   },
 
   bindDepartmentPickerChange: function (e) {
+    if (this.data.isLoading) {
+      return
+    }
     this.setData({
       departmentIndex: e.detail.value
     })
   },
   bindDateStartPickerChange: function name(e) {
+    if (this.data.isLoading) {
+      return
+    }
     this.setData({
       dateStart: e.detail.value
     })
   },
   bindDateEndPickerChange: function name(e) {
+    if (this.data.isLoading) {
+      return
+    }
     this.setData({
       dateEnd: e.detail.value
     })
   },
   submit: function (e) {
+    if (this.data.isLoading) {
+      return
+    }
     var name_searched = e.detail.value.name.trim()
     // console.log(name_searched)
     var that = this;
@@ -99,6 +111,9 @@ Page({
   },
 
   DailyReport_Detail(e){
+    if (this.data.isLoading) {
+      return
+    }
     var name = e.currentTarget.dataset.name
     var staffId = e.currentTarget.dataset.staffid
     var date = e.currentTarget.dataset.date
@@ -121,6 +136,7 @@ Page({
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
     
+    this.data.isLoading = true
     wx.showLoading({
       title: '数据加载中···',
     })
@@ -159,6 +175,7 @@ Page({
           departmentObjectArray: staffDepts,
           subordinationDict: subordinationDict
         })
+        that.data.isLoading = false
         wx.hideLoading({})
       }
     })
@@ -168,12 +185,6 @@ Page({
     this.data.tmpDeparts = []
     const curId = this.data.departmentObjectArray[i].id
     this.getSubDeparts(curId)
-
-    // let departs = this.data.departmentObjectArray.filter((val) => {return this.data.tmpDeparts.includes(val.id)})
-    // let departNames = []
-    // for (var i in departs) {
-    //   departNames.push(departs[i].name)
-    // }
     return this.data.tmpDeparts
   },
 
