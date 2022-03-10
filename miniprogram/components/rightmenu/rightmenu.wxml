@@ -7,7 +7,7 @@
 
 <view bindtap="close_overlay" class="right_container  {{show?'yd_right_content':'yd_close_overlay'}}" style='height: {{40*content.length}}px;'>
   <button wx:for="{{content}}" wx:key="index" class="menu-item" style="height:40px">
-    <view wx:if="{{content.length == 4}}">
+    <view wx:if="{{content.length == 3}}">
       <view wx:if="{{item.index == 0}}" class="menu-item-index" bindtap="button_choose" data-index="{{item.name}}">
         {{item.name}} <icon type="{{chosen_WiFi?'success':'circle'}}" size="23" class="icon-small1"></icon>
       </view> 

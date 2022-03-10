@@ -31,7 +31,6 @@
       <view class="info_text">{{personInfo.mobile}}</view>
     </view>
     <view class="first_right">
-      <image src="../../resource/contact_sms.png" mode="heightFix" class="contact_icon"/>
       <image src="../../resource/contact_phone.png" mode="heightFix" class="contact_icon"
       bindtap="launchPhoneCall" data-tel="{{personInfo.mobile}}"/>
     </view>

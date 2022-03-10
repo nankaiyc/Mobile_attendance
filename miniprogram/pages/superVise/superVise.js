@@ -383,7 +383,21 @@ Page({
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      selectedArray: app.globalData.selectedArray
     })
   },
+
+  onPullDownRefresh: function (options) {
+    this.data.isPullDown = true
+    if (this.data.tabs[0].isActive) {
+      this.getDailyReports()
+    } else if (this.data.tabs[2].isActive) {
+      this.getMonthlyReports(this.data.month)
+    }
+  },
+
+  onShow: function (options) {
+    this.setData({
+      selectedArray: app.globalData.selectedArray
+    })
+  }
 })
