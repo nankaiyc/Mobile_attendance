@@ -463,7 +463,7 @@ Page({
       this.getMonthlyReports(this.data.month)
     }
   },
-
+  
   onShow: function (options) {
     this.setData({
       selectedArray: app.globalData.selectedArray

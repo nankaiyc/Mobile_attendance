@@ -27,10 +27,6 @@ Page({
         index : 2,
         name : "可考勤地点" 
       },
-      {
-        index : 3,
-        name : "考勤提醒闹钟" 
-      },
     ],
     Attendance_method:"GPS考勤",
     record:"历史记录",
@@ -212,8 +208,8 @@ Page({
       this.button_unselected();
     }
     else{
-      this.popUp();
       this.button_unselected();
+      this.popUp();
     }
     moveFlag = true; // 回复滑动事件
   },
@@ -266,6 +262,7 @@ Page({
     var fail = function(data) {
       if (data.errMsg == 'getLocation:fail:auth denied' || data.errMsg == 'getLocation:fail auth deny' || data.errMsg == 'getLocation:fail authorize no response') {
         wx.hideLoading({})
+        that.data.isLoading = false
       }
       console.log(data);
       wx.getSetting({
