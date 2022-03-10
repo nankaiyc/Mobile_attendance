@@ -196,7 +196,8 @@ Component({
           console.log('success get' + 'staffdepts')
           var res = JSON.parse(CryptoJS.Base64Decode(e.data))
           console.log(res)
-          let staffDepts = res.StaffDepts
+          let staffDepts = []
+          staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
           staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
           let staffqueryGroups = res.StaffqueryGroups
           that.getEmployees(staffDepts, staffqueryGroups)

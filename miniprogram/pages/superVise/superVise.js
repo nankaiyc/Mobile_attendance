@@ -440,7 +440,6 @@ Page({
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
-      selectedArray: app.globalData.selectedArray
     })
   },
 
@@ -451,5 +450,10 @@ Page({
     } else if (this.data.tabs[2].isActive) {
       this.getMonthlyReports(this.data.month)
     }
+  },
+  onShow: function (options) {
+    this.setData({
+      selectedArray: app.globalData.selectedArray
+    })
   }
 })
