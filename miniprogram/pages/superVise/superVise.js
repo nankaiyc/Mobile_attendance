@@ -209,9 +209,11 @@ Page({
   getDailyReports() {
     let beginDate = ''
     if (this.data.earliestDate) {
+      console.log(this.data.date)
       var dateTime = new Date(this.data.date)
-      dateTime = dateTime.setDate(dateTime.getDate()-10)
+      dateTime.setDate(dateTime.getDate()-10)
       beginDate = util.formatDateLine(dateTime)
+      console.log(beginDate)
     } else {
       var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
       beginDate = util.formatDateLine(lastM)
@@ -279,7 +281,7 @@ Page({
     let beginDate = ''
     if (this.data.earliestDate) {
       var dateTime = new Date(this.data.date)
-      dateTime = dateTime.setDate(dateTime.getDate()-10)
+      dateTime.setDate(dateTime.getDate()-10)
       beginDate = util.formatDateLine(dateTime)
     } else {
       var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
