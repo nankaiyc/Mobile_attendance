@@ -7,7 +7,7 @@
 
 <view class="daily_report">
   <view class="group">
-    <view class="report">应出勤{{dailyReportsArray[0].shouldAttandenceDay}}天，实际出勤{{dailyReportsArray[0].ondutyDaysFromWorkTime}}天</view>
+    <view class="report">应出勤{{dailyReportsArray[0].shouldAttandenceDay?dailyReportsArray[0].shouldAttandenceDay:0}}天，实际出勤{{dailyReportsArray[0].ondutyDaysFromWorkTime}}天</view>
   </view>
   <view class="group">
     <view class="report">有薪假共{{dailyReportsArray[0].leavewithpayTime / 60}}h，无薪假共{{dailyReportsArray[0].leavenopayTime / 60}}h</view>

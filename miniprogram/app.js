@@ -40,7 +40,7 @@ App({
       this.globalData.clid = clid
     }
 
-    // this.getMsg('appPushReports')
+    // this.getMsg('dailyReports')
   },
 
   login() {
@@ -210,7 +210,7 @@ App({
             wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
           }
           setTimeout(() => {
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../checkInResult/checkInResult?status=success&locationName=' + locationName,
             })
           }, 1000)
@@ -290,7 +290,7 @@ App({
         _p.maxResult = 5
         _p.index = 0
         _p.beginDate = '2022-02-20'
-        _p.endDate = '2020-02-26'
+        _p.endDate = '2020-03-11'
         break
       case 'monthlyReports':
         //除了上面的如果月报，不需要beiginDate和endDate，需要month，如果查询个别员工用staffIds，多个id之间用英文逗号隔开即可
@@ -303,10 +303,15 @@ App({
         console.log(type)
     }
 
-    console.log(_p)
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
 
+    // console.log(that.globalData.baseUrl + '/' + type + '/')
+    // console.log({
+    //   'CLID': clid,
+    //   '_p': _p_base64,
+    //   '_en': 'app2'
+    // })
     wx.request({
       url: that.globalData.baseUrl + '/' + type + '/',
       method: 'GET',
