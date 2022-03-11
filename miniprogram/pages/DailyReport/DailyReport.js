@@ -32,7 +32,7 @@ Page({
       staffId:options.staffId,
       dailyReportsArray:dailyReportsArray
     })
-    console.log(this.data.dailyReportsArray)
+    console.log(dailyReportsArray)
 
   },
 })
