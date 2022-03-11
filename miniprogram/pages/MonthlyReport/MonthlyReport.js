@@ -33,8 +33,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     const monthItem = JSON.parse(options.monthItem)
-    let dailyReportsArray = wx.getStorageSync('dailyReportsArray')
-    dailyReportsArray = dailyReportsArray?JSON.parse(dailyReportsArray):[]
+    let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
     })

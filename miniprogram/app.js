@@ -28,8 +28,10 @@ App({
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
 
-    that.punchRecordsArray = []
-    that.PunchRecordsLastSyncTime = ''
+    this.punchRecordsArray = []
+    this.punchRecordsLastSyncTime = ''
+    this.dailyReportsArray = []
+    this.dailyReportsLastSyncTime = ''
 
     var clid = wx.getStorageSync('unionId')
     if (!clid) {

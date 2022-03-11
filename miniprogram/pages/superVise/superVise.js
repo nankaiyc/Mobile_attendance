@@ -80,9 +80,17 @@ Page({
     }
     var name = e.currentTarget.dataset.name
     var staffId = e.currentTarget.dataset.staffid
-    wx.navigateTo({
-      url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week + '&staffId=' + staffId,
-    })
+    const curDailyReportsArray = this.data.dailyReportsArray.filter((val) => {return val.staffId == staffId && val.reportTime == this.data.date})
+    if (curDailyReportsArray.length != 0) {
+      wx.navigateTo({
+        url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + this.data.date + '&week=' + this.data.week + '&staffId=' + staffId,
+      })
+    } else {
+      wx.showToast({
+        title: '暂无日报数据',
+        icon: 'none'
+      })
+    }
   },
 
   MonthlyReport_Detail(e){
@@ -199,15 +207,20 @@ Page({
   },
   
   getDailyReports() {
-    var dateTime = new Date(this.data.date)
-    dateTime = dateTime.setDate(dateTime.getDate()-10)
-    dateTime = new Date(dateTime)
-    const beginDate = util.formatDateLine(dateTime)
+    let beginDate = ''
+    if (this.data.earliestDate) {
+      var dateTime = new Date(this.data.date)
+      dateTime = dateTime.setDate(dateTime.getDate()-10)
+      beginDate = util.formatDateLine(dateTime)
+    } else {
+      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
+      beginDate = util.formatDateLine(lastM)
+      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+    }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = this.data.dailyReportsLastSyncTime
+    const lastSyncTime = app.dailyReportsLastSyncTime
     this.data.isLoading = true
-    this.data.earliestDate = beginDate
-    console.log(beginDate, endDate, lastSyncTime)
+    this.data.dailyReportsArray = app.dailyReportsArray
     wx.showLoading({
       title: '数据加载中···',
     })
@@ -248,6 +261,7 @@ Page({
         if (res.RESULT < maxResult) {
           const newArray = that.data.dailyReportsArray
           app.dailyReportsArray = newArray
+          app.dailyReportsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
           that.setData({
             dailyReportsArray: newArray,
             dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
@@ -262,12 +276,20 @@ Page({
   },
 
   getPunchRecords() {
-    var dateTime = new Date(this.data.date)
-    dateTime = dateTime.setDate(dateTime.getDate()-10)
-    dateTime = new Date(dateTime)
-    const beginDate = util.formatDateLine(dateTime)
+    let beginDate = ''
+    if (this.data.earliestDate) {
+      var dateTime = new Date(this.data.date)
+      dateTime = dateTime.setDate(dateTime.getDate()-10)
+      beginDate = util.formatDateLine(dateTime)
+    } else {
+      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
+      beginDate = util.formatDateLine(lastM)
+      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+    }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = this.data.punchRecordslastSyncTime
+    const lastSyncTime = app.punchRecordslastSyncTime
+    this.data.punchRecordsArray = app.punchRecordsArray
+    this.data.earliestDate = beginDate
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
   },
 
@@ -306,6 +328,7 @@ Page({
         if (res.RESULT < maxResult) {
           const newArray = that.data.punchRecordsArray
           app.punchRecordsArray = newArray
+          app.punchRecordsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
           this.setData({
             punchRecordsArray: newArray,
             punchRecordslastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
