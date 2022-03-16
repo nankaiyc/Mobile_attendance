@@ -19,9 +19,23 @@
   </view>
 
   <view wx:elif="{{tabs[1].isActive}}" class="Second_Tab">
-    <view class="content2-1">暂无报告</view>
-    <view class="content2-2">若已订阅，报告将在下次订阅时间收到</view>
-    <view class="content2-3">如新订阅，请联系你的考勤平台管理员</view>
+
+    <view class="report_content" wx:for="{{ReportList}}" wx:key="index">
+      <view class="default_msg">
+        <image src="../../resource/msg_unread.png" mode="widthFix" class="msg_unread"/>     
+        <view class="instant_report">
+          <view class="Time">平台订签到报告({{item.time}})</view>
+          <view class="Content">{{item.content}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{ReportList.length == 0}}">
+      <view class="content2-1">暂无报告</view>
+      <view class="content2-2">若已订阅，报告将在下次订阅时间收到</view>
+      <view class="content2-3">如新订阅，请联系你的考勤平台管理员</view>
+    </view>
+
   </view>
 
   <view wx:else class="Third_Tab">

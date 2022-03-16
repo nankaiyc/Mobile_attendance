@@ -79,6 +79,49 @@
 .content1-2{
   margin-top: 40px;
 }
+
+.report_content{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid gainsboro;
+  background: white;
+  margin-bottom: 10rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+.default_msg{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center
+}
+.msg_unread{
+  margin-left: 10rpx;
+  width: 105rpx;
+}
+.instant_report{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left:15rpx;
+}
+.Time{
+  font-size: 35rpx;
+  font-weight: 800;
+}
+.Content{
+  font-size: 25rpx;
+  font-weight: 400;
+  color: grey;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
 .content2-1{
   margin-top: 40px;
   display: flex;

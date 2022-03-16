@@ -39,6 +39,16 @@ Page({
     screenHeight: 0,
     screenWidth: 0,
     StaffList: [],
+    ReportList:[
+      {
+        time:"2021-12-07 09:00",
+        content:"2021-12-07 09:00签到报告：办公室应到3人，已到2人，未到1人:xxx,出勤率：50%",
+      },
+      {
+        time:"2021-12-08 09:00",
+        content:"2021-12-08 09:00签到报告：办公室应到3人，已到2人，未到1人:yc,出勤率：60%",
+      },
+    ],
     selectedArray: [],
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
