@@ -1,5 +1,5 @@
 {
-  "miniprogramRoot": "./miniprogram/",
+  "miniprogramRoot": "miniprogram/",
   "setting": {
     "urlCheck": true,
     "es6": true,
@@ -26,7 +26,6 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "enableEngineNative": false,
     "useIsolateContext": true,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": true,
@@ -40,7 +39,8 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": true
   },
   "appid": "wx11db962f0c4cffe2",
   "projectname": "miniprogram-1",

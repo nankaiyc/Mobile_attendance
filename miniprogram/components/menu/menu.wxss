@@ -103,6 +103,6 @@
 }
 
 .disabled-item {
-  background: gainsboro;
-  color: gray;
+  background: black;
+  color: red;
 }

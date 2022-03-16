@@ -1,0 +1,12 @@
+<!--pages/reportDetail/reportDetail.wxml-->
+<topbar curIndex='21'/>
+<view class="content">
+  <view class="title">
+    {{title}}
+  </view>
+  <view class="detail">
+    <view wx:for="{{content}}" wx:key="index" class="detail_item">
+      {{item}}
+    </view>
+  </view>
+</view>
