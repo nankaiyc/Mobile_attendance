@@ -22,6 +22,7 @@
     "pages/camera/camera",
     "pages/preview/preview",
     "pages/transfer/transfer",
+    "pages/reportDetail/reportDetail",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
