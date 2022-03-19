@@ -300,6 +300,7 @@ Page({
       // console.log(data.wxMarkerData);
       const lati = data.wxMarkerData[0].latitude
       const longi = data.wxMarkerData[0].longitude
+      console.log(lati.longi)
       //把所有数据放在初始化data内
       that.setData({ 
         latitude: lati,

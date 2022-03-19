@@ -43,10 +43,12 @@ Page({
       {
         time:"2021-12-07 09:00",
         content:"2021-12-07 09:00签到报告：办公室应到3人，已到2人，未到1人:xxx,出勤率：50%",
+        Isread:false,
       },
       {
         time:"2021-12-08 09:00",
         content:"2021-12-08 09:00签到报告：办公室应到3人，已到2人，未到1人:yc,出勤率：60%",
+        Isread:false,
       },
     ],
     selectedArray: [],
@@ -64,6 +66,9 @@ Page({
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
+    if (index == 1) {
+      this.getInstantReport()
+    }
     if (index == 2) {
       this.getMonthlyReports(this.data.month)
     }
@@ -442,6 +447,40 @@ Page({
       })
       this.getMonthlyReports(MONTH)
     }
+  },
+
+  getInstantReport() {
+    let instantReportArray = wx.getStorageSync('instantReportArray')
+    instantReportArray = instantReportArray ? JSON.parse(instantReportArray) : []
+    const that = this
+    var clid = app.globalData.clid
+    // var clid = '/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo='
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+    }
+
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    wx.request({
+      url: app.globalData.baseUrl + '/' + 'appPushReports' + '/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get appPushReports')
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        instantReportArray.push.apply(instantReportArray, res.reports)
+        wx.setStorageSync('instantReportArray', JSON.stringify(instantReportArray))
+      }
+    })
   },
 
   onLoad: function (options) {

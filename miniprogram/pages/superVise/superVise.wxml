@@ -22,7 +22,7 @@
 
     <view class="report_content" wx:for="{{ReportList}}" wx:key="index">
       <view class="default_msg">
-        <image src="../../resource/msg_unread.png" mode="widthFix" class="msg_unread"/>     
+        <image src="{{Isread?'../../resource/msg_read.png':'../../resource/msg_unread.png'}}" mode="widthFix" class="msg_unread"/>     
         <view class="instant_report">
           <view class="Time">平台订签到报告({{item.time}})</view>
           <view class="Content">{{item.content}}</view>
