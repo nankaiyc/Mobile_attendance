@@ -482,6 +482,12 @@ Page({
     }
   },
 
+  handleReportTapped (e) {
+    wx.navigateTo({
+      url: '../reportDetail/reportDetail?reportItem=' + JSON.stringify(this.data.ReportList[e.currentTarget.dataset.index]),
+    })
+  },
+
   onLoad: function (options) {
     var that = this;
     that.setCurrentDate();
