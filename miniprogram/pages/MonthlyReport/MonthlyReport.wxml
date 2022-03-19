@@ -10,19 +10,19 @@
     <view class="report">应出勤{{monthItem.attendanceDays}}天，实际出勤{{monthItem.actualAttendanceDays}}天</view>
   </view>
   <view class="group">
-    <view class="report">有薪假{{monthItem.withSalaryLeaveTimes}}次,共{{monthItem.withSalaryLeave}}h</view>
-    <view class="report">无薪假{{monthItem.withoutSalaryLeaveTimes}}次,共{{monthItem.withoutSalaryLeave}}h</view>
+    <view class="report">有薪假{{monthItem.withSalaryLeaveTimes}}次,共{{monthItem.withSalaryLeave / 60}}h</view>
+    <view class="report">无薪假{{monthItem.withoutSalaryLeaveTimes}}次,共{{monthItem.withoutSalaryLeave / 60}}h</view>
   </view>
   <view class="group">
-    <view class="report">平常加班：{{monthItem.usuallyOvertime}}h</view>
-    <view class="report">休日加班：{{monthItem.restOvertime}}h</view>
-    <view class="report">假日加班：{{monthItem.holidayOvertime}}h</view>
+    <view class="report">平常加班：{{monthItem.usuallyOvertime / 60}}h</view>
+    <view class="report">休日加班：{{monthItem.restOvertime / 60}}h</view>
+    <view class="report">假日加班：{{monthItem.holidayOvertime / 60}}h</view>
   </view>
   <view class="group">
     <view class="report">迟到次数/时长：{{monthItem.lateTimes}}次/{{monthItem.lateMinutes}}m</view>
     <view class="report">早退次数/时长：{{monthItem.leaveEarlyTimes}}次/{{monthItem.leaveEarlyMinutes}}m</view>
-    <view class="report">缺勤次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes}}h</text></view>
-    <view class="report">旷工次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absenteeismTimes}}次/{{monthItem.absenteeismTime}}h</text></view>
+    <view class="report">缺勤次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes / 60}}h</text></view>
+    <view class="report">旷工次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absenteeismTimes}}次/{{monthItem.absenteeismTime / 60}}h</text></view>
     <view class="report">缺卡次数：{{monthItem.lackCheckCardTime}}次</view>
   </view>
 <view class="daily_date">日报数据</view>

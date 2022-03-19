@@ -76,7 +76,10 @@ Page({
           const res = e.wxMarkerData
           let nameArray = []
           for (var i in res) {
-            nameArray.push(res[i].address)
+            nameArray.push(res[i].title)
+            if (i >= 4) {
+              break
+            }
           }
           that.setData({
             nameArray: nameArray,
@@ -109,7 +112,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

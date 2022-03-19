@@ -5,7 +5,7 @@
 
 <view class="yd_overlay  {{show?'yd_show_overlay':'yd_close_overlay'}}" bindtap="close_overlay"></view>
 
-<view bindtap="close_overlay" class="right_container  {{show?'yd_right_content':'yd_close_overlay'}}" style='height: {{40*content.length}}px;'>
+<view bindtap="close_overlay" class="right_container  {{show?'yd_right_content':'yd_close_overlay'}}" style='height: {{40*content.length}}px; top: {{safeTop + 35}}px;'>
   <button wx:for="{{content}}" wx:key="index" class="menu-item" style="height:40px" bindtap="button_choose" data-index="{{item.name}}">
     <view wx:if="{{content.length == 3}}">
       <view wx:if="{{item.index == 0}}" class="menu-item-index">

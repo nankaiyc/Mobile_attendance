@@ -7,10 +7,11 @@ App({
     let that = this;
     wx.getSystemInfo({
       success: function (res) {
-        let clientHeight = res.windowHeight;
-        let clientWidth = res.windowWidth;
-        that.globalData.screenHeight = clientHeight;
-        that.globalData.screenWidth = clientWidth;
+        let clientHeight = res.windowHeight
+        let clientWidth = res.windowWidth
+        that.globalData.safeArea = res.safeArea
+        that.globalData.screenHeight = clientHeight
+        that.globalData.screenWidth = clientWidth
         that.globalData.OS = res.system
         that.globalData.OSVersion = res.version
         that.globalData.MANU = res.brand
@@ -23,12 +24,14 @@ App({
     let autoSave = wx.getStorageSync('autoSave');
     this.globalData.autoSave = autoSave ? autoSave : 0;
     let selectedArray = wx.getStorageSync('selectedArray')
-    this.globalData.selectedArray = selectedArray?JSON.parse(selectedArray):[]
+    this.globalData.selectedArray = selectedArray ? JSON.parse(selectedArray) : []
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
 
-    that.punchRecordsArray = []
-    that.PunchRecordsLastSyncTime = ''
+    this.punchRecordsArray = []
+    this.punchRecordsLastSyncTime = ''
+    this.dailyReportsArray = []
+    this.dailyReportsLastSyncTime = ''
 
     var clid = wx.getStorageSync('unionId')
     if (!clid) {
@@ -37,7 +40,7 @@ App({
       this.globalData.clid = clid
     }
 
-    // this.getMsg('appPushReports')
+    this.getMsg('appPushReports')
   },
 
   login() {
@@ -94,7 +97,7 @@ App({
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
-        
+
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
@@ -104,7 +107,7 @@ App({
           that.globalData.Position = res.STAFFINFO.Position
           that.globalData.GPSplace = res.GPS
           that.globalData.PERMS = res.PERMS
-          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto          
+          that.globalData.AppPhoto = res.AttPARAMS.AppPhoto
           that.globalData.UploadPhoto = res.AttPARAMS.UploadPhoto
           that.globalData.UploadLoc = res.AttPARAMS.UploadLoc
           that.globalData.REMARKS = res.REMARKS
@@ -155,12 +158,12 @@ App({
       success: (e) => {
         console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        if (res.RESULT == 0){
+        if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.AttNo = res.STAFFINFO.AttNo
         }
         wx.redirectTo({
-          url: '../registerResult/registerResult?IsSuccess='+ res.RESULT
+          url: '../registerResult/registerResult?IsSuccess=' + res.RESULT
         })
       }
     })
@@ -191,23 +194,20 @@ App({
         console.log(res)
         if (res.RESULT == 0) {
           if (that.globalData.AppPhoto % 10 == 3) {
-            that.postPhoto(fileF, dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.')),'')
-            setTimeout( ()=> {
-              that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')), punchRecord)
-            }, 1000)
+            that.postPhotoMode3(fileF, fileB, dateTimeP, punchRecord)
           } else if (that.globalData.AppPhoto % 10 == 2) {
             that.postPhoto(fileB, dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.')), punchRecord)
           } else if (that.globalData.AppPhoto % 10 == 1) {
             that.postPhoto(fileB, dateTimeP + '_' + 'f' + fileB.substring(fileB.indexOf('.')), punchRecord)
           } else {
             console.log('that.globalData.AppPhoto % 10 == 0')
-            let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
-            punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+            let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+            punchRecordsArray = punchRecordsArray ? JSON.parse(punchRecordsArray) : []
             punchRecordsArray.push(punchRecord)
             wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
           }
           setTimeout(() => {
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../checkInResult/checkInResult?status=success&locationName=' + locationName,
             })
           }, 1000)
@@ -242,10 +242,73 @@ App({
             success: (e) => {
               punchRecord.filePath = e.savedFilePath
               console.log(punchRecord)
-              let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
-              punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+              let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+              punchRecordsArray = punchRecordsArray ? JSON.parse(punchRecordsArray) : []
               punchRecordsArray.push(punchRecord)
               wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
+            }
+          })
+        }
+      }
+    })
+  },
+
+  postPhotoMode3(fileF, fileB, dateTimeP, punchRecord) {
+    var clid = this.globalData.clid
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+      'COUNT': 1,
+      'PHOTONAME': dateTimeP + '_' + 'f' + fileF.substring(fileF.indexOf('.'))
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+
+    wx.uploadFile({
+      filePath: fileF,
+      name: 'photos',
+      url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p_base64 + '&_en=app2',
+      success: (e) => {
+        const res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        if (punchRecord.dateTime) {
+          wx.saveFile({
+            tempFilePath: fileF,
+            success: (e) => {
+              punchRecord.filePath = e.savedFilePath
+
+              var _p0 = {
+                '_s': clid + timestamp,
+                'COUNT': 1,
+                'PHOTONAME': dateTimeP + '_' + 'b' + fileB.substring(fileB.indexOf('.'))
+              }
+              _p0 = JSON.stringify(_p0)
+              var _p0_base64 = CryptoJS.Base64Encode(_p0)
+
+              wx.uploadFile({
+                filePath: fileB,
+                name: 'photos',
+                url: 'https://www.kaoqintong.net/api2/app/photos' + '?CLID=' + clid + '&&_p=' + _p0_base64 + '&_en=app2',
+                success: (e) => {
+                  const res = JSON.parse(CryptoJS.Base64Decode(e.data))
+                  console.log(res)
+                  if (punchRecord.dateTime) {
+                    wx.saveFile({
+                      tempFilePath: fileB,
+                      success: (e) => {
+                        punchRecord.filePathPerson = e.savedFilePath
+                        console.log(punchRecord)
+                        let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+                        punchRecordsArray = punchRecordsArray ? JSON.parse(punchRecordsArray) : []
+                        punchRecordsArray.push(punchRecord)
+                        wx.setStorageSync('PunchRecordsArray', JSON.stringify(punchRecordsArray))
+                      }
+                    })
+                  }
+                }
+              })
             }
           })
         }
@@ -260,7 +323,7 @@ App({
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
-    
+
     var _p = {
       '_s': clid + timestamp,
       // 'OS': this.globalData.system,
@@ -268,7 +331,7 @@ App({
       // 'MANU': this.globalData.brand,
       // 'MODEL': this.globalData.model
     }
-    switch(type) {
+    switch (type) {
       case 'appPushReports':
         //nothing
         break
@@ -287,7 +350,7 @@ App({
         _p.maxResult = 5
         _p.index = 0
         _p.beginDate = '2022-02-20'
-        _p.endDate = '2020-02-26'
+        _p.endDate = '2020-03-11'
         break
       case 'monthlyReports':
         //除了上面的如果月报，不需要beiginDate和endDate，需要month，如果查询个别员工用staffIds，多个id之间用英文逗号隔开即可
@@ -300,10 +363,15 @@ App({
         console.log(type)
     }
 
-    console.log(_p)
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
 
+    // console.log(that.globalData.baseUrl + '/' + type + '/')
+    // console.log({
+    //   'CLID': clid,
+    //   '_p': _p_base64,
+    //   '_en': 'app2'
+    // })
     wx.request({
       url: that.globalData.baseUrl + '/' + type + '/',
       method: 'GET',
@@ -319,5 +387,5 @@ App({
       }
     })
   },
-  
+
 })

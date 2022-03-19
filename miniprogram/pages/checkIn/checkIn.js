@@ -413,7 +413,7 @@ Page({
     const modalShowItem = e.currentTarget.dataset.item
     if (modalShowItem.filePath) {
       wx.previewImage({
-        urls: [modalShowItem.filePath],
+        urls: [modalShowItem.filePath, modalShowItem.filePathPerson],
         showmenu: true
       })
     } else {

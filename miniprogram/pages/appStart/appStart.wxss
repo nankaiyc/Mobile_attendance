@@ -16,14 +16,14 @@
 
 .logo {
   height: 180rpx;
-  margin-top: 200rpx;
+  margin-top: 300rpx;
 }
 
 .title {
   height: 45rpx;
-  margin-top: 50rpx;
+  margin-top: 100rpx;
 }
 
 .cloud {
-  margin-top: 30rpx;
+  margin-top: 50rpx;
 }

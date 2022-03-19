@@ -1,0 +1,26 @@
+/* pages/reportDetail/reportDetail.wxss */
+.content {
+  padding: 40rpx;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 38rpx;
+}
+
+.detail {
+  margin-top: 50rpx;
+  padding-left: 8rpx;
+  color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.detail_item {
+  margin-bottom: 15rpx;
+}

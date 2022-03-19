@@ -52,7 +52,8 @@ Component({
         icon: "../../resource/menu_setting.png"
       },
     ],
-    permArray: []
+    permArray: [],
+    safeTop: ''
   },
 
   methods: {
@@ -89,7 +90,8 @@ Component({
       const tmp = app.globalData.PERMS
       let newPermArray = [tmp.ATT, tmp.MAN, tmp.OA]
       this.setData({
-        permArray: newPermArray
+        permArray: newPermArray,
+        safeTop: app.globalData.safeArea.top
       })
     }
   },

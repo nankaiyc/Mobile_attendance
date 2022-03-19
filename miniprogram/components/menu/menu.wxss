@@ -29,8 +29,8 @@
 
 .left_container {
   position: fixed;
-  top: 0;
   bottom: 0;
+  left: 0;
   height: 100%;
   background: white;
   z-index: 999;
@@ -38,7 +38,7 @@
 }
 
 .yd_left_content {
-  width: 80%;
+  width: 75%;
   transition-property: width;
   transition-duration: 200ms;
   transition-timing-function: ease;

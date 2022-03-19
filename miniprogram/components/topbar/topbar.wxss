@@ -1,4 +1,13 @@
 /* components/topbar/topbar.wxss */
+.topBar {
+  background: #4BBFE6;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  color: white;
+}
+
 .topAera {
   background: #4BBFE6;
   display: flex;
@@ -43,4 +52,22 @@
 .left_menu_img {
   width: 65rpx;
   height: 65rpx;
+}
+
+.backImgBox {
+  width: 55rpx;
+  height: 55rpx;
+  padding-left: 10rpx;
+}
+
+.backImg {
+  width: 100%;
+  height: 100%;
+}
+
+.leftTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

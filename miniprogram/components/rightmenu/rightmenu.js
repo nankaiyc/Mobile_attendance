@@ -1,4 +1,5 @@
 // components/rightmenu/rightmenu.js
+const app = getApp()
 Component({
   properties: {
     // 这里定义了innerText属性，属性值可以在组件使用时指定
@@ -23,7 +24,7 @@ Component({
    * 页面的初始数据
    */
   data: {
-  
+    safeTop: ''
   },
 
   methods:{
@@ -70,7 +71,13 @@ Component({
         console.log("全部标记为已读")
       }
     },
+  },
 
+  lifetimes: {
+    attached: function () {
+      this.setData({
+        safeTop: app.globalData.safeArea.top
+      })
+    }
   }
-
 })

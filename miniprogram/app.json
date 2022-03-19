@@ -22,6 +22,7 @@
     "pages/camera/camera",
     "pages/preview/preview",
     "pages/transfer/transfer",
+    "pages/reportDetail/reportDetail",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
@@ -34,7 +35,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#4BBFE6",
     "navigationBarTitleText": "移动考勤",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom"
   },
   "permission":{
     "scope.userLocation":{
