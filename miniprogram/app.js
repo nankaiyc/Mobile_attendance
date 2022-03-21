@@ -39,8 +39,6 @@ App({
     } else {
       this.globalData.clid = clid
     }
-
-    this.getMsg('appPushReports')
   },
 
   login() {
