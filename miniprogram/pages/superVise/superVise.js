@@ -503,6 +503,10 @@ Page({
 
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
+    this.data.isLoading = true
+    wx.showLoading({
+      title: '数据加载中···',
+    })
     wx.request({
       url: app.globalData.baseUrl + '/' + 'appPushReports' + '/',
       method: 'GET',
@@ -528,11 +532,16 @@ Page({
         that.setData({
           ReportList: instantReportArray
         })
+        that.data.isLoading = false
+        wx.hideLoading()
       }
     })
   },
   
   handleReportTapped (e) {
+    if (this.data.isLoading) {
+      return
+    }
     var chosen = e.currentTarget.dataset.index
     var reportList = this.data.ReportList
     wx.navigateTo({
