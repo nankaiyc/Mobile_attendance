@@ -40,7 +40,7 @@ App({
       this.globalData.clid = clid
     }
 
-    this.getMsg('appPushReports')
+    // this.getMsg('appPushReports')
   },
 
   login() {

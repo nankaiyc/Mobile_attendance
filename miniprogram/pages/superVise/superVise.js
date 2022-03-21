@@ -517,13 +517,23 @@ Page({
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
         instantReportArray.push.apply(instantReportArray, res.reports)
+        
         wx.setStorageSync('instantReportArray', JSON.stringify(instantReportArray))
       }
+    })
+  },
 
   handleReportTapped (e) {
+    var chosen = e.currentTarget.dataset.index
+    var reportList = this.data.ReportList
     wx.navigateTo({
-      url: '../reportDetail/reportDetail?reportItem=' + JSON.stringify(this.data.ReportList[e.currentTarget.dataset.index]),
+      url: '../reportDetail/reportDetail?reportItem=' + JSON.stringify(this.data.ReportList[chosen]),
     })
+    reportList[chosen].Isread = true
+    this.setData({
+      ReportList: reportList,
+    })
+    wx.setStorageSync('instantReportArray', JSON.stringify(this.data.ReportList))
   },
 
   onLoad: function (options) {
