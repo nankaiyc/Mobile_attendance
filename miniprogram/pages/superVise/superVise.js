@@ -55,7 +55,7 @@ Page({
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
     dailyReportsLastSyncTime: '',
-    isLoading: true,
+    isLoading: false,
     isPullDown: false,
     earliestDate: ''
   },
@@ -493,7 +493,6 @@ Page({
     instantReportArray = instantReportArray ? JSON.parse(instantReportArray) : []
     const that = this
     var clid = app.globalData.clid
-    // var clid = '/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo='
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
@@ -515,14 +514,24 @@ Page({
       success: (e) => {
         console.log('success get appPushReports')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
-        instantReportArray.push.apply(instantReportArray, res.reports)
-        
+        let newReports = []
+        for (var i in res.reports) {
+          newReports.push({
+            time: res.reports[i].content.substring(0, 16),
+            content: res.reports[i].content,
+            Isread: false,
+          })
+        }
+        instantReportArray.push.apply(instantReportArray, newReports)
+        console.log(instantReportArray)
         wx.setStorageSync('instantReportArray', JSON.stringify(instantReportArray))
+        that.setData({
+          ReportList: instantReportArray
+        })
       }
     })
   },
-
+  
   handleReportTapped (e) {
     var chosen = e.currentTarget.dataset.index
     var reportList = this.data.ReportList
