@@ -5,8 +5,9 @@
     {{title}}
   </view>
   <view class="detail">
-    <view wx:for="{{content}}" wx:key="index" class="detail_item">
+    <!-- <view wx:for="{{content}}" wx:key="index" class="detail_item">
       {{item}}
-    </view>
+    </view> -->
+    {{content}}
   </view>
 </view>
