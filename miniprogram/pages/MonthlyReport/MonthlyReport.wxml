@@ -21,9 +21,9 @@
   <view class="group">
     <view class="report">迟到次数/时长：{{monthItem.lateTimes}}次/{{monthItem.lateMinutes}}m</view>
     <view class="report">早退次数/时长：{{monthItem.leaveEarlyTimes}}次/{{monthItem.leaveEarlyMinutes}}m</view>
-    <view class="report">缺勤次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes / 60}}h</text></view>
-    <view class="report">旷工次数/时长：<text style="color: red;font-weight: 700;">{{monthItem.absenteeismTimes}}次/{{monthItem.absenteeismTime / 60}}h</text></view>
-    <view class="report">缺卡次数：{{monthItem.lackCheckCardTime}}次</view>
+    <view class="report">缺勤次数/时长：<text style="font-weight: 700; {{monthItem.absentTimes==0?'':'color: red;'}}">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes / 60}}h</text></view>
+    <view class="report">旷工次数/时长：<text style="font-weight: 700; {{monthItem.absenteeismTimes==0?'':'color: red;'}}">{{monthItem.absenteeismTimes}}次/{{monthItem.absenteeismTime / 60}}h</text></view>
+    <view class="report">缺卡次数：<text style="font-weight: 700; {{monthItem.lackCheckCardTime==0?'':'color: red;'}}">{{monthItem.lackCheckCardTime}}次</text></view>
   </view>
 <view class="daily_date">日报数据</view>
 </view>
@@ -40,8 +40,16 @@
         {{item.condition}}
       </text>
     </view>
-    <view class="classes">{{item.workTurnName}}</view>
-    <view class="record"><text style="color: red;">{{item.signinTime?('签到' + item.signinTime + ' 签退' + item.logoutTime):'无打卡记录'}}</text></view>
+    <view class="classes">
+      <text>
+        班次：{{item.workTurnName?item.workTurnName:'无班次'}}
+      </text>
+    </view>
+    <view class="record">
+      <text style="{{item.signinTime?'':'color: red;'}}">
+        {{item.signinTime?('签到' + item.signinTime + ' 签退' + item.logoutTime):'无打卡记录'}}
+      </text>
+    </view>
   </view>
 </view>
 </view>
