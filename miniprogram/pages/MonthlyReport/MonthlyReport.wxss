@@ -87,6 +87,8 @@
   font-size: 30rpx;
   font-weight: 700;
   margin-top: 5rpx;
+  display: flex;
+  flex-direction: row;
 }
 .record, .classes{
   font-size: 25rpx;
