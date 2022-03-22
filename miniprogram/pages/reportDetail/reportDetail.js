@@ -5,15 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    title: '平台订签到报告（2022-03-16 09:00）',
-    content: ['2021-12-07 09:00签到报告:', '办公室应到3人，已到2人，未到1人:朱宏艳，出勤率:66.7%。']
+    title: '',
+    content: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(JSON.parse(options.reportItem))
+    const item = JSON.parse(options.reportItem)
+    this.setData({
+      title: '平台订签到报告（' + item.time + '）',
+      content: item.content
+    })
   },
 
   /**
