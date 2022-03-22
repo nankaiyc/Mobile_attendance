@@ -5,7 +5,7 @@
     <view class="leftMenu" wx:if="{{curIndex < 3 || curIndex == 10}}">
       <menu curIndex='{{curIndex==10?2:curIndex==2?3:curIndex}}'/>
     </view>
-    <view class="backImgBox" wx:if="{{curIndex > 3 && curIndex != 10 && curIndex != 14}}" bindtap="handleBack">
+    <view class="backImgBox" wx:if="{{curIndex > 3 && curIndex != 10 && curIndex != 14 && curIndex != 18}}" bindtap="handleBack">
       <image src="../../resource/back_arrow.png" mode="heightFix" class="backImg"/>
     </view>
     <view class="{{(curIndex < 3 || curIndex == 10)?'centerTitle':'leftTitle'}}">
