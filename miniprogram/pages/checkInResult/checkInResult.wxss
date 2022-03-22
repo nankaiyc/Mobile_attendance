@@ -64,14 +64,16 @@
   align-items: center;
   justify-self: center;
   position: absolute;
-  margin-left: 230rpx;
-  margin-top: 20rpx;
-  font-size: 20rpx;
+  margin-left: 350rpx;
+  margin-top: 40rpx;
+  font-size: 23rpx;
 }
 .area{
   margin-top: 20rpx;
 }
-
+.err_say{
+  height: 700rpx;
+} 
 .retry{
   margin-top: 20rpx;
 }
