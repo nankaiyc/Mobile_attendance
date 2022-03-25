@@ -57,7 +57,8 @@ Page({
     dailyReportsLastSyncTime: '',
     isLoading: false,
     isPullDown: false,
-    earliestDate: ''
+    earliestDate: '',
+    staffIds: ''
   },
 
   handleItemChange(e){
@@ -71,7 +72,7 @@ Page({
       this.getInstantReport()
     }
     if (index == 2) {
-      this.getMonthlyReports(this.data.month)
+      this.getMonthlyReports(this.data.month, this.data.staffIds)
     }
     this.setData({
       tabs
@@ -156,28 +157,29 @@ Page({
     // console.log(this.data.StaffList)
   },
   
-  getMonthlyReports(month) {
+  getMonthlyReports(month, staffIds) {
     this.data.isLoading = true
     wx.showLoading({
       title: '数据加载中···',
     })
     this.data.monthlyReportsArray = []
-    this.getMonthlyReportsSinal(month, 0)
+    this.getMonthlyReportsSinal(month, staffIds)
   },
 
-  getMonthlyReportsSinal(month, index) {
+  getMonthlyReportsSinal(month, staffIds) {
     const that = this
     var clid = app.globalData.clid
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
-    const maxResult = 5
+    const maxResult = 99999999
     var _p = {
       '_s': clid + timestamp,
       'month': month,
       'maxResult': maxResult,
-      'index': index,
+      'index': 0,
+      'staffIds': staffIds
     }
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
@@ -191,37 +193,58 @@ Page({
         '_en': 'app2'
       },
       success: (e) => {
-        console.log('success get' + 'monthlyReports ' + index)
+        console.log('success get' + 'monthlyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
-        if (res.RESULT < maxResult) {
-          const newArray = that.data.monthlyReportsArray
-          for (var i in newArray) {
-            newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
-          }
-          that.setData({
-            monthlyReportsArray: newArray
-          })
-          wx.hideLoading({})
-          that.data.isLoading = false
-          
-          if (that.data.isPullDown) {
-            that.data.isPullDown = false
-            wx.stopPullDownRefresh()
-            wx.showToast({
-              title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
-              icon: 'none',
-              duration: 1500
-            })
-          }
-        } else {
-          that.getMonthlyReportsSinal(month, index + maxResult)
+        
+        const newArray = that.data.monthlyReportsArray
+        for (var i in newArray) {
+          newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
         }
+        that.setData({
+          monthlyReportsArray: newArray
+        })
+        wx.hideLoading({})
+        that.data.isLoading = false
+        
+        if (that.data.isPullDown) {
+          that.data.isPullDown = false
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+            icon: 'none',
+            duration: 1500
+          })
+        }
+
+        // if (res.RESULT < maxResult) {
+        //   const newArray = that.data.monthlyReportsArray
+        //   for (var i in newArray) {
+        //     newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
+        //   }
+        //   that.setData({
+        //     monthlyReportsArray: newArray
+        //   })
+        //   wx.hideLoading({})
+        //   that.data.isLoading = false
+          
+        //   if (that.data.isPullDown) {
+        //     that.data.isPullDown = false
+        //     wx.stopPullDownRefresh()
+        //     wx.showToast({
+        //       title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+        //       icon: 'none',
+        //       duration: 1500
+        //     })
+        //   }
+        // } else {
+        //   that.getMonthlyReportsSinal(month, index + maxResult)
+        // }
       }
     })
   },
   
-  getDailyReports() {
+  getDailyReports(staffIds) {
     let beginDate = ''
     if (this.data.earliestDate) {
       console.log(this.data.date)
@@ -241,24 +264,25 @@ Page({
     wx.showLoading({
       title: '数据加载中···',
     })
-    this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, 0)
+    this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
-  getDailyReportsSinal(lastSyncTime, beginDate, endDate, index) {
+  getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds) {
     const that = this
     var clid = app.globalData.clid
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
-    const maxResult = 5
+    const maxResult = 99999999
     var _p = {
       '_s': clid + timestamp,
       'lastSyncTime': lastSyncTime,
       'maxResult': maxResult,
-      'index': index,
+      'index': 0,
       'beginDate': beginDate,
-      'endDate': endDate
+      'endDate': endDate,
+      'staffIds': staffIds
     }
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
@@ -272,27 +296,37 @@ Page({
         '_en': 'app2'
       },
       success: (e) => {
-        console.log('success get' + 'dailyReports ' + index)
+        console.log('success get' + 'dailyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
-        if (res.RESULT < maxResult) {
-          const newArray = that.data.dailyReportsArray
-          app.dailyReportsArray = newArray
-          app.dailyReportsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
-          that.setData({
-            dailyReportsArray: newArray,
-            dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
-          })
+        
+        const newArray = that.data.dailyReportsArray
+        app.dailyReportsArray = newArray
+        app.dailyReportsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+        that.setData({
+          dailyReportsArray: newArray,
+          dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
+        })
 
-          that.getPunchRecords()
-        } else {
-          that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
-        }
+        that.getPunchRecords(staffIds)
+        // if (res.RESULT < maxResult) {
+        //   const newArray = that.data.dailyReportsArray
+        //   app.dailyReportsArray = newArray
+        //   app.dailyReportsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+        //   that.setData({
+        //     dailyReportsArray: newArray,
+        //     dailyReportsLastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
+        //   })
+
+        //   that.getPunchRecords()
+        // } else {
+        //   that.getDailyReportsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        // }
       }
     })
   },
 
-  getPunchRecords() {
+  getPunchRecords(staffIds) {
     let beginDate = ''
     if (this.data.earliestDate) {
       var dateTime = new Date(this.data.date)
@@ -307,24 +341,25 @@ Page({
     const lastSyncTime = app.punchRecordslastSyncTime
     this.data.punchRecordsArray = app.punchRecordsArray
     this.data.earliestDate = beginDate
-    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, 0)
+    this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
-  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index) {
+  getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds) {
     const that = this
     var clid = app.globalData.clid
 
     var timestamp = Date.parse(new Date());
     timestamp = timestamp / 1000;
 
-    const maxResult = 5
+    const maxResult = 99999999
     var _p = {
       '_s': clid + timestamp,
       'lastSyncTime': lastSyncTime,
       'maxResult': maxResult,
-      'index': index,
+      'index': 0,
       'beginDate': beginDate,
-      'endDate': endDate
+      'endDate': endDate,
+      'staffIds': staffIds
     }
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
@@ -338,48 +373,84 @@ Page({
         '_en': 'app2'
       },
       success: (e) => {
-        console.log('success get' + 'punchRecords ' + index)
+        console.log('success get' + 'punchRecords ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         
         that.data.punchRecordsArray.push.apply(that.data.punchRecordsArray, res.AttRecords)
-        if (res.RESULT < maxResult) {
-          const newArray = that.data.punchRecordsArray
-          app.punchRecordsArray = newArray
-          app.punchRecordsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
-          this.setData({
-            punchRecordsArray: newArray,
-            punchRecordslastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
-          })
-          
-          this.getDailyReportsByDate(this.data.date)
-          
-          wx.hideLoading({})
-          that.data.isLoading = false
+        
+        const newArray = that.data.punchRecordsArray
+        app.punchRecordsArray = newArray
+        app.punchRecordsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+        this.setData({
+          punchRecordsArray: newArray,
+          punchRecordslastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
+        })
+        
+        this.getDailyReportsByDate(this.data.date)
+        
+        wx.hideLoading({})
+        that.data.isLoading = false
 
-          if (that.data.isPullDown) {
-            that.data.isPullDown = false
-            wx.stopPullDownRefresh()
-            wx.showToast({
-              title: '刷新成功！同步时间：' + that.data.punchRecordslastSyncTime,
-              icon: 'none',
-              duration: 1500
-            })
-          }
-          if (that.data.selectedArray.length == 0) {
-            wx.showModal({
-              title: '初次使用该功能，请设置监管范围！',
-              success: (res) => {
-                if (res.confirm) {
-                  wx.navigateTo({
-                    url: '../../pages/attendancePersonSet/attendancePersonSet',
-                  })
-                }
-              }
-            })
-          }
-        } else {
-          that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        if (that.data.isPullDown) {
+          that.data.isPullDown = false
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新成功！同步时间：' + that.data.punchRecordslastSyncTime,
+            icon: 'none',
+            duration: 1500
+          })
         }
+        if (that.data.selectedArray.length == 0) {
+          wx.showModal({
+            title: '初次使用该功能，请设置监管范围！',
+            success: (res) => {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '../../pages/attendancePersonSet/attendancePersonSet',
+                })
+              }
+            }
+          })
+        }
+
+        // if (res.RESULT < maxResult) {
+        //   const newArray = that.data.punchRecordsArray
+        //   app.punchRecordsArray = newArray
+        //   app.punchRecordsLastSyncTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+        //   this.setData({
+        //     punchRecordsArray: newArray,
+        //     punchRecordslastSyncTime: util.formatDateLine(new Date()) + util.formatTime(new Date())
+        //   })
+          
+        //   this.getDailyReportsByDate(this.data.date)
+          
+        //   wx.hideLoading({})
+        //   that.data.isLoading = false
+
+        //   if (that.data.isPullDown) {
+        //     that.data.isPullDown = false
+        //     wx.stopPullDownRefresh()
+        //     wx.showToast({
+        //       title: '刷新成功！同步时间：' + that.data.punchRecordslastSyncTime,
+        //       icon: 'none',
+        //       duration: 1500
+        //     })
+        //   }
+        //   if (that.data.selectedArray.length == 0) {
+        //     wx.showModal({
+        //       title: '初次使用该功能，请设置监管范围！',
+        //       success: (res) => {
+        //         if (res.confirm) {
+        //           wx.navigateTo({
+        //             url: '../../pages/attendancePersonSet/attendancePersonSet',
+        //           })
+        //         }
+        //       }
+        //     })
+        //   }
+        // } else {
+        //   that.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, index + maxResult)
+        // }
       }
     })
   },
@@ -397,7 +468,7 @@ Page({
       week: WEEK,
       month: MONTH,
     })
-    this.getDailyReports()
+    this.getEmployees()
   },
   subDate(){
     if (this.data.isLoading) {
@@ -416,7 +487,7 @@ Page({
     if (TIME < this.data.earliestDate) {
       this.data.dailyReportsLastSyncTime = ''
       this.data.punchRecordslastSyncTime = ''
-      this.getDailyReports()
+      this.getDailyReports(this.data.staffIds)
     } else {
       this.getDailyReportsByDate(this.data.date)
     }
@@ -440,7 +511,7 @@ Page({
       if (TIME < this.data.earliestDate) {
         this.data.dailyReportsLastSyncTime = ''
         this.data.punchRecordslastSyncTime = ''
-        this.getDailyReports()
+        this.getDailyReports(this.data.staffIds)
       } else {
         this.getDailyReportsByDate(this.data.date)
       }
@@ -463,7 +534,7 @@ Page({
       that.setData({
         month: MONTH,
       })
-      this.getMonthlyReports(MONTH)
+      this.getMonthlyReports(MONTH, this.data.staffIds)
     }
   },
   addMonth(){
@@ -483,10 +554,9 @@ Page({
       that.setData({
         month: MONTH,
       })
-      this.getMonthlyReports(MONTH)
+      this.getMonthlyReports(MONTH, this.data.staffIds)
     }
   },
-
 
   getInstantReport() {
     let instantReportArray = wx.getStorageSync('instantReportArray')
@@ -554,6 +624,46 @@ Page({
     wx.setStorageSync('instantReportArray', JSON.stringify(this.data.ReportList))
   },
 
+  
+  getEmployees() {
+    const that = this
+    var clid = app.globalData.clid
+
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+
+    var _p = {
+      '_s': clid + timestamp,
+    }
+    _p = JSON.stringify(_p)
+    var _p_base64 = CryptoJS.Base64Encode(_p)
+    
+    wx.request({
+      url: app.globalData.baseUrl + '/employees/',
+      method: 'GET',
+      data: {
+        'CLID': clid,
+        '_p': _p_base64,
+        '_en': 'app2'
+      },
+      success: (e) => {
+        console.log('success get' + 'employees')
+        var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+
+        let staffIds = ''
+        for (var i in res.Employees) {
+          staffIds += res.Employees[i].staffId
+          if (i != res.Employees.length - 1) {
+            staffIds += ','
+          }
+        }
+
+        that.data.staffIds = staffIds
+        that.getDailyReports(staffIds)
+      }
+    })
+  },
+
   onLoad: function (options) {
     var that = this;
     that.setCurrentDate();
@@ -566,9 +676,9 @@ Page({
   onPullDownRefresh: function (options) {
     this.data.isPullDown = true
     if (this.data.tabs[0].isActive) {
-      this.getDailyReports()
+      this.getDailyReports(this.data.staffIds)
     } else if (this.data.tabs[2].isActive) {
-      this.getMonthlyReports(this.data.month)
+      this.getMonthlyReports(this.data.month, this.data.staffIds)
     }
   },
   
