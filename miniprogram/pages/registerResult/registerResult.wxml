@@ -5,7 +5,7 @@
 
   <view class="RegisterResult">
     <image src="{{IsSuccess?'../../resource/icon_ok.png':'../../resource/icon_error2.png'}}" mode="heightFix" class="judge_icon"/>
-    <view class="normal_text" bindtap="itemchange">{{IsSuccess?'注册成功！':'注册失败！'}}</view>
+    <view class="normal_text">{{IsSuccess?'注册成功！':'注册失败！'}}</view>
   </view>
 
   <view class="user_info" wx:if="{{IsSuccess}}">

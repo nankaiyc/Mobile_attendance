@@ -54,8 +54,8 @@
   align-items: center;
   justify-self: center;
   position: absolute;
-  margin-left: 270rpx;
-  margin-top: 40rpx;
+  margin-left: 420rpx;
+  margin-top: 80rpx;
   font-size: 25rpx;
 }
 .textarea_UnQuit{
