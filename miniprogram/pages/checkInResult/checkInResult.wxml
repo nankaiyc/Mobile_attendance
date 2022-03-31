@@ -1,7 +1,7 @@
 <!--pages/checkInResult/checkInResult.wxml-->
 <topbar curIndex='14'/>
 <view class="container">
-  <view class="Attendance" bindtap="changeResult">考勤打卡</view>
+  <view class="Attendance">考勤打卡</view>
 
   <view class="AttendanceResult">
     <image src="{{isSuccess?'../../resource/icon_ok.png':'../../resource/icon_error2.png'}}" mode="heightFix" class="judge_icon"/>
