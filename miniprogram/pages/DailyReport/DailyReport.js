@@ -13,6 +13,7 @@ Page({
     week:"周二",
     staffId:0,
     dailyReportsArray:[],
+    IsSignIn:true,
     // shouldAttandence:应出勤;actualAttandence:实际出勤;leavewithpayTime:有薪假;leavenopayTime:无薪假;usuallyOverTimes:平常加班;restOverTimes:休日加班;holidayOverTimes:假日加班;absentTimes:缺勤时长;lateTime:迟到时长;
   },
 
@@ -30,6 +31,7 @@ Page({
       date:options.date,
       week:options.week,
       staffId:options.staffId,
+      IsSignIn:JSON.parse(options.IsSignIn),
       dailyReportsArray:dailyReportsArray
     })
     console.log(dailyReportsArray)

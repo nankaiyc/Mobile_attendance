@@ -29,7 +29,8 @@
 </view>
 
 <view class="dailyDate_Tab">
-  <view class="dailyDate_content" wx:for="{{dailyArray}}" wx:key="index" style="width: {{screenWidth}}px;">
+  <view class="dailyDate_content" wx:for="{{dailyArray}}" wx:key="index" style="width: {{screenWidth}}px;" bindtap="MovetoDailyReport"
+  data-index="{{index}}">
   <view class="datetime" >
     <view class="Date">{{item.reportTime}}</view>
     <view class="week">{{'周' + item.ondutyWeek}}</view>

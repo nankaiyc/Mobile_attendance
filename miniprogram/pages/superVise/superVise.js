@@ -194,13 +194,23 @@ Page({
         console.log('success get' + 'monthlyReports ' + index)
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
-        if (res.RESULT < maxResult) {
-          const newArray = that.data.monthlyReportsArray
-          for (var i in newArray) {
-            newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
-          }
-          that.setData({
-            monthlyReportsArray: newArray
+        const newArray = that.data.monthlyReportsArray
+        for (var i in newArray) {
+          newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
+        }
+        that.setData({
+          monthlyReportsArray: newArray
+        })
+        wx.hideLoading({})
+        that.data.isLoading = false
+        
+        if (that.data.isPullDown) {
+          that.data.isPullDown = false
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+            icon: 'none',
+            duration: 1500
           })
           wx.hideLoading({})
           that.data.isLoading = false

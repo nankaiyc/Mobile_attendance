@@ -94,9 +94,13 @@ Page({
       }
     });
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
+
+  handleBackToFront(e){
+    this.setData({
+      isfront: !this.data.infront,
+    })
+  },
+
   onLoad: function (options) {
     this.ctx = wx.createCameraContext();
     this.setData({
