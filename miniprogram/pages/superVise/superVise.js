@@ -256,7 +256,7 @@ Page({
           newArray.push.apply(newArray, monthlyReportsForCurMonth)
           // console.log(newArray)
         }
-
+        
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
         }

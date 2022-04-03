@@ -1,5 +1,5 @@
 <!--pages/camera/camera.wxml-->
-<topbar curIndex='{{isfront?15:16}}'/>
+<topbar curIndex='{{isfront?15:16}}' bindBackToFront="handleBackToFront"/>
 <view class="page-body">
   <camera device-position="{{isfront?'front':'back'}}" flash="off" binderror="error" 
     style="width: {{screenWidth}}px; height: {{screenHeight*0.77}}px;" class="camera" wx:if="{{showPhoto}}">
@@ -8,6 +8,6 @@
     </view>  
   </camera>
   <view class="btn-area">
-    <image src="{{'../../resource/take_photo.png'}}" mode="heightFix" class="take_photo" bindtap="takePhoto"/>
+    <image src="{{'../../resource/take_photo.png'}}" mode="heightFix" class="take_photo" bindtap="takePhoto" />
   </view>
 </view>

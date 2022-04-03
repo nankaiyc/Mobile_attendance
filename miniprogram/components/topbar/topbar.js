@@ -21,8 +21,14 @@ Component({
   },
   
   methods:{
-    handleBack() {
-      wx.navigateBack()
+    handleBack(e) {
+      if(this.data.curIndex == 16){
+        console.log(this.data.itemArray[16])
+        this.triggerEvent("BackToFront",this.data.curIndex)
+      }
+      else{
+        wx.navigateBack()
+      }
     },
 
     handlemethodchange(e){
