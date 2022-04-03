@@ -64,7 +64,7 @@
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deepskyblue;"></view>
-              <view class="month_item_ls_text">请假次数/时长：{{item.holidayOverTimes}}次/{{item.holidayOverTime}}m</view>
+              <view class="month_item_ls_text">请假次数/时长：{{item.withSalaryLeaveTimes + item.withoutSalaryLeaveTimes}}次/{{item.withoutSalaryLeave + item.withSalaryLeave}}m</view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: darkkhaki;"></view>

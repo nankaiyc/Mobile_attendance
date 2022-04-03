@@ -434,9 +434,11 @@ Page({
       that.data.isLoading = false
       wx.hideLoading()
     }, 1000)
-    this.setCurrentDate();
-    let photo = wx.getStorageSync('ImagURL');
-    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+    this.setCurrentDate()
+    let photo = wx.getStorageSync('ImagURL')
+    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray')
+    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+    punchRecordsArray.reverse()
     that.setData({
       imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
@@ -445,7 +447,7 @@ Page({
       GPSplace:app.globalData.GPSplace, 
       id:app.globalData.AttNo,
       photomode:app.globalData.AppPhoto % 10,
-      punchRecordsArray: punchRecordsArray?JSON.parse(punchRecordsArray):[],
+      punchRecordsArray: punchRecordsArray,
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
     })

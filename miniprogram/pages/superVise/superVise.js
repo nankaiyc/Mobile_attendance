@@ -39,18 +39,7 @@ Page({
     screenHeight: 0,
     screenWidth: 0,
     StaffList: [],
-    ReportList:[
-      {
-        time:"2021-12-07 09:00",
-        content:"2021-12-07 09:00签到报告：办公室应到3人，已到2人，未到1人:xxx,出勤率：50%",
-        Isread:false,
-      },
-      {
-        time:"2021-12-08 09:00",
-        content:"2021-12-08 09:00签到报告：办公室应到3人，已到2人，未到1人:yc,出勤率：60%",
-        Isread:false,
-      },
-    ],
+    ReportList:[],
     selectedArray: [],
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
@@ -196,7 +185,78 @@ Page({
         console.log('success get' + 'monthlyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
-        const newArray = that.data.monthlyReportsArray
+        
+        let newArray = that.data.monthlyReportsArray
+
+        if (month == util.formatMonthLine(new Date())) {
+          let dailyReportsArrayForCurMonth = app.dailyReportsArray.filter((val) => {return val.reportTime.startsWith(month)})
+
+          // console.log(dailyReportsArrayForCurMonth)
+          let monthlyReportsForCurMonth = []
+          for (var i in dailyReportsArrayForCurMonth) {
+            let curArray = monthlyReportsForCurMonth.filter((val) => {return val.staffId == dailyReportsArrayForCurMonth[i].staffId})
+            if (curArray.length == 0) {
+              const newItem = {
+                'month': month,
+                'staffId': dailyReportsArrayForCurMonth[i].staffId,
+                'staffName': dailyReportsArrayForCurMonth[i].staffName,
+                'deptName': dailyReportsArrayForCurMonth[i].deptName,
+                'attendanceDays': dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0,
+                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].actualAttandence,
+                'withSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes,
+                'withSalaryLeave': dailyReportsArrayForCurMonth[i].leavewithpayTime,
+                'withoutSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes,
+                'withoutSalaryLeave': dailyReportsArrayForCurMonth[i].leavenopayTime,
+                'lateTimes': dailyReportsArrayForCurMonth[i].lateTimes,
+                'lateMinutes': dailyReportsArrayForCurMonth[i].lateTime,
+                'usuallyOvertime': dailyReportsArrayForCurMonth[i].usuallyOverTimes?dailyReportsArrayForCurMonth[i].usuallyOverTimes:0,
+                'restOvertime': dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0,
+                'holidayOvertime': dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0,
+                'leaveEarlyTimes': dailyReportsArrayForCurMonth[i].leaveEarlyTimes,
+                'leaveEarlyMinutes': dailyReportsArrayForCurMonth[i].leaveearlyTime,
+                // 'absentTimes': dailyReportsArrayForCurMonth[i].absentTimes,
+                'absentTimes': dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0,
+                'absentMinutes': dailyReportsArrayForCurMonth[i].actualNotduty,
+                // 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeismTimes,
+                'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeism>0?1:0,
+                'absenteeismTime': dailyReportsArrayForCurMonth[i].absenteeism,
+                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                'addRestTimes': dailyReportsArrayForCurMonth[i].addRestTimes,
+                'holidayotTime': dailyReportsArrayForCurMonth[i].holidayotTime,
+              }
+              monthlyReportsForCurMonth.push(newItem)
+            } else {
+              curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
+              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].actualAttandence
+              curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
+              curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
+              curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
+              curArray[0].withoutSalaryLeave += dailyReportsArrayForCurMonth[i].leavenopayTime
+              curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTimes
+              curArray[0].lateMinutes += dailyReportsArrayForCurMonth[i].lateTime
+              curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].usuallyOverTimes?dailyReportsArrayForCurMonth[i].usuallyOverTimes:0
+              curArray[0].restOvertime += dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0
+              curArray[0].holidayOvertime += dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0
+              curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveEarlyTimes
+              curArray[0].leaveEarlyMinutes += dailyReportsArrayForCurMonth[i].leaveearlyTime
+              curArray[0].absentTimes += dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0
+              curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
+              curArray[0].absenteeismTimes += dailyReportsArrayForCurMonth[i].absenteeism>0?1:0
+              curArray[0].absenteeismTime += dailyReportsArrayForCurMonth[i].absenteeism
+              curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].lackCheckCardTime
+              curArray[0].addRestTimes += dailyReportsArrayForCurMonth[i].addRestTimes
+              curArray[0].holidayotTime += dailyReportsArrayForCurMonth[i].holidayotTime
+            }
+          }
+
+          for (var i in monthlyReportsForCurMonth) {
+            monthlyReportsForCurMonth[i].attendancePercent = monthlyReportsForCurMonth[i].actualAttendanceDays / monthlyReportsForCurMonth[i].attendanceDays
+          }
+
+          newArray.push.apply(newArray, monthlyReportsForCurMonth)
+          // console.log(newArray)
+        }
+        
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
         }
@@ -258,11 +318,7 @@ Page({
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
     const lastSyncTime = app.dailyReportsLastSyncTime
-    this.data.isLoading = true
     this.data.dailyReportsArray = app.dailyReportsArray
-    wx.showLoading({
-      title: '数据加载中···',
-    })
     this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
@@ -285,7 +341,6 @@ Page({
     }
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
-    
     wx.request({
       url: app.globalData.baseUrl + '/dailyReports/',
       method: 'GET',
@@ -337,13 +392,14 @@ Page({
       beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = app.punchRecordslastSyncTime
+    const lastSyncTime = app.punchRecordsLastSyncTime
     this.data.punchRecordsArray = app.punchRecordsArray
     this.data.earliestDate = beginDate
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
   getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds) {
+    console.log(lastSyncTime)
     const that = this
     var clid = app.globalData.clid
 
@@ -637,6 +693,11 @@ Page({
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
     
+    this.data.isLoading = true
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+
     wx.request({
       url: app.globalData.baseUrl + '/employees/',
       method: 'GET',
@@ -685,5 +746,6 @@ Page({
     this.setData({
       selectedArray: app.globalData.selectedArray
     })
+    this.getDailyReportsByDate(this.data.date)
   }
 })

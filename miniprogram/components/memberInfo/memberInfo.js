@@ -197,8 +197,10 @@ Component({
           var res = JSON.parse(CryptoJS.Base64Decode(e.data))
           console.log(res)
           let staffDepts = []
-          staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
-          staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
+          staffDepts.push.apply(staffDepts, res.StaffqueryDepts?res.StaffqueryDepts:[])
+          if (staffDepts.length == 0) {
+            staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
+          }
           let staffqueryGroups = res.StaffqueryGroups
           that.getEmployees(staffDepts, staffqueryGroups)
         }
