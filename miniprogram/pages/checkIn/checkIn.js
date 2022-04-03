@@ -426,6 +426,14 @@ Page({
 
   onLoad: function (options) {
     var that = this;
+    this.data.isLoading = true
+    wx.showLoading({
+      title: '数据同步中···',
+    })
+    setTimeout(() => {
+      that.data.isLoading = false
+      wx.hideLoading()
+    }, 1000)
     this.setCurrentDate();
     let photo = wx.getStorageSync('ImagURL');
     let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');

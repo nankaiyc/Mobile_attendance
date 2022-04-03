@@ -87,10 +87,11 @@
   font-size: 30rpx;
   font-weight: 700;
   margin-top: 5rpx;
+  display: flex;
+  flex-direction: row;
 }
-.record{
+.record, .classes{
   font-size: 25rpx;
   font-weight: 500;
-  margin-top: 5rpx;
   margin-bottom: 5rpx;
 }

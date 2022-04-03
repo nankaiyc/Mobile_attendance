@@ -54,12 +54,27 @@ Page({
     for (var i in dailyReportsArray) {
       if (!dailyReportsArray[i].workTurnName) {
         dailyReportsArray[i].condition = '未指定班次'
-      } else if (!dailyReportsArray[i].signinTime) {
-        dailyReportsArray[i].condition = '缺勤'
-      } else if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
-        dailyReportsArray[i].condition = '早退'
-      } else if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
-        dailyReportsArray[i].condition = '迟到'
+      } else {
+        dailyReportsArray[i].condition = ''
+        dailyReportsArray[i].extraWorking = false
+        if (!dailyReportsArray[i].signinTime) {
+          // dailyReportsArray[i].condition += '缺勤 '
+        } else {
+          if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
+            dailyReportsArray[i].condition += '迟到 '
+          }
+        }
+
+        if (!dailyReportsArray[i].logoutTime) {
+          dailyReportsArray[i].condition += '缺勤 '
+        } else {
+          if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
+            dailyReportsArray[i].condition += '早退 '
+          } 
+          if (dailyReportsArray[i].logoutTime.substring(0, 2) > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')') - 3)) {
+            dailyReportsArray[i].extraWorking = true
+          } 
+        } 
       }
     }
     console.log(monthItem, dailyReportsArray)
