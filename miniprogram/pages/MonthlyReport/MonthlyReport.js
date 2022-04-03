@@ -9,22 +9,7 @@ Page({
     screenHeight: 0,
     screenWidth: 0,
     monthItem: '',
-    dailyArray:[
-      {
-        date:"2022-03-31",
-        week:"周四",
-        condition:"缺勤",
-        classes:"无班次",
-        record:"没有打卡记录"
-      },
-      {
-        date:"2022-03-30",
-        week:"周三",
-        condition:"缺勤",
-        classes:"无班次",
-        record:"签到 14:43:18  签退 14:49:51"
-      },
-    ]
+    dailyArray:[]
   },
 
   /**
@@ -33,6 +18,11 @@ Page({
   onLoad: function (options) {
     var that = this;
     const monthItem = JSON.parse(options.monthItem)
+    monthItem.withSalaryLeave = (monthItem.withSalaryLeave / 60).toFixed(2)
+    monthItem.withoutSalaryLeave = (monthItem.withoutSalaryLeave / 60).toFixed(2)
+    monthItem.absentMinutes = (monthItem.absentMinutes / 60).toFixed(2)
+    monthItem.absenteeismTime = (monthItem.absenteeismTime / 60).toFixed(2)
+
     let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
@@ -61,7 +51,15 @@ Page({
             dailyReportsArray[i].extraWorking = true
           } 
         } 
+
+        if (dailyReportsArray[i].condition == '') {
+          dailyReportsArray[i].condition = '无异常'
+        }
       }
+
+      dailyReportsArray[i].usuallyOvertime = (dailyReportsArray[i].usuallyOvertime / 60).toFixed(2)
+      dailyReportsArray[i].restOvertime = (dailyReportsArray[i].restOvertime / 60).toFixed(2)
+      dailyReportsArray[i].holidayOvertime = (dailyReportsArray[i].holidayOvertime / 60).toFixed(2)
     }
     console.log(monthItem, dailyReportsArray)
     that.setData({

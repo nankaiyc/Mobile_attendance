@@ -34,6 +34,7 @@ App({
     this.dailyReportsLastSyncTime = ''
 
     var clid = wx.getStorageSync('unionId')
+    // var clid = '/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo='
     if (!clid) {
       this.login()
     } else {
