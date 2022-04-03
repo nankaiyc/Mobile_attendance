@@ -196,7 +196,6 @@ Page({
         console.log('success get' + 'monthlyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
-        
         const newArray = that.data.monthlyReportsArray
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
