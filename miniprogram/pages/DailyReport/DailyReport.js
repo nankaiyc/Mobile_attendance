@@ -8,9 +8,9 @@ Page({
   data: {
     screenHeight: 0,
     screenWidth: 0,
-    name:"寅畅",
-    date: "2022-03-01",
-    week:"周二",
+    name:"",
+    date: "",
+    week:"",
     staffId:0,
     dailyReportsArray:[],
     IsSignIn:true,
@@ -24,6 +24,15 @@ Page({
     var that = this;
     let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {return val.staffId == options.staffId && val.reportTime == options.date})
+    
+    dailyReportsArray[0].leavewithpayTime = (dailyReportsArray[0].leavewithpayTime / 60).toFixed(2)
+    dailyReportsArray[0].leavenopayTime = (dailyReportsArray[0].leavenopayTime / 60).toFixed(2)
+    dailyReportsArray[0].usuallyOverTimes = (dailyReportsArray[0].usuallyOverTimes / 60).toFixed(2)
+    dailyReportsArray[0].restOverTimes = (dailyReportsArray[0].restOverTimes / 60).toFixed(2)
+    dailyReportsArray[0].holidayOverTimes = (dailyReportsArray[0].holidayOverTimes / 60).toFixed(2)
+    dailyReportsArray[0].actualNotduty = (dailyReportsArray[0].actualNotduty / 60).toFixed(2)
+    dailyReportsArray[0].absenteeism = (dailyReportsArray[0].absenteeism / 60).toFixed(2)
+    dailyReportsArray[0].leavewithpayTime = (dailyReportsArray[0].leavewithpayTime / 60).toFixed(2)
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
@@ -31,7 +40,7 @@ Page({
       date:options.date,
       week:options.week,
       staffId:options.staffId,
-      IsSignIn:JSON.parse(options.IsSignIn),
+      IsSignIn:options.IsSignIn?JSON.parse(options.IsSignIn):true,
       dailyReportsArray:dailyReportsArray
     })
     console.log(dailyReportsArray)
