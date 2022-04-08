@@ -746,6 +746,12 @@ Page({
     this.setData({
       selectedArray: app.globalData.selectedArray
     })
-    this.getDailyReportsByDate(this.data.date)
+    if (this.data.tabs[0].isActive) {
+      this.getDailyReportsByDate(this.data.date)
+    } else if (this.data.tabs[1].isActive) {
+      this.getInstantReport()
+    } else if (this.data.tabs[2].isActive) {
+      this.getMonthlyReports(this.data.month, this.data.staffIds)
+    }
   }
 })

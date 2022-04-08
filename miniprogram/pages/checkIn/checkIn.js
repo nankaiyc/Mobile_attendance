@@ -428,7 +428,7 @@ Page({
     var that = this;
     this.data.isLoading = true
     wx.showLoading({
-      title: '数据同步中···',
+      title: '时间同步中···',
     })
     setTimeout(() => {
       that.data.isLoading = false
