@@ -358,17 +358,17 @@ Page({
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i 
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i 
             })
           }
           else if(this.data.photomode == 2){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else if(this.data.photomode == 3){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else{
