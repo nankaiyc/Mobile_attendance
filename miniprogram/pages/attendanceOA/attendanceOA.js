@@ -1,4 +1,6 @@
 // pages/attendanceOA/attendanceOA.js
+const app = getApp()
+const CryptoJS = require('../../utils/crypto.js')
 Page({
 
   /**
@@ -45,7 +47,21 @@ Page({
         name:"转办",
         isActive:false
       },
-    ]
+    ],
+    Url:"",
+  },
+
+  generateurl(){
+    // var CLID = app.globalData.clid
+    // var NAME = CryptoJS.Base64Encode(app.globalData.username)
+    // var STAFFID = app.globalData.StaffID
+    var CLID = 'CBDD81AC0F5C4FC49DCF0D7F27C43DA7'
+    var NAME = '5p2O5bm%2F5rW3'
+    var STAFFID = '30004'
+    var url = 'https://chinark.kaoqintong.net/oa/m/?CLID=' + CLID + '&NAME=' + NAME + '&STAFFID=' + STAFFID
+    this.setData({
+      Url:url
+    })
   },
 
   handleItemChange(e){
@@ -55,6 +71,10 @@ Page({
     this.setData({
       tabs
     })
-  }
+  },
+
+  onLoad: function () {
+    this.generateurl()
+  },
 
 })
