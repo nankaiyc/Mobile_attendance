@@ -39,7 +39,8 @@ Page({
    */
   onLoad: function (options) {
     const tmp = app.globalData.PERMS
-    let newPermArray = [tmp.ATT, tmp.MAN, tmp.OA]
+    // let newPermArray = [tmp.ATT, tmp.MAN, tmp.OA]
+    let newPermArray = [tmp.ATT, tmp.MAN, 0]
     let newIndexList = []
     let count = 0
     for (var i in newPermArray) {
