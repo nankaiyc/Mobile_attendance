@@ -40,6 +40,7 @@ App({
     } else {
       this.globalData.clid = clid
     }
+
   },
 
   login() {
@@ -57,9 +58,10 @@ App({
           },
           method: 'POST',
           success: (e) => {
-            wx.setStorageSync('unionId', e.data[0])
+            const clid = CryptoJS.Md5(e.data[0]).toUpperCase()
+            wx.setStorageSync('unionId', clid)
             wx.setStorageSync('sessionKey', e.data[1])
-            that.globalData.clid = e.data[0]
+            that.globalData.clid = clid
           }
         })
       }
@@ -157,6 +159,8 @@ App({
       success: (e) => {
         console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        
         if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.AttNo = res.STAFFINFO.AttNo
