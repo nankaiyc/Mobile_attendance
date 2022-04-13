@@ -55,9 +55,18 @@ Page({
     that.setData({
       StaffList: [],
     })
+    console.log(app.punchRecordsArray)
     const departs = this.getAllDeparts(this.data.departmentIndex)
-    var DailyReports = app.punchRecordsArray.filter((val) => {return val.staffName.indexOf(name_searched)>=0 && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && name_searched!="" && departs.includes(val.deptId)})
+    var DailyReports = app.punchRecordsArray.filter((val) => {return (val.staffName.indexOf(name_searched)>=0 || name_searched=="") && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && departs.includes(val.deptId)})
     console.log(DailyReports)
+    if (DailyReports.length == 0) {
+      wx.showToast({
+        title: '无匹配出勤数据',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+
     for(var i in DailyReports) {
       var tempdic = {}
 //       console.log(DailyReports[i])
@@ -103,7 +112,7 @@ Page({
     })
     if (this.data.dateStart > this.data.dateEnd) {
       wx.showToast({
-        title: '李在干神魔',
+        title: '起始时间错误',
         icon: 'error',
         duration: 1500
       })
@@ -154,9 +163,12 @@ Page({
         console.log(res)
         let staffDepts = res.StaffDepts
         staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
+        if (staffDepts.length == 0) {
+          staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
+        }
         
         let subordinationDict = {}
-        let staffDeptNames = []
+        let staffDeptNames = ['全部']
         for (var i in staffDepts) {
           staffDeptNames.push(staffDepts[i].name)
           const curPid = staffDepts[i].pid
@@ -183,8 +195,14 @@ Page({
 
   getAllDeparts(i) {
     this.data.tmpDeparts = []
-    const curId = this.data.departmentObjectArray[i].id
-    this.getSubDeparts(curId)
+    if (i == 0) {
+      for (var j in this.data.departmentObjectArray) {
+        this.data.tmpDeparts.push(this.data.departmentObjectArray[j].id)
+      }
+    } else {
+      const curId = this.data.departmentObjectArray[i - 1].id
+      this.getSubDeparts(curId)
+    }
     return this.data.tmpDeparts
   },
 

@@ -36,6 +36,8 @@ Page({
     monthItem.withoutSalaryLeave = (monthItem.withoutSalaryLeave / 60).toFixed(2)
     monthItem.absentMinutes = (monthItem.absentMinutes / 60).toFixed(2)
     monthItem.absenteeismTime = (monthItem.absenteeismTime / 60).toFixed(2)
+    monthItem.attendancePercent = monthItem.attendancePercent.toFixed(1)
+    monthItem.absenteeismTime = (monthItem.absenteeismTime / 480).toFixed(2)
 
     let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {

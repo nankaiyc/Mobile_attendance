@@ -27,6 +27,7 @@ App({
     this.globalData.selectedArray = selectedArray ? JSON.parse(selectedArray) : []
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
+    this.globalData.lastCheckInTime = 0
 
     this.punchRecordsArray = []
     this.punchRecordsLastSyncTime = ''
@@ -196,6 +197,7 @@ App({
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
         if (res.RESULT == 0) {
+          that.globalData.lastCheckInTime = timestamp
           if (that.globalData.AppPhoto % 10 == 3) {
             that.postPhotoMode3(fileF, fileB, dateTimeP, punchRecord)
           } else if (that.globalData.AppPhoto % 10 == 2) {
