@@ -234,6 +234,15 @@ Page({
   },
 
   popUp() {
+    let timestamp = Date.parse(new Date())
+    timestamp = timestamp / 1000
+    if (timestamp - app.globalData.lastCheckInTime < 31) {
+      wx.showToast({
+        title: '请不要在30秒内频繁打卡',
+        icon: 'none'
+      })
+      return
+    }
     const that = this
     if (app.globalData.AppPhoto >= 10) {
       wx.showActionSheet({

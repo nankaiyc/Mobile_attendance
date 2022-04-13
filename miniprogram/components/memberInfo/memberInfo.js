@@ -132,7 +132,7 @@ Component({
       for (var item in this.data.subordinationArray[index]) {
         sum *= this.getStatus(this.data.subordinationArray[index][item])
       }
-      sum = sum==0?0:1
+      sum = (sum==0 || this.data.subordinationArray[index].length == 0)?0:1
       if (this.data.itemArray[index].selectStatus != sum && this.data.itemArray[index].selectStatus != 2) {
         let newItemArray = this.data.itemArray
         newItemArray[index].selectStatus = sum
@@ -383,18 +383,25 @@ Component({
           selectedArray.push(this.data.itemArray[i].staffId)
         }
       }
-      wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
-      app.globalData.selectedArray = selectedArray
-      wx.showModal({
-        title: '保存成功！',
-        success: (e) => {
-          if (e.confirm) {
-            wx.navigateBack({
-              delta: 0,
-            })
+      if (selectedArray.length == 0) {
+        wx.showToast({
+          title: '监管范围为空',
+          icon: 'error'
+        })
+      } else {
+        wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
+        app.globalData.selectedArray = selectedArray
+        wx.showModal({
+          title: '保存成功！',
+          success: (e) => {
+            if (e.confirm) {
+              wx.navigateBack({
+                delta: 0,
+              })
+            }
           }
-        }
-      })
+        })
+      }
     }
   },
 
