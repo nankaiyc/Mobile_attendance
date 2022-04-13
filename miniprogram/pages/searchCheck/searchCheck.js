@@ -160,9 +160,9 @@ Page({
       success: (e) => {
         console.log('success get' + 'staffdepts')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
-        let staffDepts = res.StaffDepts
-        staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
+
+        let staffDepts = []
+        staffDepts.push.apply(staffDepts, res.StaffqueryDepts?res.StaffqueryDepts:[])
         if (staffDepts.length == 0) {
           staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
         }
