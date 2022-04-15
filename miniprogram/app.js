@@ -77,10 +77,10 @@ App({
 
     var _p = {
       '_s': clid + timestamp,
-      'OS': this.globalData.system,
-      'OSVersion': this.globalData.version,
-      'MANU': this.globalData.brand,
-      'MODEL': this.globalData.model
+      'OS': this.globalData.OS,
+      'OSVersion': this.globalData.OSVersion,
+      'MANU': this.globalData.MANU,
+      'MODEL': this.globalData.MODEL
     }
 
     _p = JSON.stringify(_p)
