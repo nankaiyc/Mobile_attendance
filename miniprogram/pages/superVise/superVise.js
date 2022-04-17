@@ -317,7 +317,10 @@ Page({
       beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = app.dailyReportsLastSyncTime
+    const lastSyncTime = ''
+    if (this.data.isPullDown) {
+      lastSyncTime = app.dailyReportsLastSyncTime
+    }
     this.data.dailyReportsArray = app.dailyReportsArray
     this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
@@ -392,7 +395,10 @@ Page({
       beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = app.punchRecordsLastSyncTime
+    const lastSyncTime = ''
+    if (this.data.isPullDown) {
+      lastSyncTime = app.punchRecordsLastSyncTime
+    }
     this.data.punchRecordsArray = app.punchRecordsArray
     this.data.earliestDate = beginDate
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds)
