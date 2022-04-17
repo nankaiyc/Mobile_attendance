@@ -659,6 +659,16 @@ Page({
         })
         that.data.isLoading = false
         wx.hideLoading()
+        
+        if (that.data.isPullDown) {
+          that.data.isPullDown = false
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+            icon: 'none',
+            duration: 1500
+          })
+        }
       }
     })
   },
@@ -737,6 +747,8 @@ Page({
     this.data.isPullDown = true
     if (this.data.tabs[0].isActive) {
       this.getDailyReports(this.data.staffIds)
+    } else if (this.data.tabs[1].isActive) {
+      this.getInstantReport()
     } else if (this.data.tabs[2].isActive) {
       this.getMonthlyReports(this.data.month, this.data.staffIds)
     }
