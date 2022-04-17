@@ -95,6 +95,7 @@ Page({
       pid = '0' + '\t' + this.data.locationName + '@' + this.data.latitude + ',' + this.data.longitude
     }
     const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
+    console.log(item)
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')
