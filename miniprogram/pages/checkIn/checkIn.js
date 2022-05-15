@@ -273,6 +273,14 @@ Page({
         wx.hideLoading({})
         that.data.isLoading = false
       }
+      if (data.errMsg == 'getLocation:fail:ERROR_NETWORK') {
+        wx.hideLoading({})
+        that.data.isLoading = false
+        wx.showToast({
+          title: '网络异常！',
+          icon: 'error'
+        })
+      }
       console.log(data);
       wx.getSetting({
         success: res => {
