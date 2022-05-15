@@ -9,7 +9,7 @@
     </view>
     <view class="time_tab_content" style="width: {{screenWidth}}px;" wx:for="{{StaffList}}" wx:key="index" bindtap="DailyReport_Detail" data-name = "{{item.name}}" data-staffId = "{{item.staffId}}">
       <view class="default_user" >
-        <image src="../../resource/default_user_icon.png" mode="heightFix" class="user_icon"/>
+        <image src="../../resource/default_user_icon.png" mode="scaleToFill" class="user_icon"/>
         <view class="Name">{{item.name}}</view>
         <view class="Company">{{item.company}}</view>
       </view>
@@ -22,7 +22,7 @@
 
     <view class="report_content" wx:for="{{ReportList}}" wx:key="index">
       <view class="default_msg" bindtap="handleReportTapped" data-index="{{index}}">
-        <image src="{{item.Isread?'../../resource/msg_read.png':'../../resource/msg_unread.png'}}" mode="widthFix" class="msg_unread"/>     
+        <image src="{{item.Isread?'../../resource/msg_read.png':'../../resource/msg_unread.png'}}" mode="scaleToFill" class="msg_unread"/>     
         <view class="instant_report">
           <view class="Time">平台订签到报告({{item.time}})</view>
           <view class="Content">{{item.content}}</view>
@@ -48,7 +48,7 @@
     <view class="month_body">
         <view class="month_item" wx:for="{{monthlyReportsArray}}" wx:key="index" style="width: {{screenWidth - 50}}px;" bindtap="MonthlyReport_Detail" data-index = "{{index}}" wx:if="{{item.isShow}}">
           <view class="person_info">
-            <image src="../../resource/default_user_icon.png" mode="widthFix" class="month_person_img"/>
+            <image src="../../resource/default_user_icon.png" mode="scaleToFill" class="month_person_img"/>
             <view class="month_person_name">{{item.staffName}}</view>
             <view class="month_person_dept">{{item.deptName}}</view>
           </view>
@@ -60,11 +60,11 @@
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deeppink;"></view>
-              <view class="month_item_ls_text">缺勤次数/时长：{{item.absenteeismTimes}}次/{{item.absenteeismTime}}m</view>
+              <view class="month_item_ls_text">缺勤次数/时长：{{item.absenteeismTimes}}次/{{item.absenteeismTime}}h</view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deepskyblue;"></view>
-              <view class="month_item_ls_text">请假次数/时长：{{item.withSalaryLeaveTimes + item.withoutSalaryLeaveTimes}}次/{{item.withoutSalaryLeave + item.withSalaryLeave}}m</view>
+              <view class="month_item_ls_text">请假次数/时长：{{item.withSalaryLeaveTimes + item.withoutSalaryLeaveTimes}}次/{{item.LeaveTime}}h</view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: darkkhaki;"></view>

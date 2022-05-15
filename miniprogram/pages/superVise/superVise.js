@@ -202,7 +202,7 @@ Page({
                 'staffName': dailyReportsArrayForCurMonth[i].staffName,
                 'deptName': dailyReportsArrayForCurMonth[i].deptName,
                 'attendanceDays': dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0,
-                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].actualAttandence,
+                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].actualAttandence==0?0:1,
                 'withSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes,
                 'withSalaryLeave': dailyReportsArrayForCurMonth[i].leavewithpayTime,
                 'withoutSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes,
@@ -227,7 +227,7 @@ Page({
               monthlyReportsForCurMonth.push(newItem)
             } else {
               curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
-              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].actualAttandence
+              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].actualAttandence==0?0:1
               curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
               curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
               curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
@@ -259,6 +259,8 @@ Page({
         
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
+          newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
+          newArray[i].LeaveTime = ((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2)
         }
         that.setData({
           monthlyReportsArray: newArray
@@ -317,7 +319,7 @@ Page({
       beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = ''
+    let lastSyncTime = ''
     if (this.data.isPullDown) {
       lastSyncTime = app.dailyReportsLastSyncTime
     }
@@ -395,7 +397,7 @@ Page({
       beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = ''
+    let lastSyncTime = ''
     if (this.data.isPullDown) {
       lastSyncTime = app.punchRecordsLastSyncTime
     }

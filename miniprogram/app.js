@@ -36,12 +36,12 @@ App({
 
     var clid = wx.getStorageSync('unionId')
     // var clid = CryptoJS.Md5('/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo=')
-    if (!clid) {
+    if (!clid || clid.length != 32) {
       this.login()
     } else {
       this.globalData.clid = clid
     }
-
+    console.log(clid)
   },
 
   login() {

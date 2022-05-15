@@ -1,7 +1,8 @@
 /* components/Tabs/Tabs.wxss */
-/* .tabs{
-
-} */
+.tabs{
+  width: 100%;
+  overflow-x: hidden;
+}
 
 .tabs_title{
   display: flex;
