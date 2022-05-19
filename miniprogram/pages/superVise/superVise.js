@@ -250,7 +250,7 @@ Page({
           }
 
           for (var i in monthlyReportsForCurMonth) {
-            monthlyReportsForCurMonth[i].attendancePercent = monthlyReportsForCurMonth[i].actualAttendanceDays / monthlyReportsForCurMonth[i].attendanceDays
+            monthlyReportsForCurMonth[i].attendancePercent = monthlyReportsForCurMonth[i].actualAttendanceDays / monthlyReportsForCurMonth[i].attendanceDays * 100
           }
 
           newArray.push.apply(newArray, monthlyReportsForCurMonth)
@@ -320,10 +320,12 @@ Page({
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
     let lastSyncTime = ''
-    if (this.data.isPullDown) {
+    if (this.data.isPullDown || beginDate >= app.eailisetDate) {
       lastSyncTime = app.dailyReportsLastSyncTime
     }
     this.data.dailyReportsArray = app.dailyReportsArray
+    app.eailisetDate = app.eailisetDate>beginDate?beginDate:app.eailisetDate
+
     this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
@@ -398,11 +400,13 @@ Page({
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
     let lastSyncTime = ''
-    if (this.data.isPullDown) {
+    if (this.data.isPullDown || beginDate >= app.eailisetDate) {
       lastSyncTime = app.punchRecordsLastSyncTime
     }
     this.data.punchRecordsArray = app.punchRecordsArray
     this.data.earliestDate = beginDate
+    app.eailisetDate = app.eailisetDate>beginDate?beginDate:app.eailisetDate
+
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
@@ -438,7 +442,7 @@ Page({
       success: (e) => {
         console.log('success get' + 'punchRecords ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        
+
         that.data.punchRecordsArray.push.apply(that.data.punchRecordsArray, res.AttRecords)
         
         const newArray = that.data.punchRecordsArray

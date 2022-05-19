@@ -33,6 +33,7 @@ App({
     this.punchRecordsLastSyncTime = ''
     this.dailyReportsArray = []
     this.dailyReportsLastSyncTime = ''
+    this.eailisetDate = ''
 
     var clid = wx.getStorageSync('unionId')
     // var clid = CryptoJS.Md5('/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo=')
