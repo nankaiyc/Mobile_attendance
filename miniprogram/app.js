@@ -100,9 +100,15 @@ App({
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
-
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
+          var GPS = res.GPS;
+          for (var i = 0; i < GPS.length; i++){
+            var bdMapToTxMap = this.convert2TecentMap(GPS[i].location.lng,GPS[i].location.lat);
+            console.log('百度坐标转换成腾讯坐标：',bdMapToTxMap);
+				    GPS[i].location.lng = bdMapToTxMap.lng;
+				    GPS[i].location.lat = bdMapToTxMap.lat;
+          }
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.AttNo = res.STAFFINFO.AttNo
@@ -127,6 +133,28 @@ App({
       }
     })
   },
+
+  	//百度坐标转换成腾讯坐标
+	convert2TecentMap(lng, lat){
+		if (lng == '' && lat == '') {
+			return {
+				lng: '',
+				lat: ''
+			}
+		}
+		var x_pi = 3.14159265358979324 * 3000.0 / 180.0
+		var x = lng - 0.0065
+		var y = lat - 0.006
+		var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi)
+		var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi)
+		var txlng = z * Math.cos(theta);
+		var txlat = z * Math.sin(theta);
+		var location = {
+			lng:txlng,
+			lat:txlat
+		}
+		return location
+	},
 
   register(code) {
     const that = this
