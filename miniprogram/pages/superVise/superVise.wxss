@@ -196,7 +196,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 400rpx;
+  width: 420rpx;
 }
 
 .month_item_ls_item {

@@ -7,13 +7,13 @@
 
 <view class="daily_report">
   <view class="group">
-    <view class="report">应出勤{{dailyReportsArray[0].shouldAttandenceDay?dailyReportsArray[0].shouldAttandenceDay:0}}天，实际出勤{{dailyReportsArray[0].ondutyDaysFromWorkTime}}天</view>
+    <view class="report">应出勤{{dailyReportsArray[0].shouldAttandence?dailyReportsArray[0].shouldAttandenceDay:0}}天，实际出勤{{dailyReportsArray[0].actualAttandence?1:0}}天</view>
   </view>
   <view class="group">
     <view class="report">有薪假共{{dailyReportsArray[0].leavewithpayTime}}h，无薪假共{{dailyReportsArray[0].leavenopayTime}}h</view>
   </view>
   <view class="group">
-    <view class="report">平常加班：{{dailyReportsArray[0].usuallyOverTimes}}h</view>
+    <view class="report">平常加班：{{dailyReportsArray[0].overtimeTime}}h</view>
     <view class="report">休日加班：{{dailyReportsArray[0].restOverTimes}}h</view>
     <view class="report">假日加班：{{dailyReportsArray[0].holidayOverTimes}}h</view>
   </view>
@@ -26,7 +26,7 @@
   </view>
   <view class="group">
     <view class="report">班次：{{dailyReportsArray[0].workTurnName?dailyReportsArray[0].workTurnName:'无班次'}}</view>
-    <view class="report" wx:if="{{dailyReportsArray[0].workTurnName}}">时段：{{dailyReportsArray[0].workTurnNo}}</view>
+    <view class="report" wx:if="{{dailyReportsArray[0].workTurnNo}}">时段：{{dailyReportsArray[0].workTurnNo}}</view>
     <view wx:if="{{IsSignIn}}" class="report">签到：{{dailyReportsArray[0].signinTime}}  签退：{{dailyReportsArray[0].logoutTime?dailyReportsArray[0].logoutTime:'缺卡'}}</view>
     <view class="report" wx:if="{{!IsSignIn}}" style="color: red;">没有打卡记录</view>
   </view>

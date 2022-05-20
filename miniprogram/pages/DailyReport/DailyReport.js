@@ -33,6 +33,8 @@ Page({
     dailyReportsArray[0].actualNotduty = (dailyReportsArray[0].actualNotduty / 60).toFixed(2)
     dailyReportsArray[0].absenteeism = (dailyReportsArray[0].absenteeism / 60).toFixed(2)
     dailyReportsArray[0].leavewithpayTime = (dailyReportsArray[0].leavewithpayTime / 60).toFixed(2)
+    dailyReportsArray[0].lateTime = (dailyReportsArray[0].lateTime / 60).toFixed(2)
+    dailyReportsArray[0].overtimeTime = (dailyReportsArray[0].overtimeTime / 60).toFixed(2)
     that.setData({
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
