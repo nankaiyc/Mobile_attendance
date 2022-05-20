@@ -45,12 +45,14 @@ Page({
     })
     for (var i in dailyReportsArray) {
       if (!dailyReportsArray[i].workTurnName) {
-        dailyReportsArray[i].condition = '未指定班次'
+        // dailyReportsArray[i].condition = '未指定班次'
       } else {
         dailyReportsArray[i].condition = ''
         dailyReportsArray[i].extraWorking = false
         if (!dailyReportsArray[i].signinTime) {
-          // dailyReportsArray[i].condition += '缺勤 '
+          if (dailyReportsArray[i].shouldAttandence) {
+            dailyReportsArray[i].condition += '缺勤 '
+          }
         } else {
           if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
             dailyReportsArray[i].condition += '迟到 '
@@ -58,10 +60,10 @@ Page({
         }
 
         if (!dailyReportsArray[i].logoutTime) {
-          dailyReportsArray[i].condition += '缺勤 '
+          // dailyReportsArray[i].condition += '缺勤 '
         } else {
           if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
-            dailyReportsArray[i].condition += '早退 '
+            // dailyReportsArray[i].condition += '早退 '
           } 
           if (dailyReportsArray[i].logoutTime.substring(0, 2) > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')') - 3)) {
             dailyReportsArray[i].extraWorking = true
@@ -77,6 +79,8 @@ Page({
       dailyReportsArray[i].restOvertime = (dailyReportsArray[i].restOvertime / 60).toFixed(2)
       dailyReportsArray[i].holidayOvertime = (dailyReportsArray[i].holidayOvertime / 60).toFixed(2)
     }
+    dailyReportsArray.reverse()
+    
     console.log(monthItem, dailyReportsArray)
     that.setData({
       screenHeight: app.globalData.screenHeight,

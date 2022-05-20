@@ -22,7 +22,7 @@
     <view class="report">迟到次数/时长：{{monthItem.lateTimes}}次/{{monthItem.lateMinutes}}m</view>
     <view class="report">早退次数/时长：{{monthItem.leaveEarlyTimes}}次/{{monthItem.leaveEarlyMinutes}}m</view>
     <view class="report">缺勤次数/时长：<text style="font-weight: 700; {{monthItem.absentTimes==0?'':'color: red;'}}">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes}}h</text></view>
-    <view class="report">旷工次数/时长：<text style="font-weight: 700; {{monthItem.absenteeismTimes==0?'':'color: red;'}}">{{monthItem.absenteeismTimes}}次/{{monthItem.absenteeismTime}}h</text></view>
+    <view class="report">旷工次数/时长：<text style="font-weight: 700; {{monthItem.absenteeismTimes==0?'':'color: red;'}}">{{monthItem.absenteeismTimes}}次/{{monthItem.absentMinutes}}h</text></view>
     <view class="report">缺卡次数：<text style="font-weight: 700; {{monthItem.lackCheckCardTime==0?'':'color: red;'}}">{{monthItem.lackCheckCardTime}}次</text></view>
   </view>
 <view class="daily_date">日报数据</view>
@@ -37,16 +37,21 @@
   </view>
   <view class="daterecord" >
     <view class="condition">
-      <view style="color: red;">
+      <view style="{{item.condition=='无异常'?'':'color: red;'}}">
         {{item.condition}}
       </view>
-      <view style="color: blue; margin-left: 5rpx;" wx:if="{{item.extraWorking}}">
+      <view style="color: blue; margin-left: 5rpx;" wx:if="{{item.overtimeTime}}">
         加班
       </view>
     </view>
     <view class="classes">
       <view>
-        班次：{{item.workTurnName?item.workTurnNo:'无班次'}}
+        班次：{{item.workTurnName?item.workTurnName:'无班次'}}
+      </view>
+    </view>
+    <view class="classes">
+      <view>
+        时段：{{item.workTurnNo}}
       </view>
     </view>
     <view class="record">

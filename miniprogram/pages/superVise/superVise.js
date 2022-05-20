@@ -261,6 +261,11 @@ Page({
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
           newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
           newArray[i].LeaveTime = ((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2)
+          newArray[i].usuallyOvertime = (newArray[i].usuallyOvertime / 60).toFixed(2)
+          newArray[i].holidayOvertime = (newArray[i].holidayOvertime / 60).toFixed(2)
+          newArray[i].restOvertime = (newArray[i].restOvertime / 60).toFixed(2)
+          newArray[i].lateMinutes = (newArray[i].lateMinutes / 60).toFixed(2)
+          newArray[i].lateAndLEMinutes = ((newArray[i].lateMinutes + newArray[i].leaveEarlyMinutes) / 1).toFixed(1)
         }
         that.setData({
           monthlyReportsArray: newArray

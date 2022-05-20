@@ -56,7 +56,7 @@
           <view class="month_item_ls">
             <view class="month_item_ls_item" style="margin-top: 0;">
               <view class="month_item_ls_block" style="background: gold;"></view>
-              <view class="month_item_ls_text">迟到早退次数/时长：{{item.lateTimes + item.leaveEarlyTimes}}次/{{item.lateMinutes + item.leaveEarlyMinutes}}m</view>
+              <view class="month_item_ls_text">迟到早退次数/时长：{{item.lateTimes + item.leaveEarlyTimes}}次/{{item.lateAndLEMinutes}}m</view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deeppink;"></view>
