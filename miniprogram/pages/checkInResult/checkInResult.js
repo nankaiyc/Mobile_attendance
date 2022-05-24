@@ -39,7 +39,7 @@ Page({
       this.completeUp(item.address, item.latitude, item.longitude)
     } else {
       wx.navigateTo({
-        url: '../../pages/transferToCamera/transferToCamera?positioned=false&LocationName=' + item.address + '&latitude=' + item.latitude + '&longitude=' + item.longitude,
+        url: '../../pages/transferToCamera/transferToCamera?positioned=false&LocationName=' + item.title + '&latitude=' + item.latitude + '&longitude=' + item.longitude,
       })
     }
   },
