@@ -44,8 +44,8 @@ Page({
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
     })
     for (var i in dailyReportsArray) {
-      if (!dailyReportsArray[i].workTurnName) {
-        // dailyReportsArray[i].condition = '未指定班次'
+      if (dailyReportsArray[i].leaveTypeName) {
+        dailyReportsArray[i].condition = dailyReportsArray[i].leaveTypeName
       } else {
         dailyReportsArray[i].condition = ''
         dailyReportsArray[i].extraWorking = false
@@ -78,6 +78,8 @@ Page({
       dailyReportsArray[i].usuallyOvertime = (dailyReportsArray[i].usuallyOvertime / 60).toFixed(2)
       dailyReportsArray[i].restOvertime = (dailyReportsArray[i].restOvertime / 60).toFixed(2)
       dailyReportsArray[i].holidayOvertime = (dailyReportsArray[i].holidayOvertime / 60).toFixed(2)
+      dailyReportsArray[i].leaveWithPayDay = (dailyReportsArray[i].leaveWithPayDay * 8).toFixed(2)
+      dailyReportsArray[i].leaveWithNoPayDay = (dailyReportsArray[i].leaveWithNoPayDay * 8).toFixed(2)
     }
     dailyReportsArray.reverse()
     

@@ -85,7 +85,7 @@
 }
 .condition{
   font-size: 30rpx;
-  font-weight: 700;
+  font-weight: 520;
   margin-top: 5rpx;
   display: flex;
   flex-direction: row;
