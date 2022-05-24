@@ -202,17 +202,17 @@ Page({
                 'staffName': dailyReportsArrayForCurMonth[i].staffName,
                 'deptName': dailyReportsArrayForCurMonth[i].deptName,
                 'attendanceDays': dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0,
-                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].actualAttandence==0?0:1,
+                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].ondutyDays,
                 'withSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes,
                 'withSalaryLeave': dailyReportsArrayForCurMonth[i].leavewithpayTime,
                 'withoutSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes,
                 'withoutSalaryLeave': dailyReportsArrayForCurMonth[i].leavenopayTime,
-                'lateTimes': dailyReportsArrayForCurMonth[i].lateTimes,
+                'lateTimes': dailyReportsArrayForCurMonth[i].lateTime?1:0,
                 'lateMinutes': dailyReportsArrayForCurMonth[i].lateTime,
-                'usuallyOvertime': dailyReportsArrayForCurMonth[i].usuallyOverTimes?dailyReportsArrayForCurMonth[i].usuallyOverTimes:0,
+                'usuallyOvertime': dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0,
                 'restOvertime': dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0,
                 'holidayOvertime': dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0,
-                'leaveEarlyTimes': dailyReportsArrayForCurMonth[i].leaveEarlyTimes,
+                'leaveEarlyTimes': dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0,
                 'leaveEarlyMinutes': dailyReportsArrayForCurMonth[i].leaveearlyTime,
                 // 'absentTimes': dailyReportsArrayForCurMonth[i].absentTimes,
                 'absentTimes': dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0,
@@ -227,17 +227,17 @@ Page({
               monthlyReportsForCurMonth.push(newItem)
             } else {
               curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
-              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].actualAttandence==0?0:1
+              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].ondutyDays
               curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
               curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
               curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
               curArray[0].withoutSalaryLeave += dailyReportsArrayForCurMonth[i].leavenopayTime
-              curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTimes
+              curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTime?1:0
               curArray[0].lateMinutes += dailyReportsArrayForCurMonth[i].lateTime
-              curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].usuallyOverTimes?dailyReportsArrayForCurMonth[i].usuallyOverTimes:0
+              curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0
               curArray[0].restOvertime += dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0
               curArray[0].holidayOvertime += dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0
-              curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveEarlyTimes
+              curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0
               curArray[0].leaveEarlyMinutes += dailyReportsArrayForCurMonth[i].leaveearlyTime
               curArray[0].absentTimes += dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0
               curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
