@@ -303,6 +303,7 @@ Page({
                           icon: 'none'
                         });
                       }
+                      that.data.isLoading = false
                     }
                   });
                 }
