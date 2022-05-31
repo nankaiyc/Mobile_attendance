@@ -49,13 +49,19 @@ Page({
       } else {
         dailyReportsArray[i].condition = ''
         dailyReportsArray[i].extraWorking = false
-        if (!dailyReportsArray[i].signinTime) {
-          if (dailyReportsArray[i].shouldAttandence) {
-            dailyReportsArray[i].condition += '缺勤 '
-          }
-        } else {
-          if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
-            dailyReportsArray[i].condition += '迟到 '
+
+        if (!(dailyReportsArray[i].workType && dailyReportsArray[i].workType.includes('休息'))) {
+          if (!dailyReportsArray[i].signinTime) {
+            if (dailyReportsArray[i].shouldAttandence) {
+              dailyReportsArray[i].condition += '缺勤 '
+            }
+            if (dailyReportsArray[i].logoutTime) {
+              dailyReportsArray[i].condition += '缺少打卡记录 '
+            }
+          } else {
+            if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
+              dailyReportsArray[i].condition += '迟到 '
+            }
           }
         }
 
@@ -69,10 +75,10 @@ Page({
             dailyReportsArray[i].extraWorking = true
           } 
         } 
+      }
 
-        if (dailyReportsArray[i].condition == '') {
-          dailyReportsArray[i].condition = '无异常'
-        }
+      if (dailyReportsArray[i].condition == '') {
+        dailyReportsArray[i].condition = '无异常'
       }
 
       dailyReportsArray[i].usuallyOvertime = (dailyReportsArray[i].usuallyOvertime / 60).toFixed(2)
