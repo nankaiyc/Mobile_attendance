@@ -319,9 +319,14 @@ Page({
       beginDate = util.formatDateLine(dateTime)
       console.log(beginDate)
     } else {
-      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
-      beginDate = util.formatDateLine(lastM)
-      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+      var nowdays = new Date();
+      var year = nowdays.getFullYear();
+      var month = nowdays.getMonth();
+      if (month == 0) {
+          month = 12;
+          year = year - 1;
+      }
+      beginDate = year + '-' + month + '-01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
     let lastSyncTime = ''
@@ -399,9 +404,14 @@ Page({
       dateTime.setDate(dateTime.getDate()-10)
       beginDate = util.formatDateLine(dateTime)
     } else {
-      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
-      beginDate = util.formatDateLine(lastM)
-      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+      var nowdays = new Date();
+      var year = nowdays.getFullYear();
+      var month = nowdays.getMonth();
+      if (month == 0) {
+          month = 12;
+          year = year - 1;
+      }
+      beginDate = year + '-' + month + '-01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
     let lastSyncTime = ''
