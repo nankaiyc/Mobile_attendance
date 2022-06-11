@@ -74,10 +74,12 @@ Page({
       BMap.search({
         success: (e) => {
           const res = e.wxMarkerData
+          res.sort((a, b) => {return a.distance - b.distance})
+
           let nameArray = []
           for (var i in res) {
             nameArray.push(res[i].title)
-            if (i >= 4) {
+            if (i >= 6) {
               break
             }
           }
