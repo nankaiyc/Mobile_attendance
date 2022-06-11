@@ -4,6 +4,7 @@
  * @update 邓淑芳 623996689@qq.com 2019.07.03
  */
 
+var util = require('util.js')
 /**
  * 百度地图微信小程序API类
  *
@@ -56,7 +57,7 @@ class BMapWX {
         scope: param["scope"] || 1,
         filter: param["filter"] || '',
         coord_type: param["coord_type"] || 2,
-        page_size: param["page_size"] || 10,
+        page_size: param["page_size"] || 20,
         page_num: param["page_num"] || 0,
         output: param["output"] || 'json',
         ak: that.ak,
@@ -106,7 +107,8 @@ class BMapWX {
                   telephone: poiArr[i]["telephone"],
                   alpha: otherparam["alpha"],
                   width: otherparam["width"],
-                  height: otherparam["height"]
+                  height: otherparam["height"],
+                  distance: util.getdistance(poiArr[i]["location"]["lat"], poiArr[i]["location"]["lng"], result["latitude"], result["longitude"])
                 }
               }
               otherparam.success(outputRes);

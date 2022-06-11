@@ -716,7 +716,6 @@ Page({
     wx.setStorageSync('instantReportArray', JSON.stringify(this.data.ReportList))
   },
 
-  
   getEmployees() {
     const that = this
     var clid = app.globalData.clid
@@ -755,8 +754,27 @@ Page({
           }
         }
 
+        console.log(that.data.staffIds, staffIds)
+        if (that.data.staffIds && that.data.staffIds != staffIds) {
+          that.data.earliestDate = ''
+          app.punchRecordsArray = []
+          app.punchRecordsLastSyncTime = ''
+          app.dailyReportsArray = []
+          app.dailyReportsLastSyncTime = ''
+          app.eailisetDate = ''
+
+          console.log('staffIds changed')
+        }
+
         that.data.staffIds = staffIds
-        that.getDailyReports(staffIds)
+
+        if (that.data.tabs[0].isActive) {
+          that.getDailyReports(that.data.staffIds)
+        } else if (that.data.tabs[1].isActive) {
+          that.getInstantReport()
+        } else if (that.data.tabs[2].isActive) {
+          that.getMonthlyReports(that.data.month, that.data.staffIds)
+        }
       }
     })
   },
@@ -772,25 +790,20 @@ Page({
 
   onPullDownRefresh: function (options) {
     this.data.isPullDown = true
-    if (this.data.tabs[0].isActive) {
-      this.getDailyReports(this.data.staffIds)
-    } else if (this.data.tabs[1].isActive) {
-      this.getInstantReport()
-    } else if (this.data.tabs[2].isActive) {
-      this.getMonthlyReports(this.data.month, this.data.staffIds)
-    }
+    this.getEmployees()
   },
   
   onShow: function (options) {
     this.setData({
       selectedArray: app.globalData.selectedArray
     })
-    if (this.data.tabs[0].isActive) {
-      this.getDailyReportsByDate(this.data.date)
-    } else if (this.data.tabs[1].isActive) {
-      this.getInstantReport()
-    } else if (this.data.tabs[2].isActive) {
-      this.getMonthlyReports(this.data.month, this.data.staffIds)
-    }
+    this.getEmployees()
+    // if (this.data.tabs[0].isActive) {
+    //   this.getDailyReportsByDate(this.data.date)
+    // } else if (this.data.tabs[1].isActive) {
+    //   this.getInstantReport()
+    // } else if (this.data.tabs[2].isActive) {
+    //   this.getMonthlyReports(this.data.month, this.data.staffIds)
+    // }
   }
 })

@@ -11,6 +11,7 @@ page {
   align-items: center;
   width: 100%;
   overflow-x: hidden;
+  margin-bottom: 5%;
 }
 
 .Attendance_method{
@@ -102,8 +103,15 @@ page {
 }
 .BussinessText{
   position: fixed;
-  bottom: 5%;
+  bottom: 0;
   color: #4BBFE6;
   font-size: 30rpx;
   font-weight: 400;
+  width: 100%;
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: white;
 }
