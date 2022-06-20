@@ -59,9 +59,8 @@ Page({
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
     if (index == 1) {
       this.getInstantReport()
-    }
-    if (index == 2) {
-      this.getMonthlyReports(this.data.month, this.data.staffIds)
+    } else {
+      this.getEmployees()
     }
     this.setData({
       tabs
@@ -356,6 +355,8 @@ Page({
       'endDate': endDate,
       'staffIds': staffIds
     }
+    console.log('getDailyReports', _p)
+
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
     wx.request({
@@ -369,6 +370,7 @@ Page({
       success: (e) => {
         console.log('success get' + 'dailyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
         
         const newArray = that.data.dailyReportsArray
@@ -550,7 +552,7 @@ Page({
       week: WEEK,
       month: MONTH,
     })
-    this.getEmployees()
+    // this.getEmployees()
   },
   subDate(){
     if (this.data.isLoading) {
@@ -746,6 +748,7 @@ Page({
         console.log('success get' + 'employees')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
 
+        console.log(res)
         let staffIds = ''
         for (var i in res.Employees) {
           staffIds += res.Employees[i].staffId
@@ -773,6 +776,7 @@ Page({
         } else if (that.data.tabs[1].isActive) {
           that.getInstantReport()
         } else if (that.data.tabs[2].isActive) {
+          that.getDailyReports(that.data.staffIds)
           that.getMonthlyReports(that.data.month, that.data.staffIds)
         }
       }

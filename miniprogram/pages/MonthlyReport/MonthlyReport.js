@@ -43,6 +43,8 @@ Page({
     dailyReportsArray = dailyReportsArray.filter((val) => {
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
     })
+
+    console.log(dailyReportsArray)
     for (var i in dailyReportsArray) {
       if (dailyReportsArray[i].leaveTypeName) {
         dailyReportsArray[i].condition = dailyReportsArray[i].leaveTypeName
@@ -59,7 +61,7 @@ Page({
               dailyReportsArray[i].condition += '缺少打卡记录 '
             }
           } else {
-            if (dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
+            if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].signinTime > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('(') + 1, dailyReportsArray[i].workTurnNo.indexOf('-'))) {
               dailyReportsArray[i].condition += '迟到 '
             }
           }
@@ -68,10 +70,10 @@ Page({
         if (!dailyReportsArray[i].logoutTime) {
           // dailyReportsArray[i].condition += '缺勤 '
         } else {
-          if (dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
+          if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
             // dailyReportsArray[i].condition += '早退 '
           } 
-          if (dailyReportsArray[i].logoutTime.substring(0, 2) > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')') - 3)) {
+          if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].logoutTime.substring(0, 2) > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')') - 3)) {
             dailyReportsArray[i].extraWorking = true
           } 
         } 

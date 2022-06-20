@@ -54,8 +54,8 @@ class BMapWX {
       param = param || {};
       let searchparam = {
         query: param["query"] || '生活服务$美食&酒店',
-        scope: param["scope"] || 1,
-        filter: param["filter"] || '',
+        scope: param["scope"] || 2,
+        filter: param["filter"] || 'sort_name:distance|sort_rule:1',
         coord_type: param["coord_type"] || 2,
         page_size: param["page_size"] || 20,
         page_num: param["page_num"] || 0,
@@ -108,7 +108,7 @@ class BMapWX {
                   alpha: otherparam["alpha"],
                   width: otherparam["width"],
                   height: otherparam["height"],
-                  distance: util.getdistance(poiArr[i]["location"]["lat"], poiArr[i]["location"]["lng"], result["latitude"], result["longitude"])
+                  // distance: util.getdistance(poiArr[i]["location"]["lat"], poiArr[i]["location"]["lng"], result["latitude"], result["longitude"])
                 }
               }
               otherparam.success(outputRes);
