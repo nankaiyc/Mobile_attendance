@@ -74,7 +74,7 @@ Page({
       BMap.search({
         success: (e) => {
           const res = e.wxMarkerData
-          res.sort((a, b) => {return a.distance - b.distance})
+          // res.sort((a, b) => {return a.distance - b.distance})
 
           let nameArray = []
           for (var i in res) {
@@ -87,6 +87,7 @@ Page({
             nameArray: nameArray,
             poiArray: res
           })
+          console.log(res, nameArray)
         }
       })
     }
