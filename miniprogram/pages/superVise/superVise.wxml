@@ -56,11 +56,17 @@
           <view class="month_item_ls">
             <view class="month_item_ls_item" style="margin-top: 0;">
               <view class="month_item_ls_block" style="background: gold;"></view>
-              <view class="month_item_ls_text">迟到早退次数/时长：{{item.lateTimes + item.leaveEarlyTimes}}次/{{item.lateAndLEMinutes}}m</view>
+              <view class="month_item_ls_text">迟到早退次数/时长：
+                <text style="{{item.lateTimes + item.leaveEarlyTimes == 0?'':'color: red'}}">{{item.lateTimes + item.leaveEarlyTimes}}次</text>/
+                <text style="{{item.lateAndLEMinutes == 0?'':'color: red'}}">{{item.lateAndLEMinutes}}m</text>
+              </view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deeppink;"></view>
-              <view class="month_item_ls_text">缺勤次数/时长：{{item.absenteeismTimes}}次/{{item.absenteeismTime}}h</view>
+              <view class="month_item_ls_text">缺勤次数/时长：
+                <text style="{{item.absenteeismTimes == 0?'':'color: red'}}">{{item.absenteeismTimes}}次</text>/
+                <text style="{{item.absenteeismTime == 0?'':'color: red'}}">{{item.absenteeismTime}}h</text>
+              </view>
             </view>
             <view class="month_item_ls_item">
               <view class="month_item_ls_block" style="background: deepskyblue;"></view>

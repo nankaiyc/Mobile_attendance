@@ -13,16 +13,32 @@
     <view class="report">有薪假共{{dailyReportsArray[0].leavewithpayTime}}h，无薪假共{{dailyReportsArray[0].leavenopayTime}}h</view>
   </view>
   <view class="group">
-    <view class="report">平常加班：{{dailyReportsArray[0].overtimeTime}}h</view>
-    <view class="report">休日加班：{{dailyReportsArray[0].restOverTimes}}h</view>
-    <view class="report">假日加班：{{dailyReportsArray[0].holidayOverTimes}}h</view>
+    <view class="report">平常加班：
+      <text style="{{dailyReportsArray[0].overtimeTime=='0.00'?'':'color: blue'}}">{{dailyReportsArray[0].overtimeTime}}h</text>
+    </view>
+    <view class="report">休日加班：
+      <text style="{{dailyReportsArray[0].restOverTimes=='0.00'?'':'color: blue'}}">{{dailyReportsArray[0].restOverTimes}}h</text>
+    </view>
+    <view class="report">假日加班：
+      <text style="{{dailyReportsArray[0].holidayOverTimes=='0.00'?'':'color: blue'}}">{{dailyReportsArray[0].holidayOverTimes}}h</text>
+    </view>
   </view>
   <view class="group">
-    <view class="report">迟到时长：{{dailyReportsArray[0].lateTime}}m</view>
-    <view class="report">早退时长：{{dailyReportsArray[0].leaveearlyTime}}m</view>
-    <view class="report">缺勤时长：{{dailyReportsArray[0].actualNotduty}}h</view>
-    <view class="report">旷工时长：{{dailyReportsArray[0].absenteeism}}h</view>
-    <view class="report">缺卡次数：{{dailyReportsArray[0].lackCheckCardTime}}次</view>
+    <view class="report">迟到时长：
+      <text style="{{dailyReportsArray[0].lateTime=='0.00'?'':'color: red'}}">{{dailyReportsArray[0].lateTime}}m</text>
+    </view>
+    <view class="report">早退时长：
+      <text style="{{dailyReportsArray[0].leaveearlyTime=='0.00'||dailyReportsArray[0].leaveearlyTime==0?'':'color: red'}}">{{dailyReportsArray[0].leaveearlyTime}}m</text>
+    </view>
+    <view class="report">缺勤时长：
+      <text style="{{dailyReportsArray[0].actualNotduty=='0.00'?'':'color: red'}}">{{dailyReportsArray[0].actualNotduty}}h</text>
+    </view>
+    <view class="report">缺勤时长：
+      <text style="{{dailyReportsArray[0].absenteeism=='0.00'?'':'color: red'}}">{{dailyReportsArray[0].absenteeism}}h</text>
+    </view>
+    <view class="report">缺卡次数：
+      <text style="{{dailyReportsArray[0].lackCheckCardTime==0?'':'color: red'}}">{{dailyReportsArray[0].lackCheckCardTime}}次</text>
+    </view>
   </view>
   <view class="group">
     <view class="report">班次：{{dailyReportsArray[0].workTurnName?dailyReportsArray[0].workTurnName:'无班次'}}</view>

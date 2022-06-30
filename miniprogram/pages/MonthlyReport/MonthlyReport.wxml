@@ -14,13 +14,25 @@
     <view class="report">无薪假{{monthItem.withoutSalaryLeaveTimes}}次,共{{monthItem.leaveWithNoPayDay}}h</view>
   </view>
   <view class="group">
-    <view class="report">平常加班：{{monthItem.usuallyOvertime}}h</view>
-    <view class="report">休日加班：{{monthItem.restOvertime}}h</view>
-    <view class="report">假日加班：{{monthItem.holidayOvertime}}h</view>
+    <view class="report">平常加班：
+      <text style="{{monthItem.usuallyOvertime == 0?'':'color: blue'}}">{{monthItem.usuallyOvertime}}h</text>
+    </view>
+    <view class="report">休日加班：
+      <text style="{{monthItem.restOvertime == 0?'':'color: blue'}}">{{monthItem.restOvertime}}h</text>
+    </view>
+    <view class="report">假日加班：
+      <text style="{{monthItem.holidayOvertime == 0?'':'color: blue'}}">{{monthItem.holidayOvertime}}h</text>
+    </view>
   </view>
   <view class="group">
-    <view class="report">迟到次数/时长：{{monthItem.lateTimes}}次/{{monthItem.lateMinutes}}m</view>
-    <view class="report">早退次数/时长：{{monthItem.leaveEarlyTimes}}次/{{monthItem.leaveEarlyMinutes}}m</view>
+    <view class="report">迟到次数/时长：
+      <text style="{{monthItem.lateTimes == 0?'':'color: red'}}">{{monthItem.lateTimes}}次</text>/
+      <text style="{{monthItem.lateMinutes == '0.00'?'':'color: red'}}">{{monthItem.lateMinutes}}m</text>
+    </view>
+    <view class="report">早退次数/时长：
+      <text style="{{monthItem.leaveEarlyTimes == 0?'':'color: red'}}">{{monthItem.leaveEarlyTimes}}次</text>/
+      <text style="{{monthItem.leaveEarlyMinutes == '0.00'?'':'color: red'}}">{{monthItem.leaveEarlyMinutes}}m</text>
+    </view>
     <view class="report">缺勤次数/时长：<text style="font-weight: 700; {{monthItem.absentTimes==0?'':'color: red;'}}">{{monthItem.absentTimes}}次/{{monthItem.absentMinutes}}h</text></view>
     <view class="report">旷工次数/时长：<text style="font-weight: 700; {{monthItem.absenteeismTimes==0?'':'color: red;'}}">{{monthItem.absenteeismTimes}}次/{{monthItem.absentMinutes}}h</text></view>
     <view class="report">缺卡次数：<text style="font-weight: 700; {{monthItem.lackCheckCardTime==0?'':'color: red;'}}">{{monthItem.lackCheckCardTime}}次</text></view>
@@ -37,7 +49,7 @@
   </view>
   <view class="daterecord" >
     <view class="condition">
-      <view style="{{item.condition=='无异常'?'':item.condition==item.leaveTypeName?'color: green;':'color: red;'}}">
+      <view style="{{item.condition=='无异常'?'':item.condition==item.leaveTypeName?'color: green;':'color: red;'}}" wx:if="{{!(item.condition=='无异常'&&item.overtimeTime)}}">
         {{item.condition}}
       </view>
       <view style="color: blue; margin-left: 5rpx;" wx:if="{{item.overtimeTime}}">
@@ -55,7 +67,7 @@
       </view>
     </view>
     <view class="record">
-      <view style="{{item.signinTime?'':'color: red;'}}">
+      <view style="{{item.signinTime || item.condition=='无异常'?'':'color: red;'}}">
         {{item.signinTime?('签到' + item.signinTime + ' 签退' + item.logoutTime):'无打卡记录'}}
       </view>
     </view>
