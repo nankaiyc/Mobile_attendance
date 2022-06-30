@@ -259,7 +259,7 @@ Page({
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
           newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
-          newArray[i].LeaveTime = ((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2)
+          newArray[i].LeaveTime = newArray[i].withoutSalaryLeave && newArray[i].withSalaryLeave?((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2):'0.00'
           newArray[i].usuallyOvertime = (newArray[i].usuallyOvertime / 60).toFixed(2)
           newArray[i].holidayOvertime = (newArray[i].holidayOvertime / 60).toFixed(2)
           newArray[i].restOvertime = (newArray[i].restOvertime / 60).toFixed(2)
