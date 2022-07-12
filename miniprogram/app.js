@@ -35,8 +35,10 @@ App({
     this.dailyReportsLastSyncTime = ''
     this.eailisetDate = ''
 
+    this.globalData.superviseIndex = 0
+
     var clid = wx.getStorageSync('unionId')
-    // var clid = CryptoJS.Md5('/FdMiEaHinp8oESNSwoFgSUZY2kqL0razBxW9H1ipZo=')
+    
     if (!clid || clid.length != 32) {
       this.login()
     } else {
@@ -105,7 +107,7 @@ App({
           var GPS = res.GPS;
           for (var i = 0; i < GPS.length; i++){
             var bdMapToTxMap = this.convert2TecentMap(GPS[i].location.lng,GPS[i].location.lat);
-            console.log('百度坐标转换成腾讯坐标：',bdMapToTxMap);
+            // console.log('百度坐标转换成腾讯坐标：',bdMapToTxMap);
 				    GPS[i].location.lng = bdMapToTxMap.lng;
 				    GPS[i].location.lat = bdMapToTxMap.lat;
           }

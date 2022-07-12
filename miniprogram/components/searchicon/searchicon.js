@@ -1,4 +1,6 @@
 // components/searchicon/searchicon.js
+const app = getApp()
+
 Component({
 
   properties: {
@@ -18,7 +20,7 @@ Component({
     jump() {
       if (this.properties.curIndex == 1) {
         wx.navigateTo({
-          url: '../../pages/searchCheck/searchCheck',
+          url: app.globalData.superviseIndex == 0?'../../pages/searchCheck/searchCheck':'../../pages/searchCheckMonth/searchCheckMonth',
         })
       } else {
         wx.navigateTo({
