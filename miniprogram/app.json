@@ -29,7 +29,8 @@
     "components/rightmenu/rightmenu",
     "components/searchicon/searchicon",
     "components/Tabs/Tabs",
-    "components/memberInfo/memberInfo"
+    "components/memberInfo/memberInfo",
+    "pages/searchCheckMonth/searchCheckMonth"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

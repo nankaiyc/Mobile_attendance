@@ -1,0 +1,71 @@
+<!--pages/searchCheckMonth/searchCheckMonth.wxml-->
+<topbar curIndex='22'/>
+<form class="form" bindsubmit="submit">
+  <view class="name">
+    <view class="name-name">姓名：</view>
+    <view class="name-input">
+      <input name="name"/>
+    </view>
+  </view>
+
+  <view class="department">
+    <view class="department-name">选择部门：</view>
+    <view class="department-picker">
+      <picker bindchange="bindDepartmentPickerChange" name="department" value="{{departmentIndex}}" range="{{departmentArray}}">
+        <view>
+          {{departmentArray[departmentIndex]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="department">
+    <view class="department-name">选择考勤月：</view>
+    <view class="department-picker">
+      <picker bindchange="bindMonthPickerChange" name="department" value="{{monthIndex}}" range="{{monthArray}}">
+        <view>
+          {{monthArray[monthIndex]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="submit" style="width: 95%" form-type="submit">搜索</button>
+  
+  
+  <view class="month_body">
+        <view class="month_item" wx:for="{{monthlyReportsArray}}" wx:key="index" style="width: {{screenWidth - 50}}px;" bindtap="MonthlyReport_Detail" data-index = "{{index}}">
+          <view class="person_info">
+            <image src="../../resource/default_user_icon.png" mode="scaleToFill" class="month_person_img"/>
+            <view class="month_person_name">{{item.staffName}}</view>
+            <view class="month_person_dept">{{item.deptName}}</view>
+          </view>
+
+          <view class="month_item_ls">
+            <view class="month_item_ls_item" style="margin-top: 0;">
+              <view class="month_item_ls_block" style="background: gold;"></view>
+              <view class="month_item_ls_text">迟到早退次数/时长：
+                <text style="{{item.lateTimes + item.leaveEarlyTimes == 0?'':'color: red'}}">{{item.lateTimes + item.leaveEarlyTimes}}次</text>/
+                <text style="{{item.lateAndLEMinutes == 0?'':'color: red'}}">{{item.lateAndLEMinutes}}m</text>
+              </view>
+            </view>
+            <view class="month_item_ls_item">
+              <view class="month_item_ls_block" style="background: deeppink;"></view>
+              <view class="month_item_ls_text">缺勤次数/时长：
+                <text style="{{item.absenteeismTimes == 0?'':'color: red'}}">{{item.absenteeismTimes}}次</text>/
+                <text style="{{item.absenteeismTime == 0?'':'color: red'}}">{{item.absenteeismTime}}h</text>
+              </view>
+            </view>
+            <view class="month_item_ls_item">
+              <view class="month_item_ls_block" style="background: deepskyblue;"></view>
+              <view class="month_item_ls_text">请假次数/时长：{{item.withSalaryLeaveTimes + item.withoutSalaryLeaveTimes}}次/{{item.LeaveTime}}h</view>
+            </view>
+            <view class="month_item_ls_item">
+              <view class="month_item_ls_block" style="background: darkkhaki;"></view>
+              <view class="month_item_ls_text">缺卡次数：{{item.lackCheckCardTime}}次</view>
+            </view>
+          </view>
+        </view>
+      </view>
+</form>
+

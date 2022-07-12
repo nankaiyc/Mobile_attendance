@@ -57,6 +57,8 @@ Page({
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
+    app.globalData.superviseIndex = index
+
     if (index == 1) {
       this.getInstantReport()
     } else {
@@ -66,6 +68,7 @@ Page({
       tabs
     })
   },
+  
   handlemethodchange(e){
     if (this.data.isLoading) {
       return

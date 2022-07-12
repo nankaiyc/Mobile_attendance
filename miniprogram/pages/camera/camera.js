@@ -97,7 +97,7 @@ Page({
 
   handleBackToFront(e){
     this.setData({
-      isfront: !this.data.infront,
+      isfront: !this.data.isfront,
     })
   },
 
