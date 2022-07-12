@@ -55,10 +55,10 @@ Page({
     that.setData({
       StaffList: [],
     })
-    console.log(app.punchRecordsArray)
+    // console.log(app.punchRecordsArray)
     const departs = this.getAllDeparts(this.data.departmentIndex)
     var DailyReports = app.punchRecordsArray.filter((val) => {return (val.staffName.indexOf(name_searched)>=0 || name_searched=="") && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && departs.includes(val.deptId)})
-    console.log(DailyReports)
+    // console.log(DailyReports)
     if (DailyReports.length == 0) {
       wx.showToast({
         title: '无匹配出勤数据',
@@ -110,6 +110,7 @@ Page({
     that.setData({
       StaffList: this.data.StaffList,
     })
+    this.TimeSort()
     if (this.data.dateStart > this.data.dateEnd) {
       wx.showToast({
         title: '起始时间错误',
@@ -118,6 +119,34 @@ Page({
       })
     }
   },
+
+ TimeSort(){
+   var stafflist = this.data.StaffList
+   var compare = function (obj1, obj2) {
+    var val1 = obj1.date;
+    var val2 = obj2.date;
+    if (val1 < val2) {
+        return -1;
+    } else if (val1 > val2) {
+        return 1;
+    } else {
+        return 0;
+    }            
+  }
+
+   for(var i in stafflist) {
+    stafflist[i].messageList.sort(compare)
+    for(var j in stafflist[i].messageList) {
+      stafflist[i].messageList[j].message.sort()
+    }
+   }
+   this.setData({
+    StaffList: stafflist,
+  })
+
+ },
+
+ 
 
   DailyReport_Detail(e){
     if (this.data.isLoading) {
