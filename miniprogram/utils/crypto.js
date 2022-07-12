@@ -37,7 +37,7 @@ function Base64Decode(val) {
 }
 
 function Md5(val) {
-  let words = CryptoJS.enc.Base64.parse(val);
+//   let words = CryptoJS.enc.Base64.parse(val);
   return CryptoJS.MD5(val).toString()
 }
 
