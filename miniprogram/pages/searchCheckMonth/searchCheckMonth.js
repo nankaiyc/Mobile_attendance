@@ -101,9 +101,15 @@ Page({
 
         let staffDepts = []
         staffDepts.push.apply(staffDepts, res.StaffqueryDepts?res.StaffqueryDepts:[])
-        if (staffDepts.length == 0) {
-          staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
-        }
+        
+        if (res.StaffDepts) {
+            for (var i in res.StaffDepts) {
+              const tmp = staffDepts.filter((val) => {return val.id == res.StaffDepts[i].id})
+              if (tmp.length == 0) {
+                staffDepts.push(res.StaffDepts[i])
+              }
+            }
+          }
         
         let subordinationDict = {}
         let staffDeptNames = ['全部']
