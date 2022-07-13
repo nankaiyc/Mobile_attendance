@@ -53,7 +53,7 @@ App({
       timeout: 3000,
       success: (e) => {
         wx.request({
-          url: 'https://www.kaoqintong.net/api2/wx/user/login',
+          url: 'https://www.kaoqintong.net/api2/wx/user/login2',
           data: {
             'code': e.code
           },
