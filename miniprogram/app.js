@@ -52,6 +52,7 @@ App({
     wx.login({
       timeout: 3000,
       success: (e) => {
+        console.log(e)
         wx.request({
           url: 'https://www.kaoqintong.net/api2/wx/user/login2',
           data: {
@@ -62,6 +63,7 @@ App({
           },
           method: 'POST',
           success: (e) => {
+            wx.setStorageSync('unionId', e.data[0])
             const clid = CryptoJS.Md5(e.data[0]).toUpperCase()
             wx.setStorageSync('unionId', clid)
             wx.setStorageSync('sessionKey', e.data[1])

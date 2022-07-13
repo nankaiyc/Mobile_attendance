@@ -145,9 +145,19 @@ Page({
     that.setData({
       StaffList: this.data.StaffList,
     })
+    this.TimeSort()
     // console.log(this.data.StaffList)
   },
-  
+
+  TimeSort(){
+    var stafflist = this.data.StaffList
+    for(var i in stafflist) {
+     stafflist[i].message.sort()
+    }
+    this.setData({
+     StaffList: stafflist,
+   })
+  },
   getMonthlyReports(month, staffIds) {
     this.data.isLoading = true
     wx.showLoading({
