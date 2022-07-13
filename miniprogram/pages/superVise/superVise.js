@@ -39,18 +39,7 @@ Page({
     screenHeight: 0,
     screenWidth: 0,
     StaffList: [],
-    ReportList:[
-      {
-        time:"2021-12-07 09:00",
-        content:"2021-12-07 09:00签到报告：办公室应到3人，已到2人，未到1人:xxx,出勤率：50%",
-        Isread:false,
-      },
-      {
-        time:"2021-12-08 09:00",
-        content:"2021-12-08 09:00签到报告：办公室应到3人，已到2人，未到1人:yc,出勤率：60%",
-        Isread:false,
-      },
-    ],
+    ReportList:[],
     selectedArray: [],
     punchRecordslastSyncTime: '',
     punchRecordsArray: [],
@@ -68,16 +57,18 @@ Page({
     const {index} = e.detail;
     let {tabs} = this.data;
     tabs.forEach((v,i) => i === index ? v.isActive = true : v.isActive = false);
+    app.globalData.superviseIndex = index
+
     if (index == 1) {
       this.getInstantReport()
-    }
-    if (index == 2) {
-      this.getMonthlyReports(this.data.month, this.data.staffIds)
+    } else {
+      this.getEmployees()
     }
     this.setData({
       tabs
     })
   },
+  
   handlemethodchange(e){
     if (this.data.isLoading) {
       return
@@ -206,9 +197,87 @@ Page({
         console.log('success get' + 'monthlyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         that.data.monthlyReportsArray.push.apply(that.data.monthlyReportsArray, res.MonthlyReports)
-        const newArray = that.data.monthlyReportsArray
+        
+        let newArray = that.data.monthlyReportsArray
+
+        if (month == util.formatMonthLine(new Date())) {
+          let dailyReportsArrayForCurMonth = app.dailyReportsArray.filter((val) => {return val.reportTime.startsWith(month)})
+
+          // console.log(dailyReportsArrayForCurMonth)
+          let monthlyReportsForCurMonth = []
+          for (var i in dailyReportsArrayForCurMonth) {
+            let curArray = monthlyReportsForCurMonth.filter((val) => {return val.staffId == dailyReportsArrayForCurMonth[i].staffId})
+            if (curArray.length == 0) {
+              const newItem = {
+                'month': month,
+                'staffId': dailyReportsArrayForCurMonth[i].staffId,
+                'staffName': dailyReportsArrayForCurMonth[i].staffName,
+                'deptName': dailyReportsArrayForCurMonth[i].deptName,
+                'attendanceDays': dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0,
+                'actualAttendanceDays': dailyReportsArrayForCurMonth[i].ondutyDays,
+                'withSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes,
+                'withSalaryLeave': dailyReportsArrayForCurMonth[i].leavewithpayTime,
+                'withoutSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes,
+                'withoutSalaryLeave': dailyReportsArrayForCurMonth[i].leavenopayTime,
+                'lateTimes': dailyReportsArrayForCurMonth[i].lateTime?1:0,
+                'lateMinutes': dailyReportsArrayForCurMonth[i].lateTime,
+                'usuallyOvertime': dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0,
+                'restOvertime': dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0,
+                'holidayOvertime': dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0,
+                'leaveEarlyTimes': dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0,
+                'leaveEarlyMinutes': dailyReportsArrayForCurMonth[i].leaveearlyTime,
+                // 'absentTimes': dailyReportsArrayForCurMonth[i].absentTimes,
+                'absentTimes': dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0,
+                'absentMinutes': dailyReportsArrayForCurMonth[i].actualNotduty,
+                // 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeismTimes,
+                'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeism>0?1:0,
+                'absenteeismTime': dailyReportsArrayForCurMonth[i].absenteeism,
+                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                'addRestTimes': dailyReportsArrayForCurMonth[i].addRestTimes,
+                'holidayotTime': dailyReportsArrayForCurMonth[i].holidayotTime,
+              }
+              monthlyReportsForCurMonth.push(newItem)
+            } else {
+              curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
+              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].ondutyDays
+              curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
+              curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
+              curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
+              curArray[0].withoutSalaryLeave += dailyReportsArrayForCurMonth[i].leavenopayTime
+              curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTime?1:0
+              curArray[0].lateMinutes += dailyReportsArrayForCurMonth[i].lateTime
+              curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0
+              curArray[0].restOvertime += dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0
+              curArray[0].holidayOvertime += dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0
+              curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0
+              curArray[0].leaveEarlyMinutes += dailyReportsArrayForCurMonth[i].leaveearlyTime
+              curArray[0].absentTimes += dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0
+              curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
+              curArray[0].absenteeismTimes += dailyReportsArrayForCurMonth[i].absenteeism>0?1:0
+              curArray[0].absenteeismTime += dailyReportsArrayForCurMonth[i].absenteeism
+              curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].lackCheckCardTime
+              curArray[0].addRestTimes += dailyReportsArrayForCurMonth[i].addRestTimes
+              curArray[0].holidayotTime += dailyReportsArrayForCurMonth[i].holidayotTime
+            }
+          }
+
+          for (var i in monthlyReportsForCurMonth) {
+            monthlyReportsForCurMonth[i].attendancePercent = monthlyReportsForCurMonth[i].actualAttendanceDays / monthlyReportsForCurMonth[i].attendanceDays * 100
+          }
+
+          newArray.push.apply(newArray, monthlyReportsForCurMonth)
+          // console.log(newArray)
+        }
+        
         for (var i in newArray) {
           newArray[i].isShow = that.data.selectedArray.includes(newArray[i].staffId)
+          newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
+          newArray[i].LeaveTime = newArray[i].withoutSalaryLeave && newArray[i].withSalaryLeave?((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2):'0.00'
+          newArray[i].usuallyOvertime = (newArray[i].usuallyOvertime / 60).toFixed(2)
+          newArray[i].holidayOvertime = (newArray[i].holidayOvertime / 60).toFixed(2)
+          newArray[i].restOvertime = (newArray[i].restOvertime / 60).toFixed(2)
+          newArray[i].lateMinutes = (newArray[i].lateMinutes / 60).toFixed(2)
+          newArray[i].lateAndLEMinutes = ((newArray[i].lateMinutes + newArray[i].leaveEarlyMinutes) / 1).toFixed(1)
         }
         that.setData({
           monthlyReportsArray: newArray
@@ -262,17 +331,23 @@ Page({
       beginDate = util.formatDateLine(dateTime)
       console.log(beginDate)
     } else {
-      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
-      beginDate = util.formatDateLine(lastM)
-      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+      var nowdays = new Date();
+      var year = nowdays.getFullYear();
+      var month = nowdays.getMonth();
+      if (month == 0) {
+          month = 12;
+          year = year - 1;
+      }
+      beginDate = year + '-' + month + '-01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = app.dailyReportsLastSyncTime
-    this.data.isLoading = true
+    let lastSyncTime = ''
+    if (this.data.isPullDown || beginDate >= app.eailisetDate) {
+      lastSyncTime = app.dailyReportsLastSyncTime
+    }
     this.data.dailyReportsArray = app.dailyReportsArray
-    wx.showLoading({
-      title: '数据加载中···',
-    })
+    app.eailisetDate = app.eailisetDate>beginDate?beginDate:app.eailisetDate
+
     this.getDailyReportsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
@@ -293,9 +368,10 @@ Page({
       'endDate': endDate,
       'staffIds': staffIds
     }
+    console.log('getDailyReports', _p)
+
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
-    
     wx.request({
       url: app.globalData.baseUrl + '/dailyReports/',
       method: 'GET',
@@ -307,6 +383,7 @@ Page({
       success: (e) => {
         console.log('success get' + 'dailyReports ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
         that.data.dailyReportsArray.push.apply(that.data.dailyReportsArray, res.DailyReports)
         
         const newArray = that.data.dailyReportsArray
@@ -342,18 +419,29 @@ Page({
       dateTime.setDate(dateTime.getDate()-10)
       beginDate = util.formatDateLine(dateTime)
     } else {
-      var lastM =new Date(new Date().setMonth(new Date().getMonth()-1))
-      beginDate = util.formatDateLine(lastM)
-      beginDate = beginDate.substring(0, beginDate.length - 2) + '01'
+      var nowdays = new Date();
+      var year = nowdays.getFullYear();
+      var month = nowdays.getMonth();
+      if (month == 0) {
+          month = 12;
+          year = year - 1;
+      }
+      beginDate = year + '-' + month + '-01'
     }
     const endDate = util.formatDateLine(new Date(this.data.date))
-    const lastSyncTime = app.punchRecordslastSyncTime
+    let lastSyncTime = ''
+    if (this.data.isPullDown || beginDate >= app.eailisetDate) {
+      lastSyncTime = app.punchRecordsLastSyncTime
+    }
     this.data.punchRecordsArray = app.punchRecordsArray
     this.data.earliestDate = beginDate
+    app.eailisetDate = app.eailisetDate>beginDate?beginDate:app.eailisetDate
+
     this.getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds)
   },
 
   getPunchRecordsSinal(lastSyncTime, beginDate, endDate, staffIds) {
+    console.log(lastSyncTime)
     const that = this
     var clid = app.globalData.clid
 
@@ -384,7 +472,7 @@ Page({
       success: (e) => {
         console.log('success get' + 'punchRecords ')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        
+
         that.data.punchRecordsArray.push.apply(that.data.punchRecordsArray, res.AttRecords)
         
         const newArray = that.data.punchRecordsArray
@@ -477,7 +565,7 @@ Page({
       week: WEEK,
       month: MONTH,
     })
-    this.getEmployees()
+    // this.getEmployees()
   },
   subDate(){
     if (this.data.isLoading) {
@@ -613,6 +701,16 @@ Page({
         })
         that.data.isLoading = false
         wx.hideLoading()
+        
+        if (that.data.isPullDown) {
+          that.data.isPullDown = false
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新成功！同步时间：' + util.formatDateLine(new Date()) + util.formatTime(new Date()),
+            icon: 'none',
+            duration: 1500
+          })
+        }
       }
     })
   },
@@ -633,7 +731,6 @@ Page({
     wx.setStorageSync('instantReportArray', JSON.stringify(this.data.ReportList))
   },
 
-  
   getEmployees() {
     const that = this
     var clid = app.globalData.clid
@@ -647,6 +744,11 @@ Page({
     _p = JSON.stringify(_p)
     var _p_base64 = CryptoJS.Base64Encode(_p)
     
+    this.data.isLoading = true
+    wx.showLoading({
+      title: '数据加载中···',
+    })
+
     wx.request({
       url: app.globalData.baseUrl + '/employees/',
       method: 'GET',
@@ -659,6 +761,7 @@ Page({
         console.log('success get' + 'employees')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
 
+        console.log(res)
         let staffIds = ''
         for (var i in res.Employees) {
           staffIds += res.Employees[i].staffId
@@ -667,8 +770,28 @@ Page({
           }
         }
 
+        console.log(that.data.staffIds, staffIds)
+        if (that.data.staffIds && that.data.staffIds != staffIds) {
+          that.data.earliestDate = ''
+          app.punchRecordsArray = []
+          app.punchRecordsLastSyncTime = ''
+          app.dailyReportsArray = []
+          app.dailyReportsLastSyncTime = ''
+          app.eailisetDate = ''
+
+          console.log('staffIds changed')
+        }
+
         that.data.staffIds = staffIds
-        that.getDailyReports(staffIds)
+
+        if (that.data.tabs[0].isActive) {
+          that.getDailyReports(that.data.staffIds)
+        } else if (that.data.tabs[1].isActive) {
+          that.getInstantReport()
+        } else if (that.data.tabs[2].isActive) {
+          that.getDailyReports(that.data.staffIds)
+          that.getMonthlyReports(that.data.month, that.data.staffIds)
+        }
       }
     })
   },
@@ -684,16 +807,20 @@ Page({
 
   onPullDownRefresh: function (options) {
     this.data.isPullDown = true
-    if (this.data.tabs[0].isActive) {
-      this.getDailyReports(this.data.staffIds)
-    } else if (this.data.tabs[2].isActive) {
-      this.getMonthlyReports(this.data.month, this.data.staffIds)
-    }
+    this.getEmployees()
   },
   
   onShow: function (options) {
     this.setData({
       selectedArray: app.globalData.selectedArray
     })
+    this.getEmployees()
+    // if (this.data.tabs[0].isActive) {
+    //   this.getDailyReportsByDate(this.data.date)
+    // } else if (this.data.tabs[1].isActive) {
+    //   this.getInstantReport()
+    // } else if (this.data.tabs[2].isActive) {
+    //   this.getMonthlyReports(this.data.month, this.data.staffIds)
+    // }
   }
 })

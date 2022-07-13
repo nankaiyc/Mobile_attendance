@@ -34,7 +34,7 @@ Page({
       })
     } else {
       wx.redirectTo({
-        url: this.data.indexPages[app.globalData.firstPage],
+        url: '../checkIn/checkIn',
       })
     }
   },

@@ -55,9 +55,18 @@ Page({
     that.setData({
       StaffList: [],
     })
+    // console.log(app.punchRecordsArray)
     const departs = this.getAllDeparts(this.data.departmentIndex)
-    var DailyReports = app.punchRecordsArray.filter((val) => {return val.staffName.indexOf(name_searched)>=0 && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && name_searched!="" && departs.includes(val.deptId)})
-    console.log(DailyReports)
+    var DailyReports = app.punchRecordsArray.filter((val) => {return (val.staffName.indexOf(name_searched)>=0 || name_searched=="") && val.date >= this.data.dateStart && val.date <= this.data.dateEnd && departs.includes(val.deptId)})
+    // console.log(DailyReports)
+    if (DailyReports.length == 0) {
+      wx.showToast({
+        title: '无匹配出勤数据',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+
     for(var i in DailyReports) {
       var tempdic = {}
 //       console.log(DailyReports[i])
@@ -101,14 +110,41 @@ Page({
     that.setData({
       StaffList: this.data.StaffList,
     })
+    this.TimeSort()
     if (this.data.dateStart > this.data.dateEnd) {
       wx.showToast({
-        title: '李在干神魔',
+        title: '起始时间错误',
         icon: 'error',
         duration: 1500
       })
     }
   },
+
+ TimeSort(){
+   var stafflist = this.data.StaffList
+   var compare = function (obj1, obj2) {
+    var val1 = obj1.date;
+    var val2 = obj2.date;
+    if (val1 < val2) {
+        return -1;
+    } else if (val1 > val2) {
+        return 1;
+    } else {
+        return 0;
+    }            
+  }
+
+   for(var i in stafflist) {
+    stafflist[i].messageList.sort(compare)
+    for(var j in stafflist[i].messageList) {
+      stafflist[i].messageList[j].message.sort()
+    }
+   }
+   this.setData({
+    StaffList: stafflist,
+  })
+
+ },
 
   DailyReport_Detail(e){
     if (this.data.isLoading) {
@@ -151,12 +187,21 @@ Page({
       success: (e) => {
         console.log('success get' + 'staffdepts')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
-        console.log(res)
-        let staffDepts = res.StaffDepts
-        staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
+
+        let staffDepts = []
+        staffDepts.push.apply(staffDepts, res.StaffqueryDepts?res.StaffqueryDepts:[])
+        
+        if (res.StaffDepts) {
+          for (var i in res.StaffDepts) {
+            const tmp = staffDepts.filter((val) => {return val.id == res.StaffDepts[i].id})
+            if (tmp.length == 0) {
+              staffDepts.push(res.StaffDepts[i])
+            }
+          }
+        }
         
         let subordinationDict = {}
-        let staffDeptNames = []
+        let staffDeptNames = ['全部']
         for (var i in staffDepts) {
           staffDeptNames.push(staffDepts[i].name)
           const curPid = staffDepts[i].pid
@@ -183,8 +228,14 @@ Page({
 
   getAllDeparts(i) {
     this.data.tmpDeparts = []
-    const curId = this.data.departmentObjectArray[i].id
-    this.getSubDeparts(curId)
+    if (i == 0) {
+      for (var j in this.data.departmentObjectArray) {
+        this.data.tmpDeparts.push(this.data.departmentObjectArray[j].id)
+      }
+    } else {
+      const curId = this.data.departmentObjectArray[i - 1].id
+      this.getSubDeparts(curId)
+    }
     return this.data.tmpDeparts
   },
 

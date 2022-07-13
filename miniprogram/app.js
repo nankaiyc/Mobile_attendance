@@ -27,18 +27,24 @@ App({
     this.globalData.selectedArray = selectedArray ? JSON.parse(selectedArray) : []
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
+    this.globalData.lastCheckInTime = 0
 
     this.punchRecordsArray = []
     this.punchRecordsLastSyncTime = ''
     this.dailyReportsArray = []
     this.dailyReportsLastSyncTime = ''
+    this.eailisetDate = ''
+
+    this.globalData.superviseIndex = 0
 
     var clid = wx.getStorageSync('unionId')
-    if (!clid) {
+    
+    if (!clid || clid.length != 32) {
       this.login()
     } else {
       this.globalData.clid = clid
     }
+    console.log(clid)
   },
 
   login() {
@@ -48,7 +54,7 @@ App({
       success: (e) => {
         console.log(e)
         wx.request({
-          url: 'https://www.kaoqintong.net/api2/wx/user/login',
+          url: 'https://www.kaoqintong.net/api2/wx/user/login2',
           data: {
             'code': e.code
           },
@@ -61,7 +67,7 @@ App({
             const clid = CryptoJS.Md5(e.data[0]).toUpperCase()
             wx.setStorageSync('unionId', clid)
             wx.setStorageSync('sessionKey', e.data[1])
-            that.globalData.clid = e.data[0]
+            that.globalData.clid = clid
           }
         })
       }
@@ -76,10 +82,10 @@ App({
 
     var _p = {
       '_s': clid + timestamp,
-      'OS': this.globalData.system,
-      'OSVersion': this.globalData.version,
-      'MANU': this.globalData.brand,
-      'MODEL': this.globalData.model
+      'OS': this.globalData.OS,
+      'OSVersion': this.globalData.OSVersion,
+      'MANU': this.globalData.MANU,
+      'MODEL': this.globalData.MODEL
     }
 
     _p = JSON.stringify(_p)
@@ -98,9 +104,15 @@ App({
         console.log('success get info')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
-
         const indexPages = ['../checkIn/checkIn', '../superVise/superVise', '../attendanceOA/attendanceOA', '../member/member']
         if (res.RESULT == 0) {
+          var GPS = res.GPS;
+          for (var i = 0; i < GPS.length; i++){
+            var bdMapToTxMap = this.convert2TecentMap(GPS[i].location.lng,GPS[i].location.lat);
+            // console.log('百度坐标转换成腾讯坐标：',bdMapToTxMap);
+				    GPS[i].location.lng = bdMapToTxMap.lng;
+				    GPS[i].location.lat = bdMapToTxMap.lat;
+          }
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.apartment = res.STAFFINFO.Company
           that.globalData.AttNo = res.STAFFINFO.AttNo
@@ -125,6 +137,28 @@ App({
       }
     })
   },
+
+  	//百度坐标转换成腾讯坐标
+	convert2TecentMap(lng, lat){
+		if (lng == '' && lat == '') {
+			return {
+				lng: '',
+				lat: ''
+			}
+		}
+		var x_pi = 3.14159265358979324 * 3000.0 / 180.0
+		var x = lng - 0.0065
+		var y = lat - 0.006
+		var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi)
+		var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi)
+		var txlng = z * Math.cos(theta);
+		var txlat = z * Math.sin(theta);
+		var location = {
+			lng:txlng,
+			lat:txlat
+		}
+		return location
+	},
 
   register(code) {
     const that = this
@@ -159,6 +193,8 @@ App({
       success: (e) => {
         console.log('success register')
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
+        console.log(res)
+        
         if (res.RESULT == 0) {
           that.globalData.username = res.STAFFINFO.Name
           that.globalData.AttNo = res.STAFFINFO.AttNo
@@ -194,6 +230,7 @@ App({
         var res = JSON.parse(CryptoJS.Base64Decode(e.data))
         console.log(res)
         if (res.RESULT == 0) {
+          that.globalData.lastCheckInTime = timestamp
           if (that.globalData.AppPhoto % 10 == 3) {
             that.postPhotoMode3(fileF, fileB, dateTimeP, punchRecord)
           } else if (that.globalData.AppPhoto % 10 == 2) {

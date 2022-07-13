@@ -1,14 +1,6 @@
-// components/searchicon/searchicon.js
-const app = getApp()
+// pages/transferToCamera/transferToCamera.js
+Page({
 
-Component({
-
-  properties: {
-    curIndex: {
-      type: String,
-      value: '0'
-    },
-  },
   /**
    * 页面的初始数据
    */
@@ -16,25 +8,19 @@ Component({
 
   },
 
-  methods: {
-    jump() {
-      if (this.properties.curIndex == 1) {
-        wx.navigateTo({
-          url: app.globalData.superviseIndex == 0?'../../pages/searchCheck/searchCheck':'../../pages/searchCheckMonth/searchCheckMonth',
-        })
-      } else {
-        wx.navigateTo({
-          url: '../../pages/searchMember/searchMember',
-        })
-      }
-    }
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (options.positioned == 'true') {
+      wx.navigateTo({
+        url: '../camera/camera?positioned=true&index=' + options.index,
+      })
+    } else {
+      wx.navigateTo({
+        url: '../camera/camera?positioned=false&LocationName=' + options.LocationName + '&latitude=' + options.latitude + '&longitude=' + options.longitude,
+      })
+    }
   },
 
   /**

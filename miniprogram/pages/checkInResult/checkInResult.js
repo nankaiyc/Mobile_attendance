@@ -39,7 +39,7 @@ Page({
       this.completeUp(item.address, item.latitude, item.longitude)
     } else {
       wx.navigateTo({
-        url: '../../pages/camera/camera?positioned=false&LocationName=' + item.address + '&latitude=' + item.latitude + '&longitude=' + item.longitude + '&photomode=' + this.data.photoMode,
+        url: '../../pages/transferToCamera/transferToCamera?positioned=false&LocationName=' + item.title + '&latitude=' + item.latitude + '&longitude=' + item.longitude,
       })
     }
   },
@@ -74,10 +74,12 @@ Page({
       BMap.search({
         success: (e) => {
           const res = e.wxMarkerData
+          // res.sort((a, b) => {return a.distance - b.distance})
+
           let nameArray = []
           for (var i in res) {
             nameArray.push(res[i].title)
-            if (i >= 4) {
+            if (i >= 6) {
               break
             }
           }
@@ -85,6 +87,7 @@ Page({
             nameArray: nameArray,
             poiArray: res
           })
+          console.log(res, nameArray)
         }
       })
     }

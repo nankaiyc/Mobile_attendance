@@ -22,13 +22,15 @@
     "pages/camera/camera",
     "pages/preview/preview",
     "pages/transfer/transfer",
+    "pages/transferToCamera/transferToCamera",
     "pages/reportDetail/reportDetail",
     "components/menu/menu",
     "components/topbar/topbar",
     "components/rightmenu/rightmenu",
     "components/searchicon/searchicon",
     "components/Tabs/Tabs",
-    "components/memberInfo/memberInfo"
+    "components/memberInfo/memberInfo",
+    "pages/searchCheckMonth/searchCheckMonth"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

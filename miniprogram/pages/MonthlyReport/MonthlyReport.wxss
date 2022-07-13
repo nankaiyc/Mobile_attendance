@@ -79,13 +79,13 @@
 .daterecord{
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: flex-start; */
+  justify-content: center;
+  align-items: flex-start;
   margin-left: 20rpx;
 }
 .condition{
   font-size: 30rpx;
-  font-weight: 700;
+  font-weight: 520;
   margin-top: 5rpx;
   display: flex;
   flex-direction: row;

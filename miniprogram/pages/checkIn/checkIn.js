@@ -234,6 +234,15 @@ Page({
   },
 
   popUp() {
+    let timestamp = Date.parse(new Date())
+    timestamp = timestamp / 1000
+    if (timestamp - app.globalData.lastCheckInTime < 31) {
+      wx.showToast({
+        title: '请不要在30秒内频繁打卡',
+        icon: 'none'
+      })
+      return
+    }
     const that = this
     if (app.globalData.AppPhoto >= 10) {
       wx.showActionSheet({
@@ -264,6 +273,14 @@ Page({
         wx.hideLoading({})
         that.data.isLoading = false
       }
+      if (data.errMsg == 'getLocation:fail:ERROR_NETWORK') {
+        wx.hideLoading({})
+        that.data.isLoading = false
+        wx.showToast({
+          title: '网络异常！',
+          icon: 'error'
+        })
+      }
       console.log(data);
       wx.getSetting({
         success: res => {
@@ -286,6 +303,7 @@ Page({
                           icon: 'none'
                         });
                       }
+                      that.data.isLoading = false
                     }
                   });
                 }
@@ -358,17 +376,17 @@ Page({
           }
           else if(this.data.photomode == 1){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i 
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i 
             })
           }
           else if(this.data.photomode == 2){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else if(this.data.photomode == 3){
             wx.navigateTo({
-              url: '../../pages/camera/camera?positioned=true&index=' + i
+              url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else{
@@ -428,15 +446,17 @@ Page({
     var that = this;
     this.data.isLoading = true
     wx.showLoading({
-      title: '数据同步中···',
+      title: '时间同步中···',
     })
     setTimeout(() => {
       that.data.isLoading = false
       wx.hideLoading()
     }, 1000)
-    this.setCurrentDate();
-    let photo = wx.getStorageSync('ImagURL');
-    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray');
+    this.setCurrentDate()
+    let photo = wx.getStorageSync('ImagURL')
+    let punchRecordsArray = wx.getStorageSync('PunchRecordsArray')
+    punchRecordsArray = punchRecordsArray?JSON.parse(punchRecordsArray):[]
+    punchRecordsArray.reverse()
     that.setData({
       imgurl: photo ? photo : '../../resource/default_user_icon.png',
       name: app.globalData.username,
@@ -445,7 +465,7 @@ Page({
       GPSplace:app.globalData.GPSplace, 
       id:app.globalData.AttNo,
       photomode:app.globalData.AppPhoto % 10,
-      punchRecordsArray: punchRecordsArray?JSON.parse(punchRecordsArray):[],
+      punchRecordsArray: punchRecordsArray,
       screenHeight: app.globalData.screenHeight,
       screenWidth: app.globalData.screenWidth,
     })

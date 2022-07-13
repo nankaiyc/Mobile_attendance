@@ -72,7 +72,7 @@ Component({
     if (index == parseInt(this.properties.curIndex) || index == 4 || (index < 3 && this.data.permArray[index] == 0)) {
       return
     }
-    if (index < 4) {
+    if (index < 4 && index != 2) {
       wx.redirectTo({
         url: this.data.itemArray[index].url,
       })

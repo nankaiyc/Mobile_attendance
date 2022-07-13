@@ -92,9 +92,10 @@ Page({
     if (this.data.positioned == 'true') {
       pid = app.globalData.GPSplace[this.data.index].pid
     } else {
-      pid = '0' + '\t' + this.data.locationName + '@' + this.data.latitude + ',' + this.data.longitude
+      pid = '0' + '\t' + this.data.locationName + '@' + this.data.latitude + ',' + this.data.longitude + '\t' + this.data.psContent
     }
     const item = '1' + '\t' + dateTime + '\t' + mac + '\t' + pid
+    console.log(item)
     let dateTimeP = dateTime.replace(/-/g, '')
     dateTimeP = dateTimeP.replace(/:/g, '')
     dateTimeP = dateTimeP.replace(/ /g, '')

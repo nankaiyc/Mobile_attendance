@@ -1,0 +1,157 @@
+/* pages/searchCheckMonth/searchCheckMonth.wxss */
+.form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .name {
+    display: flex;
+    flex-direction: row;
+    margin: 20rpx 10rpx;
+  }
+  
+  .name-input {
+    border-bottom: 1px solid #4BBFE6;
+  }
+  
+  .department {
+    display: flex;
+    flex-direction: row;
+    margin: 20rpx 10rpx;
+  }
+  
+  .department-picker {
+    font-weight: bolder;
+  }
+  
+  .date {
+    display: flex;
+    flex-direction: row;
+    margin: 20rpx 10rpx;
+  }
+  
+  .date-picker {
+    margin: auto 10rpx;
+    font-weight: bolder;
+  }
+  
+  .submit {
+    background: #4BBFE6;
+    color: white;
+    width: 95%;
+    font-weight: 500;
+    margin: 20rpx;
+  }
+  
+  /* .time_tab_content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .messageList{
+    margin-bottom: 5rpx;
+    border-bottom: 1px solid gainsboro;
+    background: white;
+    margin-bottom: 10rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+  }
+  .default_user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15rpx;
+  }
+  .user_icon{
+    margin-left: 10rpx;
+    height: 70rpx;
+  } 
+  .Name{
+    margin-left: 20rpx;
+    font-size: 40rpx;
+    font-weight: 800;
+  }
+  .Company{
+    margin-left: 20rpx;
+    font-size: 35rpx;
+    font-weight: 500;
+  }
+  .message{
+    margin-left: 95rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    margin-bottom: 5rpx;
+  } */
+  
+.month_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30rpx;
+    width: 100%;
+  }
+  
+  .month_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 30rpx 40rpx;
+    border-radius: 20rpx;
+    margin-bottom: 30rpx;
+  }
+  
+  .person_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 200rpx;
+  }
+  
+  .month_person_img {
+    width: 80rpx;
+    height: 80rpx;
+    margin-bottom: 10rpx;
+  }
+  
+  .month_person_name {
+    font-size: medium;
+    font-weight: 520;
+  }
+  
+  .month_person_dept {
+    font-size: x-small;
+    color: grey;
+  }
+  
+  .month_item_ls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 420rpx;
+  }
+  
+  .month_item_ls_item {
+    margin-top: 10rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .month_item_ls_block {
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 5rpx;
+    margin-right: 10rpx;
+    background: yellow;
+  }
+  
+  .month_item_ls_text {
+    font-size: small;
+    color: gray;
+  }

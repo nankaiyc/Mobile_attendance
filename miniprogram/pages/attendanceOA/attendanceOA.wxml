@@ -4,6 +4,7 @@
 <view>      
   <web-view src='{{Url}}'></web-view>    
 </view>
+
 <!-- <Tabs tabs = "{{tabs}}" binditemChange = "handleItemChange">
   <view wx:if="{{tabs[0].isActive}}">
     <view>没有更多数据了</view>

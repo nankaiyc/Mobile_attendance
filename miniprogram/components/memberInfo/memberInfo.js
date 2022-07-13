@@ -132,7 +132,7 @@ Component({
       for (var item in this.data.subordinationArray[index]) {
         sum *= this.getStatus(this.data.subordinationArray[index][item])
       }
-      sum = sum==0?0:1
+      sum = (sum==0 || this.data.subordinationArray[index].length == 0)?0:1
       if (this.data.itemArray[index].selectStatus != sum && this.data.itemArray[index].selectStatus != 2) {
         let newItemArray = this.data.itemArray
         newItemArray[index].selectStatus = sum
@@ -197,8 +197,17 @@ Component({
           var res = JSON.parse(CryptoJS.Base64Decode(e.data))
           console.log(res)
           let staffDepts = []
-          staffDepts.push.apply(staffDepts, res.StaffDepts?res.StaffDepts:[])
-          staffDepts.push.apply(staffDepts, res.StaffqueryDeptds?res.StaffqueryDeptds:[])
+          staffDepts.push.apply(staffDepts, res.StaffqueryDepts?res.StaffqueryDepts:[])
+
+          if (res.StaffDepts) {
+            for (var i in res.StaffDepts) {
+              const tmp = staffDepts.filter((val) => {return val.id == res.StaffDepts[i].id})
+              if (tmp.length == 0) {
+                staffDepts.push(res.StaffDepts[i])
+              }
+            }
+          }
+
           let staffqueryGroups = res.StaffqueryGroups
           that.getEmployees(staffDepts, staffqueryGroups)
         }
@@ -381,18 +390,25 @@ Component({
           selectedArray.push(this.data.itemArray[i].staffId)
         }
       }
-      wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
-      app.globalData.selectedArray = selectedArray
-      wx.showModal({
-        title: '保存成功！',
-        success: (e) => {
-          if (e.confirm) {
-            wx.navigateBack({
-              delta: 0,
-            })
+      if (selectedArray.length == 0) {
+        wx.showToast({
+          title: '监管范围为空',
+          icon: 'error'
+        })
+      } else {
+        wx.setStorageSync('selectedArray', JSON.stringify(selectedArray))
+        app.globalData.selectedArray = selectedArray
+        wx.showModal({
+          title: '保存成功！',
+          success: (e) => {
+            if (e.confirm) {
+              wx.navigateBack({
+                delta: 0,
+              })
+            }
           }
-        }
-      })
+        })
+      }
     }
   },
 
