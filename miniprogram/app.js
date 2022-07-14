@@ -26,7 +26,7 @@ App({
     let selectedArray = wx.getStorageSync('selectedArray')
     this.globalData.selectedArray = selectedArray ? JSON.parse(selectedArray) : []
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
-    this.globalData.ak = "UpSDf63rA5CQT3d5NmP0tGUyGjdv1AwL"
+    this.globalData.ak = "edbmDSZ7qwf3hXzcYrGnT8Ij63FqTyLh"
     this.globalData.lastCheckInTime = 0
 
     this.punchRecordsArray = []
