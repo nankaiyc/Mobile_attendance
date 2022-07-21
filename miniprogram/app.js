@@ -28,7 +28,9 @@ App({
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "edbmDSZ7qwf3hXzcYrGnT8Ij63FqTyLh"
     this.globalData.lastCheckInTime = 0
-
+    this.globalData.firstIn = 1
+    this.globalData.onShow = 0
+    this.globalData.onHide = 0
     this.punchRecordsArray = []
     this.punchRecordsLastSyncTime = ''
     this.dailyReportsArray = []
@@ -45,6 +47,7 @@ App({
       this.globalData.clid = clid
     }
     console.log(clid)
+    // console.log(this.globalData)
   },
 
   login() {
@@ -426,4 +429,14 @@ App({
     })
   },
 
+  onShow(){ 
+    if(this.globalData.firstIn){
+        this.globalData.firstIn = 0; 
+    } else{ 
+        this.globalData.onShow = 1; 
+    } 
+  }, 
+  onHide(){ 
+    this.globalData.onHide = 1; 
+  }
 })
