@@ -24,6 +24,15 @@ Page({
 
   takePhoto() {
     endTime = +new Date();
+    var stayTime = endTime - startTime;
+    this.setData({
+      stayTime : stayTime
+    })
+    if(stayTime/1000 >= 120){
+      wx.navigateTo({
+        url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
+      })
+    }
     var position_check = '&positioned=' + this.data.positioned + '&index=' + this.data.index
     var nonposition_check = '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
     var position_status = this.data.positioned == 'true'?position_check:nonposition_check
@@ -44,11 +53,6 @@ Page({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + position_status
             })  
           }
-          if(stayTime/1000 >= 120){
-            wx.navigateTo({
-              url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
-            })
-          }
           // console.log(this.data.isfront)
           // console.log(this.data.frontsrc)
         }
@@ -66,11 +70,6 @@ Page({
             wx.navigateTo({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + position_status,
             })  
-          }
-          if(stayTime/1000 >= 120){
-            wx.navigateTo({
-              url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
-            })
           }
         }
       }
