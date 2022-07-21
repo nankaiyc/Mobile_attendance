@@ -1,5 +1,7 @@
 // pages/camera/camera.js
 const app = getApp()
+var startTime = 0
+var endTime = 0
 Page({
 
   /**
@@ -16,9 +18,12 @@ Page({
     longitude: '',
     photomode:0,
     showPhoto:true,
+    stayTime:0,
+
   },
 
   takePhoto() {
+    endTime = +new Date();
     var position_check = '&positioned=' + this.data.positioned + '&index=' + this.data.index
     var nonposition_check = '&positioned=' + this.data.positioned + '&LocationName=' + this.data.LocationName + '&latitude=' + this.data.latitude + '&longitude=' + this.data.longitude
     var position_status = this.data.positioned == 'true'?position_check:nonposition_check
@@ -27,30 +32,45 @@ Page({
       quality: 'high',
       success: (res) => {
         if(this.data.isfront){
+          var stayTime = endTime - startTime;
           this.setData({
             frontsrc: res.tempImagePath,
-            isfront:!this.data.isfront
+            isfront:!this.data.isfront,
+            stayTime : stayTime
           })
-          if(this.data.photomode == 1){
+          console.log(stayTime)
+          if(this.data.photomode == 1 & this.data.stayTime/1000 < 120){
             wx.navigateTo({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + position_status
             })  
+          }
+          if(stayTime/1000 >= 120){
+            wx.navigateTo({
+              url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
+            })
           }
           // console.log(this.data.isfront)
           // console.log(this.data.frontsrc)
         }
         else{
+          var stayTime = endTime - startTime;
           this.setData({
             backsrc: res.tempImagePath,
+            stayTime : stayTime
           })
-          if (this.data.photomode == 2) {
+          if (this.data.photomode == 2 & this.data.stayTime/1000 < 120) {
             wx.navigateTo({
               url: '../../pages/preview/preview?backsrc=' + this.data.backsrc + position_status,
             })  
-          } else if(this.data.photomode == 3){
+          } else if(this.data.photomode == 3 & this.data.stayTime/1000 < 120){
             wx.navigateTo({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + position_status,
             })  
+          }
+          if(stayTime/1000 >= 120){
+            wx.navigateTo({
+              url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
+            })
           }
         }
       }
@@ -116,55 +136,43 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow(){
+    setTimeout(function () {
+        if (app.globalData.onShow) {
+            app.globalData.onShow = 0;
+            console.log("demo前后台切换之切到前台")
+        }
+        else {
+            console.log("demo页面被切换显示")
+            startTime = +new Date();
+        }
+    }, 100)
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
     app.globalData.flagOfQuitCamera = true
     wx.reLaunch({
       url: '../transfer/transfer',
     })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+  // onHide(){
+  //   setTimeout(function () {
+  //       if (app.globalData.onHide) {
+  //           app.globalData.onHide = 0;
+  //           console.log("还在当前页面活动")
+  //       }
+  //       else {
+  //           endTime = +new Date();
+  //           console.log("demo页面停留时间：" + (endTime - startTime))
+  //           var stayTime = endTime - startTime;
+  //           if(stayTime/1000 >= 10){
+  //             wx.navigateTo({
+  //               url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
+  //             })
+  //           }
+            
+  //          //这里获取到页面停留时间stayTime，然后了可以上报了
+  //       }
+  //   }, 100)
+  // }
 })

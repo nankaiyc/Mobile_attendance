@@ -12,6 +12,7 @@ Page({
     place:"PLACE",
     message:"",
     isQuit: '',
+    isOvertime: '',
     photoMode: '',
     poiArray: [],
     nameArray: []
@@ -30,7 +31,10 @@ Page({
   },
 
   onFail () {
-    wx.navigateBack()
+    // wx.navigateBack()
+    wx.redirectTo({
+      url: '../checkIn/checkIn',
+    })
   },
 
   nonPositioned (e) {
@@ -96,6 +100,7 @@ Page({
       message : "您于" + DATE + TIME + "在" + PLACE + "打卡成功。",
       isSuccess:options.status == "success"?true:false,
       isQuit: options.isQuit=='true'?true:false,
+      isOvertime: options.isOvertime=='true'?true:false,
       photoMode: app.globalData.AppPhoto % 10,
     })
     

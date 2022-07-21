@@ -18,6 +18,10 @@
         <view>您已取消拍照</view>
         <view>无法进行考勤</view>
       </view> 
+      <view wx:elif="{{isOvertime}}" class="textarea_Overtime">
+        <view>拍照超时，请重新打卡。</view>
+        <view>拍照时间不能超过2分钟。</view>
+      </view> 
       <view wx:else class="textarea_UnQuit">
         <view>您好像不在预设的</view>
         <view>考勤区域内，若您确定已在</view>
@@ -29,7 +33,7 @@
     <image src="{{'../../resource/checkin_err_say.png'}}" mode="heightFix" class="err_say"/>
     
     <picker mode="selector" bindchange="nonPositioned" range="{{nameArray}}">
-      <button class="unfixed" style="width: 160px;height: 36px;" wx:if="{{!isQuit}}">非固定地点签到</button>
+      <button class="unfixed" style="width: 160px;height: 36px;" wx:if="{{!isQuit&!isOvertime}}">非固定地点签到</button>
     </picker>
     <button class="button retry" style="width: 90px;height: 36px;" bindtap="onFail">重试</button>
 
