@@ -141,27 +141,27 @@ App({
     })
   },
 
-  	//百度坐标转换成腾讯坐标
-	convert2TecentMap(lng, lat){
-		if (lng == '' && lat == '') {
-			return {
-				lng: '',
-				lat: ''
-			}
-		}
-		var x_pi = 3.14159265358979324 * 3000.0 / 180.0
-		var x = lng - 0.0065
-		var y = lat - 0.006
-		var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi)
-		var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi)
-		var txlng = z * Math.cos(theta);
-		var txlat = z * Math.sin(theta);
-		var location = {
-			lng:txlng,
-			lat:txlat
-		}
-		return location
-	},
+    //百度坐标转换成腾讯坐标
+    convert2TecentMap(lng, lat){
+        if (lng == '' && lat == '') {
+            return {
+                lng: '',
+                lat: ''
+            }
+        }
+        var x_pi = 3.14159265358979324 * 3000.0 / 180.0
+        var x = lng - 0.0065
+        var y = lat - 0.006
+        var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi)
+        var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi)
+        var txlng = z * Math.cos(theta);
+        var txlat = z * Math.sin(theta);
+        var location = {
+            lng:txlng,
+            lat:txlat
+        }
+        return location
+    },
 
   register(code) {
     const that = this
@@ -249,7 +249,7 @@ App({
           }
           setTimeout(() => {
             wx.redirectTo({
-              url: '../checkInResult/checkInResult?status=success&locationName=' + locationName,
+              url: '../checkInResult/checkInResult?status=success&locationName=' + locationName + '&postTime=' + dateTimeP,
             })
           }, 1000)
         }
