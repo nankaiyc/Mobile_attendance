@@ -62,8 +62,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var DATE = util.formatDate(new Date());
-    var TIME = util.formatTime(new Date());
+      if (options.postTime) {
+        var DATE = options.postTime.substring(0, 4) + '年' + options.postTime.substring(4, 6) + '月' + options.postTime.substring(6, 8) + '日'
+        var TIME = options.postTime.substring(8, 10) + ':' + options.postTime.substring(10, 12) + ':' + options.postTime.substring(12, 14)
+      } else {
+        var DATE = util.formatDate(new Date());
+        var TIME = util.formatTime(new Date());
+      }
     var PLACE = options.locationName
     
     if (options.isQuit != 'true') {

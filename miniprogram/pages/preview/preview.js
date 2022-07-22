@@ -86,7 +86,8 @@ Page({
 
   completeUp(finalImg) {
     // const finalImg = this.data.backgroundImg
-    const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+    // const dateTime = util.formatDateLine(new Date()) + util.formatTime(new Date())
+    const dateTime = this.data.dateTime
     const mac = '00:00:00:00:00:00'
     let pid;
     if (this.data.positioned == 'true') {
