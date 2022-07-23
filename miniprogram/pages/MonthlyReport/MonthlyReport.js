@@ -19,7 +19,7 @@ Page({
     var date = chosendate.reportTime 
     var week = "周" + chosendate.ondutyWeek
     var staffId = chosendate.staffId 
-    var IsSignIn = chosendate.signinTime?true:false
+    var IsSignIn = chosendate.signinTime || chosendate.logoutTime?true:false
     wx.navigateTo({
       url: '../../pages/DailyReport/DailyReport?name=' + name + '&date=' + date + '&week=' + week + '&staffId=' + staffId + '&IsSignIn=' + IsSignIn,
     })
