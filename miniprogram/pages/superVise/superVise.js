@@ -158,6 +158,7 @@ Page({
      StaffList: stafflist,
    })
   },
+  
   getMonthlyReports(month, staffIds) {
     this.data.isLoading = true
     wx.showLoading({

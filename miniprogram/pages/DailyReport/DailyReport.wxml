@@ -33,7 +33,7 @@
     <view class="report">缺勤时长：
       <text style="{{dailyReportsArray[0].actualNotduty=='0.00'?'':'color: red'}}">{{dailyReportsArray[0].actualNotduty}}h</text>
     </view>
-    <view class="report">缺勤时长：
+    <view class="report">旷工时长：
       <text style="{{dailyReportsArray[0].absenteeism=='0.00'?'':'color: red'}}">{{dailyReportsArray[0].absenteeism}}h</text>
     </view>
     <view class="report">缺卡次数：
