@@ -68,7 +68,7 @@
     </view>
     <view class="record">
       <view style="{{item.signinTime || item.condition=='无异常'?'':'color: red;'}}">
-        {{item.signinTime?('签到' + item.signinTime + ' 签退' + item.logoutTime):'无打卡记录'}}
+        {{item.signinTime || item.logoutTime?('签到' + item.signinTime + ' 签退' + item.logoutTime):'无打卡记录'}}
       </view>
     </view>
   </view>
