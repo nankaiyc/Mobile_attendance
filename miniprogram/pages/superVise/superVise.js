@@ -233,7 +233,8 @@ Page({
                 // 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeismTimes,
                 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeism>0?1:0,
                 'absenteeismTime': dailyReportsArrayForCurMonth[i].absenteeism,
-                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                // 'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].exceptionType == 3?1:0,
                 'addRestTimes': dailyReportsArrayForCurMonth[i].addRestTimes,
                 'holidayotTime': dailyReportsArrayForCurMonth[i].holidayotTime,
               }
@@ -256,7 +257,7 @@ Page({
               curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
               curArray[0].absenteeismTimes += dailyReportsArrayForCurMonth[i].absenteeism>0?1:0
               curArray[0].absenteeismTime += dailyReportsArrayForCurMonth[i].absenteeism
-              curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].lackCheckCardTime
+              curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].exceptionType == 3?1:0
               curArray[0].addRestTimes += dailyReportsArrayForCurMonth[i].addRestTimes
               curArray[0].holidayotTime += dailyReportsArrayForCurMonth[i].holidayotTime
             }

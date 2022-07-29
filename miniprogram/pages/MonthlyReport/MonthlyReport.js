@@ -38,6 +38,8 @@ Page({
     monthItem.absenteeismTime = (monthItem.absenteeismTime / 60).toFixed(2)
     monthItem.attendancePercent = monthItem.attendancePercent.toFixed(1)
     monthItem.absenteeismTime = (monthItem.absenteeismTime / 480).toFixed(2)
+    monthItem.leaveWithPayDay = monthItem.leaveWithPayDay?(monthItem.leaveWithPayDay * 8).toFixed(2):0
+    monthItem.leaveWithNoPayDay = monthItem.leaveWithNoPayDay?(monthItem.leaveWithNoPayDay * 8).toFixed(2):0
 
     let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {
@@ -86,9 +88,9 @@ Page({
       dailyReportsArray[i].usuallyOvertime = (dailyReportsArray[i].usuallyOvertime / 60).toFixed(2)
       dailyReportsArray[i].restOvertime = (dailyReportsArray[i].restOvertime / 60).toFixed(2)
       dailyReportsArray[i].holidayOvertime = (dailyReportsArray[i].holidayOvertime / 60).toFixed(2)
-      dailyReportsArray[i].leaveWithPayDay = (dailyReportsArray[i].leaveWithPayDay * 8).toFixed(2)
-      dailyReportsArray[i].leaveWithNoPayDay = (dailyReportsArray[i].leaveWithNoPayDay * 8).toFixed(2)
-    }
+      dailyReportsArray[i].logoutTime = dailyReportsArray[i].logoutTime?dailyReportsArray[i].logoutTime:'缺卡'
+      dailyReportsArray[i].signinTime = dailyReportsArray[i].signinTime?dailyReportsArray[i].signinTime:'缺卡'
+      }
     dailyReportsArray.reverse()
     
     console.log(monthItem, dailyReportsArray)
