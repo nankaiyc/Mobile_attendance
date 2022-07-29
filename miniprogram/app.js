@@ -429,14 +429,4 @@ App({
     })
   },
 
-  onShow(){ 
-    if(this.globalData.firstIn){
-        this.globalData.firstIn = 0; 
-    } else{ 
-        this.globalData.onShow = 1; 
-    } 
-  }, 
-  onHide(){ 
-    this.globalData.onHide = 1; 
-  }
 })
