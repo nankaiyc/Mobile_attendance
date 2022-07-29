@@ -16,10 +16,10 @@ Page({
     LocationName: '',
     latitude: '',
     longitude: '',
-    photomode:0,
+    photomode :0,
     showPhoto:true,
+    firstIn:1,
     stayTime:0,
-
   },
 
   takePhoto() {
@@ -28,7 +28,10 @@ Page({
     this.setData({
       stayTime : stayTime
     })
-    if(stayTime/1000 >= 120){
+    if(this.data.stayTime/1000 >= 20){
+        this.setData({
+            firstIn : 1
+        })
       wx.navigateTo({
         url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
       })
@@ -41,14 +44,15 @@ Page({
       quality: 'high',
       success: (res) => {
         if(this.data.isfront){
-          var stayTime = endTime - startTime;
           this.setData({
             frontsrc: res.tempImagePath,
             isfront:!this.data.isfront,
-            stayTime : stayTime
           })
           console.log(stayTime)
-          if(this.data.photomode == 1 & this.data.stayTime/1000 < 120){
+          if(this.data.photomode == 1 & this.data.stayTime/1000 < 20){
+            this.setData({
+                firstIn : 1
+            })
             wx.navigateTo({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + position_status
             })  
@@ -57,16 +61,20 @@ Page({
           // console.log(this.data.frontsrc)
         }
         else{
-          var stayTime = endTime - startTime;
           this.setData({
             backsrc: res.tempImagePath,
-            stayTime : stayTime
           })
-          if (this.data.photomode == 2 & this.data.stayTime/1000 < 120) {
+          if (this.data.photomode == 2 & this.data.stayTime/1000 < 20) {
+            this.setData({
+                firstIn : 1
+            })
             wx.navigateTo({
               url: '../../pages/preview/preview?backsrc=' + this.data.backsrc + position_status,
             })  
-          } else if(this.data.photomode == 3 & this.data.stayTime/1000 < 120){
+          } else if(this.data.photomode == 3 & this.data.stayTime/1000 < 20){
+            this.setData({
+                firstIn : 1
+            })
             wx.navigateTo({
               url: '../../pages/preview/preview?frontsrc='+ this.data.frontsrc + '&backsrc=' + this.data.backsrc + position_status,
             })  
@@ -136,14 +144,18 @@ Page({
   },
 
   onShow(){
-    setTimeout(function () {
-        if (app.globalData.onShow) {
-            app.globalData.onShow = 0;
-            console.log("demo前后台切换之切到前台")
+    var that = this
+    setTimeout(function () {   
+        if (that.data.firstIn) {
+            startTime = +new Date();
+            console.log(startTime)
+            that.setData({
+                firstIn: 0,
+              })
+            console.log("demo页面被切换显示")
         }
         else {
-            console.log("demo页面被切换显示")
-            startTime = +new Date();
+            console.log("demo前后台切换之切到前台")
         }
     }, 100)
   },
@@ -154,24 +166,29 @@ Page({
       url: '../transfer/transfer',
     })
   },
-  // onHide(){
-  //   setTimeout(function () {
-  //       if (app.globalData.onHide) {
-  //           app.globalData.onHide = 0;
-  //           console.log("还在当前页面活动")
-  //       }
-  //       else {
-  //           endTime = +new Date();
-  //           console.log("demo页面停留时间：" + (endTime - startTime))
-  //           var stayTime = endTime - startTime;
-  //           if(stayTime/1000 >= 10){
-  //             wx.navigateTo({
-  //               url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
-  //             })
-  //           }
+//   onHide(){
+//     setTimeout(function () {
+//         if (app.globalData.onHide) {
+//             app.globalData.onHide = 0;
+//             console.log("还在当前页面活动")
+//         }
+//         else {
+//             endTime = +new Date();
+//             console.log("demo页面停留时间：" + (endTime - startTime))
+//             var stayTime = endTime - startTime;
+//             console.log(stayTime)
+//             this.setData({
+//                 stayTime : stayTime
+//               })
+//             console.log(this.data.stayTime)
+//             if(stayTime/1000 >= 10){
+//               wx.navigateTo({
+//                 url: '../../pages/checkInResult/checkInResult?status=failure' + '&isOvertime=' + 'true',
+//               })
+//             }
             
-  //          //这里获取到页面停留时间stayTime，然后了可以上报了
-  //       }
-  //   }, 100)
-  // }
+//            //这里获取到页面停留时间stayTime，然后了可以上报了
+//         }
+//     }, 100)
+//   }
 })
