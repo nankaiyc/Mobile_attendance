@@ -376,17 +376,17 @@ Page({
             that.completeUp(i)
           }
           else if(this.data.photomode == 1){
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i 
             })
           }
           else if(this.data.photomode == 2){
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else if(this.data.photomode == 3){
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
