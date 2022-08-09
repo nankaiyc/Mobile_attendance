@@ -242,6 +242,8 @@ Page({
         icon: 'none'
       })
       return
+    } else {
+        // app.globalData.lastCheckInTime = timestamp
     }
     const that = this
     if (app.globalData.AppPhoto >= 10) {
@@ -315,10 +317,9 @@ Page({
     }; 
     var success = function(data) { 
       //返回数据内，已经包含经纬度
-      // console.log(data.wxMarkerData);
+    //   console.log('success data', data)
       const lati = data.wxMarkerData[0].latitude
       const longi = data.wxMarkerData[0].longitude
-      console.log(lati.longi)
       //把所有数据放在初始化data内
       that.setData({ 
         latitude: lati,
@@ -375,17 +376,17 @@ Page({
             that.completeUp(i)
           }
           else if(this.data.photomode == 1){
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i 
             })
           }
           else if(this.data.photomode == 2){
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }
           else if(this.data.photomode == 3){
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../../pages/transferToCamera/transferToCamera?positioned=true&index=' + i
             })
           }

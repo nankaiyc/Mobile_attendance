@@ -32,7 +32,7 @@ Page({
 
   onFail () {
     // wx.navigateBack()
-    wx.redirectTo({
+    wx.reLaunch({
       url: '../checkIn/checkIn',
     })
   },
