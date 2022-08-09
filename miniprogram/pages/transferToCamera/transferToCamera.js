@@ -13,11 +13,11 @@ Page({
    */
   onLoad: function (options) {
     if (options.positioned == 'true') {
-      wx.navigateTo({
+      wx.redirectTo({
         url: '../camera/camera?positioned=true&index=' + options.index,
       })
     } else {
-      wx.navigateTo({
+      wx.redirectTo({
         url: '../camera/camera?positioned=false&LocationName=' + options.LocationName + '&latitude=' + options.latitude + '&longitude=' + options.longitude,
       })
     }

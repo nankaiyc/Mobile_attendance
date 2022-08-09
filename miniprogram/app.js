@@ -27,6 +27,7 @@ App({
     this.globalData.selectedArray = selectedArray ? JSON.parse(selectedArray) : []
     this.globalData.baseUrl = 'https://www.kaoqintong.net/api2/app/api'
     this.globalData.ak = "edbmDSZ7qwf3hXzcYrGnT8Ij63FqTyLh"
+
     this.globalData.lastCheckInTime = 0
     this.globalData.firstIn = 1
     this.globalData.onShow = 0
