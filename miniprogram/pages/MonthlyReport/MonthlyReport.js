@@ -41,6 +41,7 @@ Page({
     monthItem.leaveWithPayDay = monthItem.leaveWithPayDay?(monthItem.leaveWithPayDay * 8).toFixed(2):0
     monthItem.leaveWithNoPayDay = monthItem.leaveWithNoPayDay?(monthItem.leaveWithNoPayDay * 8).toFixed(2):0
 
+    // let dailyReportsArray = [].concat(app.dailyReportsArray)
     let dailyReportsArray = app.dailyReportsArray
     dailyReportsArray = dailyReportsArray.filter((val) => {
       return val.staffId == monthItem.staffId && val.reportTime.startsWith(monthItem.month)
@@ -55,7 +56,7 @@ Page({
         dailyReportsArray[i].extraWorking = false
 
         if (!(dailyReportsArray[i].workType && dailyReportsArray[i].workType.includes('休息'))) {
-          if (!dailyReportsArray[i].signinTime) {
+          if (!dailyReportsArray[i].signinTime || dailyReportsArray[i].signinTime == '缺卡') {
             if (dailyReportsArray[i].shouldAttandence) {
               dailyReportsArray[i].condition += '缺勤 '
             }

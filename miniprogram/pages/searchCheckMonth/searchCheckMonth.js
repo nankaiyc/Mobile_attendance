@@ -226,7 +226,6 @@ Page({
                 'staffId': dailyReportsArrayForCurMonth[i].staffId,
                 'staffName': dailyReportsArrayForCurMonth[i].staffName,
                 'deptName': dailyReportsArrayForCurMonth[i].deptName,
-                'deptId': dailyReportsArrayForCurMonth[i].deptId,
                 'attendanceDays': dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0,
                 'actualAttendanceDays': dailyReportsArrayForCurMonth[i].ondutyDays,
                 'withSalaryLeaveTimes': dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes,
@@ -246,32 +245,33 @@ Page({
                 // 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeismTimes,
                 'absenteeismTimes': dailyReportsArrayForCurMonth[i].absenteeism>0?1:0,
                 'absenteeismTime': dailyReportsArrayForCurMonth[i].absenteeism,
-                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                // 'lackCheckCardTime': dailyReportsArrayForCurMonth[i].lackCheckCardTime,
+                'lackCheckCardTime': dailyReportsArrayForCurMonth[i].exceptionType == 3?1:0,
                 'addRestTimes': dailyReportsArrayForCurMonth[i].addRestTimes,
                 'holidayotTime': dailyReportsArrayForCurMonth[i].holidayotTime,
               }
               monthlyReportsForCurMonth.push(newItem)
             } else {
-              curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
-              curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].ondutyDays
-              curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
-              curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
-              curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
-              curArray[0].withoutSalaryLeave += dailyReportsArrayForCurMonth[i].leavenopayTime
-              curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTime?1:0
-              curArray[0].lateMinutes += dailyReportsArrayForCurMonth[i].lateTime
-              curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0
-              curArray[0].restOvertime += dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0
-              curArray[0].holidayOvertime += dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0
-              curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0
-              curArray[0].leaveEarlyMinutes += dailyReportsArrayForCurMonth[i].leaveearlyTime
-              curArray[0].absentTimes += dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0
-              curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
-              curArray[0].absenteeismTimes += dailyReportsArrayForCurMonth[i].absenteeism>0?1:0
-              curArray[0].absenteeismTime += dailyReportsArrayForCurMonth[i].absenteeism
-              curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].lackCheckCardTime
-              curArray[0].addRestTimes += dailyReportsArrayForCurMonth[i].addRestTimes
-              curArray[0].holidayotTime += dailyReportsArrayForCurMonth[i].holidayotTime
+                curArray[0].attendanceDays += dailyReportsArrayForCurMonth[i].shouldAttandenceDay?dailyReportsArrayForCurMonth[i].shouldAttandenceDay:0
+                curArray[0].actualAttendanceDays += dailyReportsArrayForCurMonth[i].ondutyDays
+                curArray[0].withSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withSalaryLeaveTimes
+                curArray[0].withSalaryLeave += dailyReportsArrayForCurMonth[i].leavewithpayTime
+                curArray[0].withoutSalaryLeaveTimes += dailyReportsArrayForCurMonth[i].withoutSalaryLeaveTimes
+                curArray[0].withoutSalaryLeave += dailyReportsArrayForCurMonth[i].leavenopayTime
+                curArray[0].lateTimes += dailyReportsArrayForCurMonth[i].lateTime?1:0
+                curArray[0].lateMinutes += dailyReportsArrayForCurMonth[i].lateTime
+                curArray[0].usuallyOvertime += dailyReportsArrayForCurMonth[i].overtimeTime?dailyReportsArrayForCurMonth[i].overtimeTime:0
+                curArray[0].restOvertime += dailyReportsArrayForCurMonth[i].restOverTimes?dailyReportsArrayForCurMonth[i].restOverTimes:0
+                curArray[0].holidayOvertime += dailyReportsArrayForCurMonth[i].holidayOverTimes?dailyReportsArrayForCurMonth[i].holidayOverTimes:0
+                curArray[0].leaveEarlyTimes += dailyReportsArrayForCurMonth[i].leaveearlyTime?1:0
+                curArray[0].leaveEarlyMinutes += dailyReportsArrayForCurMonth[i].leaveearlyTime
+                curArray[0].absentTimes += dailyReportsArrayForCurMonth[i].actualNotduty>0?1:0
+                curArray[0].absentMinutes += dailyReportsArrayForCurMonth[i].actualNotduty
+                curArray[0].absenteeismTimes += dailyReportsArrayForCurMonth[i].absenteeism>0?1:0
+                curArray[0].absenteeismTime += dailyReportsArrayForCurMonth[i].absenteeism
+                curArray[0].lackCheckCardTime += dailyReportsArrayForCurMonth[i].exceptionType == 3?1:0
+                curArray[0].addRestTimes += dailyReportsArrayForCurMonth[i].addRestTimes
+                curArray[0].holidayotTime += dailyReportsArrayForCurMonth[i].holidayotTime
             }
           }
 
@@ -284,14 +284,14 @@ Page({
         }
         
         for (var i in newArray) {
-          newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
-          newArray[i].LeaveTime = newArray[i].withoutSalaryLeave && newArray[i].withSalaryLeave?((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2):'0.00'
-          newArray[i].usuallyOvertime = (newArray[i].usuallyOvertime / 60).toFixed(2)
-          newArray[i].holidayOvertime = (newArray[i].holidayOvertime / 60).toFixed(2)
-          newArray[i].restOvertime = (newArray[i].restOvertime / 60).toFixed(2)
-          newArray[i].lateMinutes = (newArray[i].lateMinutes / 60).toFixed(2)
-          newArray[i].lateAndLEMinutes = ((newArray[i].lateMinutes + newArray[i].leaveEarlyMinutes) / 1).toFixed(1)
-        }
+            newArray[i].absenteeismTime = (newArray[i].absenteeismTime / 60).toFixed(2)
+            newArray[i].LeaveTime = newArray[i].withoutSalaryLeave && newArray[i].withSalaryLeave?((newArray[i].withoutSalaryLeave + newArray[i].withSalaryLeave) / 60).toFixed(2):'0.00'
+            newArray[i].usuallyOvertime = (newArray[i].usuallyOvertime / 60).toFixed(2)
+            newArray[i].holidayOvertime = (newArray[i].holidayOvertime / 60).toFixed(2)
+            newArray[i].restOvertime = (newArray[i].restOvertime / 60).toFixed(2)
+            newArray[i].lateMinutes = (newArray[i].lateMinutes / 60).toFixed(2)
+            newArray[i].lateAndLEMinutes = ((newArray[i].lateMinutes + newArray[i].leaveEarlyMinutes) / 1).toFixed(1)
+          }
         
 
         const departs = this.getAllDeparts(this.data.departmentIndex)
