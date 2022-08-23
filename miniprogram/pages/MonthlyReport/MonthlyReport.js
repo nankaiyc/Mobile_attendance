@@ -73,9 +73,13 @@ Page({
         if (!dailyReportsArray[i].logoutTime) {
           // dailyReportsArray[i].condition += '缺勤 '
         } else {
-          if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
-            // dailyReportsArray[i].condition += '早退 '
-          } 
+        //   if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].logoutTime < dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')'))) {
+        //     dailyReportsArray[i].condition += '早退 '
+        //   } 
+        
+            if (dailyReportsArray[i].leaveearlyTime) {
+                dailyReportsArray[i].condition += '早退 '
+            } 
           if (dailyReportsArray[i].workTurnNo && dailyReportsArray[i].logoutTime.substring(0, 2) > dailyReportsArray[i].workTurnNo.substring(dailyReportsArray[i].workTurnNo.indexOf('-') + 1, dailyReportsArray[i].workTurnNo.indexOf(')') - 3)) {
             dailyReportsArray[i].extraWorking = true
           } 
