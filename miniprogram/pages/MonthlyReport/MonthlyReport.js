@@ -40,6 +40,7 @@ Page({
     monthItem.absenteeismTime = (monthItem.absenteeismTime / 480).toFixed(2)
     monthItem.leaveWithPayDay = monthItem.leaveWithPayDay?(monthItem.leaveWithPayDay * 8).toFixed(2):0
     monthItem.leaveWithNoPayDay = monthItem.leaveWithNoPayDay?(monthItem.leaveWithNoPayDay * 8).toFixed(2):0
+    monthItem.leaveEarlyMinutes = (monthItem.leaveEarlyMinutes / 60).toFixed(2)
 
     // let dailyReportsArray = [].concat(app.dailyReportsArray)
     let dailyReportsArray = app.dailyReportsArray
